@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">UAS Project</string>
+    <string name="app_name">Educa</string>
+    <string name="contoh_gmail_com">contoh@gmail.com</string>
+    <string name="masukkan_password">Masukkan password</string>
+    <string name="belum_punya_akun">Belum punya akun?</string>
+    <string name="masukkan_email">Masukkan email</string>
+    <string name="masukkan_nama">Masukkan nama</string>
+    <string name="nama_anda">Nama Anda</string>
+    <string name="konfirmasi_password">Konfirmasi password</string>
+    <string name="sudah_punya_akun">Sudah punya akun?</string>
 </resources>
