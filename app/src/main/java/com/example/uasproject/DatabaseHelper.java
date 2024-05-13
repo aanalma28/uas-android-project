@@ -1,38 +1,48 @@
 package com.example.uasproject;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import androidx.annotation.Nullable;
+public class DatabaseHelper extends SQLiteOpenHelper {
+    private static DatabaseHelper instance;
+    private static final String DATABASE_NAME = "db_bimbel.db";
+    private static final int DATABASE_VERSION = 1;
 
-public class DBHelper extends SQLiteOpenHelper {
+    public static synchronized DatabaseHelper getInstance(Context context){
+        if(instance == null){
+            instance = new DatabaseHelper(context.getApplicationContext());
+        }
+        return instance;
+    }
 
-    private static final String DATABASE_NAME = "Educa";
-
-    public DBHelper(@Nullable Context context) {
-        super(context, DATABASE_NAME, null, 1);
+    private DatabaseHelper(Context context){
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE IF NOT EXISTS Users (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "username TEXT, email TEXT, password TEXT, role TEXT)");
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS Posts (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "course TEXT, price INTEGER, location TEXT, instructor TEXT, FOREIGN KEY (user_id) REFERENCES Users(id))");
 
         db.execSQL("CREATE TABLE session (id integer PRIMARY KEY, login text)");
-        db.execSQL("CREATE TABLE user (id integer PRIMARY KEY AUTOINCREMENT, name text, email text, password text, email_verified boolean DEFAULT false, address text DEFAULT '', phone text DEFAULT '', role text DEFAULT 'default', agency text DEFAULT '')");
-        db.execSQL("INSERT INTO session(id, login) VALUES (1, 'kosong')");
 
+        db.execSQL("INSERT INTO session(id, login) VALUES (1, 'kosong')");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL("DROP TABLE IF EXISTS Users");
+        db.execSQL("DROP TABLE IF EXISTS Posts");
         db.execSQL("DROP TABLE IF EXISTS session");
-        db.execSQL("DROP TABLE IF EXISTS user");
         onCreate(db);
-
     }
+
 
     // check session
     public Boolean checkSession(String value){
