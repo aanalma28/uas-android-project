@@ -2,6 +2,7 @@ package com.example.uasproject;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,7 +17,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private DBHelper db;
+    private DatabaseHelper db;
     private EditText edt_nama, edt_email, edt_pass, edt_conf_pass;
     private Button btn_register;
     private TextView to_login;
@@ -33,11 +34,8 @@ public class RegisterActivity extends AppCompatActivity {
         btn_register = findViewById(R.id.btn_register);
         to_login = findViewById(R.id.to_login);
 
-        db = new DBHelper(this);
-
-        btn_register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btn_register.setOnClickListener(v -> {
+            try{
                 String inNama = edt_nama.getText().toString();
                 String inEmail = edt_email.getText().toString();
                 String inPass = edt_pass.getText().toString();
@@ -46,15 +44,21 @@ public class RegisterActivity extends AppCompatActivity {
                 if (!inConfPass.equals(inPass)){
                     edt_conf_pass.setError("Password tidak sama");
                 }else{
-                    Boolean btn_register = db.saveUser(inNama, inEmail, inPass);
-                    if (btn_register == true){
-                        Toast.makeText(RegisterActivity.this, "Register berhasil!", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                    }else{
-                        Toast.makeText(RegisterActivity.this, "Register gagal!", Toast.LENGTH_SHORT).show();
-                    }
+                    db = DatabaseHelper.getInstance(this);
+                    db.saveUser(inNama,inEmail, inPass);
+
+                    Toast.makeText(RegisterActivity.this, "Register berhasil!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                    startActivity(intent);
                 }
+
+            }catch(Exception e){
+                Toast.makeText(RegisterActivity.this, String.valueOf(e), Toast.LENGTH_SHORT).show();
+
+                Log.d("Debug App", "This is Debug");
+                Log.i("Debug App", "This is info");
+                Log.w("Debug App", "This is Warning");
+                Log.e("Debug Error", String.valueOf(e));
             }
         });
 

@@ -24,22 +24,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE IF NOT EXISTS Users (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "username TEXT, email TEXT, password TEXT, role TEXT)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "name TEXT, address TEXT DEFAULT null, phone NUMERIC DEFAULT null, agency TEXT DEFAULT null,  email TEXT, email_verified TEXT DEFAULT null, password TEXT, role TEXT DEFAULT 'Student')");
 
-        db.execSQL("CREATE TABLE IF NOT EXISTS Posts (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "course TEXT, price INTEGER, location TEXT, instructor TEXT, FOREIGN KEY (user_id) REFERENCES Users(id))");
-
-        db.execSQL("CREATE TABLE session (id integer PRIMARY KEY, login text)");
-
-        db.execSQL("INSERT INTO session(id, login) VALUES (1, 'kosong')");
+//
+//        db.execSQL("CREATE TABLE IF NOT EXISTS posts (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+//                "course TEXT, price INTEGER, location TEXT, instructor TEXT, FOREIGN KEY (user_id) REFERENCES Users(id))");
+//
+//        db.execSQL("CREATE TABLE session (id integer PRIMARY KEY, login text)");
+//
+//        db.execSQL("INSERT INTO session(id, login) VALUES (1, 'kosong')");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS Users");
-        db.execSQL("DROP TABLE IF EXISTS Posts");
-        db.execSQL("DROP TABLE IF EXISTS session");
+        db.execSQL("DROP TABLE IF EXISTS users");
+//        db.execSQL("DROP TABLE IF EXISTS posts");
+//        db.execSQL("DROP TABLE IF EXISTS session");
+//        onCreate(db);
+//        db.execSQL("drop table if exists text");
         onCreate(db);
     }
 
@@ -69,18 +72,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //input user
-    public Boolean saveUser(String nama, String email, String password){
+    public long saveUser(String name, String email, String password){
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("name", nama);
-        values.put("email", email);
-        values.put("password", password);
-        long insert = db.insert("user", null, values);
-        if (insert == -1){
-            return false;
-        }else{
-            return true;
-        }
+//        ContentValues values = new ContentValues();
+//        values.put("name", name);
+//        values.put("email", email);
+//        values.put("password", password);
+//        long insert = db.insert("Users", null, values);
+//        return insert != -1;
+
+        String sql = "insert into users (name, email, password) values ('"+name+"', '"+email+"', '"+password+"')";
+
+        db.execSQL(sql);
+        return 1;
     }
 
     // check login
