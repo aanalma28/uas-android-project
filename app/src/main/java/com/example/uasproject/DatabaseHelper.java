@@ -27,6 +27,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "name TEXT, address TEXT DEFAULT null, phone NUMERIC DEFAULT null, agency TEXT DEFAULT null,  email TEXT, email_verified TEXT DEFAULT null, password TEXT, role TEXT DEFAULT 'Student')");
 
+
 //
 //        db.execSQL("CREATE TABLE IF NOT EXISTS posts (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
 //                "course TEXT, price INTEGER, location TEXT, instructor TEXT, FOREIGN KEY (user_id) REFERENCES Users(id))");
@@ -34,6 +35,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS session (id INTEGER PRIMARY KEY, login TEXT)");
         String sql = "insert into session(id, login) VALUES (1, 'kosong')";
         db.execSQL(sql);
+
 
         db.execSQL("create table if not exists courses (course_id integer primary key autoincrement, " +
                 "name text, instructor text, description text, status text, price numeric, image text, " +
