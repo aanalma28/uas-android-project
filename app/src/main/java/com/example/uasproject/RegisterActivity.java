@@ -16,7 +16,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private DBHelper db;
+    private DatabaseHelper db;
     private EditText edt_nama, edt_email, edt_pass, edt_conf_pass;
     private Button btn_register;
     private TextView to_login;
@@ -32,8 +32,6 @@ public class RegisterActivity extends AppCompatActivity {
         edt_conf_pass = findViewById(R.id.edt_conf_pass);
         btn_register = findViewById(R.id.btn_register);
         to_login = findViewById(R.id.to_login);
-
-        db = new DBHelper(this);
 
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override

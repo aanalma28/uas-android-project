@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LandingActivity"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:id="@+id/landing_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="42dp"
+        android:layout_marginTop="100dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hai!"
+            android:fontFamily="@font/poppinssemibold"
+            android:textSize="32sp"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Selamat datang"
+            android:fontFamily="@font/poppinssemibold"
+            android:textSize="32sp"
+            android:textColor="@color/black"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/landing_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/landing_txt"
+        android:src="@drawable/landingimg"/>
+
+    <TextView
+        android:id="@+id/landing_txt2"
+        android:layout_width="330dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/landing_img"
+        android:text="Dapatkan bimbingan terbaik untuk persiapan ujian dan raih prestasi gemilang!"
+        android:fontFamily="@font/poppinsregular"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"/>
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:text="Mulai"
+        android:layout_below="@id/landing_txt2"
+        android:layout_marginTop="55dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/button_shape"
+        android:textColor="@color/white"
+        android:fontFamily="@font/poppinssemibold"
+        android:textSize="16dp"/>
+
+</RelativeLayout>
