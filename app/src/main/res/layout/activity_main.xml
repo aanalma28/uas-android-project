@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,21 +7,33 @@
     tools:context=".MainActivity"
     android:background="@color/white">
 
-    <TextView
-        android:id="@+id/main"
-        android:layout_width="wrap_content"
+<!--    <TextView-->
+<!--        android:id="@+id/main"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="main Activity" />-->
+
+<!--    <Button-->
+<!--        android:id="@+id/btn_logout"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="logout" />-->
+
+    <FrameLayout
+        android:id="@+id/fl_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/bottom_nav"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="main Activity"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/bottom_nav"
+        android:background="@color/white"
+        app:itemIconTint="@color/grey"
+        app:itemTextColor="@color/grey" />
 
-    <Button
-        android:id="@+id/btn_logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="logout"
-        android:layout_below="@+id/main"
-        android:layout_centerHorizontal="true"/>
-
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

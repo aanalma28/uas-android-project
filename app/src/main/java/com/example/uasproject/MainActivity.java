@@ -1,16 +1,27 @@
 package com.example.uasproject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
+public class MainActivity extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
+
+    private BottomNavigationView bottomNavigationView;
+    private HomeFragment homeFragment = new HomeFragment();
+    private PelajaranFragment pelajaranFragment = new PelajaranFragment();
+    private DashboardFragment dashboardFragment = new DashboardFragment();
+    private ProfileFragment profileFragment = new ProfileFragment();
     private Button btn_logout;
 
     private DatabaseHelper db;
@@ -23,8 +34,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btn_logout = findViewById(R.id.btn_logout);
+        bottomNavigationView = findViewById(R.id.bottom_nav);
+        bottomNavigationView.setOnItemSelectedListener(this);
 
+//        btn_logout = findViewById(R.id.btn_logout);
+//
         db = DatabaseHelper.getInstance(this);
         sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
 
@@ -35,22 +49,42 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
 
-        btn_logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Boolean updateSeesion = db.upgradeSession("kosong", 1);
-                if (updateSeesion == true){
-                    Toast.makeText(getApplicationContext(), "Berhasil Keluar", Toast.LENGTH_LONG).show();
+//        btn_logout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Boolean updateSeesion = db.upgradeSession("kosong", 1);
+//                if (updateSeesion == true){
+//                    Toast.makeText(getApplicationContext(), "Berhasil Keluar", Toast.LENGTH_LONG).show();
+//
+//                    SharedPreferences.Editor editor = sharedPreferences.edit();
+//                    editor.putBoolean("masuk", false);
+//                    editor.apply();
+//
+//                    Intent keluar = new Intent(MainActivity.this, LoginActivity.class);
+//                    startActivity(keluar);
+//                    finish();
+//                }
+//            }
+//        });
+    }
 
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putBoolean("masuk", false);
-                    editor.apply();
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
-                    Intent keluar = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivity(keluar);
-                    finish();
-                }
-            }
-        });
+        if (menuItem.getItemId() == R.id.home){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fl_fragment, homeFragment).commit();
+            return true;
+        } else if (menuItem.getItemId() == R.id.pelajaran) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fl_fragment, pelajaranFragment).commit();
+                return true;
+        }else if (menuItem.getItemId() == R.id.dashboard) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fl_fragment, dashboardFragment).commit();
+                return true;
+        }else if (menuItem.getItemId() == R.id.profile) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fl_fragment, profileFragment).commit();
+                return true;
+        }
+
+        return false;
     }
 }
