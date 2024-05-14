@@ -9,10 +9,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class MainActivity extends AppCompatActivity {
 
     private Button btn_logout;
-
+    private FirebaseAuth mAuth;
     private DatabaseHelper db;
 
     public static final String SHARED_PREF_NAME = "myPref";
@@ -24,12 +27,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         btn_logout = findViewById(R.id.btn_logout);
+        mAuth = FirebaseAuth.getInstance();
 
-        db = DatabaseHelper.getInstance(this);
+//        db = DatabaseHelper.getInstance(this);
         sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
 
-        Boolean checksession = db.checkSession("ada");
-        if (checksession == false){
+//        Boolean checksession = db.checkSession("ada");
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser == null){
             Intent login = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(login);
             finish();
