@@ -61,6 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/label_pass"
             android:hint="********"
+            android:inputType="textPassword"
             android:fontFamily="@font/poppinsmedium"
             android:textSize="14sp"
             android:background="@drawable/input_shape"
