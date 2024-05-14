@@ -33,11 +33,10 @@ public class SplashScreen extends AppCompatActivity {
             @Override
             public void run() {
                 SharedPreferences sharedPreferences = getSharedPreferences(LoginActivity.SHARED_PREF_NAME, 0);
-//                boolean logged = sharedPreferences.getBoolean("masuk", false);
+                boolean logged = sharedPreferences.getBoolean("masuk", false);
 
                 try{
-                    FirebaseUser getUser = mAuth.getCurrentUser();
-                    if (getUser != null){
+                    if (logged){
                         startActivity(new Intent(SplashScreen.this, MainActivity.class));
                         finish();
                     }else {
