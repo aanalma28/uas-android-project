@@ -31,8 +31,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 //        db.execSQL("CREATE TABLE IF NOT EXISTS posts (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
 //                "course TEXT, price INTEGER, location TEXT, instructor TEXT, FOREIGN KEY (user_id) REFERENCES Users(id))");
 //
-//        db.execSQL("CREATE TABLE session (id integer PRIMARY KEY, login text)");
-//
+        db.execSQL("CREATE TABLE IF NOT EXISTS session (id INTEGER PRIMARY KEY, login TEXT)");
+        String sql = "insert into session(id, login) VALUES (1, 'kosong')";
+        db.execSQL(sql);
+
 //        db.execSQL("INSERT INTO session(id, login) VALUES (1, 'kosong')");
     }
 
@@ -40,7 +42,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS users");
 //        db.execSQL("DROP TABLE IF EXISTS posts");
-//        db.execSQL("DROP TABLE IF EXISTS session");
+        db.execSQL("DROP TABLE IF EXISTS session");
 //        onCreate(db);
 //        db.execSQL("drop table if exists text");
         onCreate(db);
@@ -63,7 +65,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("login", value);
-        long update = db.update("session", values, "id- "+id, null);
+        long update = db.update("session", values, "id= "+id, null);
         if (update == -1){
             return false;
         }else{
@@ -72,25 +74,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //input user
-    public long saveUser(String name, String email, String password){
+    public boolean saveUser(String name, String email, String password){
         SQLiteDatabase db = this.getWritableDatabase();
-//        ContentValues values = new ContentValues();
-//        values.put("name", name);
-//        values.put("email", email);
-//        values.put("password", password);
-//        long insert = db.insert("Users", null, values);
-//        return insert != -1;
+        ContentValues values = new ContentValues();
+        values.put("name", name);
+        values.put("email", email);
+        values.put("password", password);
+        long insert = db.insert("users", null, values);
+        if (insert == -1){
+            return false;
+        }else {
+            return true;
+        }
 
-        String sql = "insert into users (name, email, password) values ('"+name+"', '"+email+"', '"+password+"')";
-
-        db.execSQL(sql);
-        return 1;
+//        String sql = "insert into users (name, email, password) values ('"+name+"', '"+email+"', '"+password+"')";
+//
+//        db.execSQL(sql);
+//        return 1;
     }
 
     // check login
     public Boolean checkLogin(String email, String password){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM user WHERE email = ? AND password = ?", new String[]{email, password});
+        Cursor cursor = db.rawQuery("SELECT * FROM users WHERE email = ? AND password = ?", new String[]{email, password});
         if (cursor.getCount() > 0){
             return true;
         }else{
