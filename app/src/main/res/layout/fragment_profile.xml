@@ -66,6 +66,7 @@
             android:drawableLeft="@drawable/round_logout_24"
             android:layout_marginTop="32dp"
             android:paddingVertical="10dp"
+            android:layout_marginHorizontal="32dp"
             android:paddingHorizontal="16dp"/>
 
     </RelativeLayout>

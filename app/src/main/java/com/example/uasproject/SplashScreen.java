@@ -38,9 +38,11 @@ public class SplashScreen extends AppCompatActivity {
                 try{
                     if (logged){
                         startActivity(new Intent(SplashScreen.this, MainActivity.class));
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         finish();
                     }else {
                         startActivity(new Intent(SplashScreen.this, LandingActivity.class));
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         finish();
                     }
                 }catch(Exception e){
