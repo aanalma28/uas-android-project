@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".VerificationActivity"
+    android:background="@color/white"
+    android:paddingHorizontal="32dp"
+    android:paddingTop="26dp">
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_arrow_back_24"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        />
+
+    <ImageView
+        android:id="@+id/img_verification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/back"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/verificationimg"/>
+
+    <TextView
+        android:id="@+id/txt_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Masukkan Kode"
+        android:fontFamily="@font/poppinssemibold"
+        android:textSize="16sp"
+        android:layout_below="@id/img_verification"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/black"
+        android:layout_marginTop="42dp"
+        android:layout_marginBottom="16dp"/>
+
+    <LinearLayout
+        android:id="@+id/ly_1"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_1"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/txt_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppinsregular"
+            android:text="Buka email yang kami kirimkan ke"
+            android:textColor="@color/grey"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/txt_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppinsregular"
+            android:text="contoh@gmail.com"
+            android:textColor="@color/grey"
+            android:textSize="12sp"
+            android:layout_marginBottom="16dp"/>
+
+        <EditText
+            android:id="@+id/edt_kode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="000000"
+            android:background="@drawable/input_shape"
+            android:textSize="14sp"
+            android:fontFamily="@font/poppinsmedium"
+            android:layout_marginBottom="16dp"
+            android:textAlignment="center"/>
+
+        <Button
+            android:id="@+id/btn_verification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Verifikasi"
+            android:background="@drawable/button_shape"
+            android:fontFamily="@font/poppinssemibold"
+            android:textColor="@color/white"
+            android:textSize="16dp"/>
+
+        <TextView
+            android:id="@+id/txt_kirim_ulang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kirim ulang"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/poppinsregular"
+            android:textColor="@color/bluePrimary"
+            android:textSize="12sp"/>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

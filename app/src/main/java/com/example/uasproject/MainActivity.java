@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
 
         nama_akun = findViewById(R.id.nama_akun);
 
-
         bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.setOnItemSelectedListener(this);
 

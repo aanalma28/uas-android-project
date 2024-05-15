@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegisterSellerActivity"
+    android:background="@color/white"
+    android:paddingHorizontal="32dp"
+    android:paddingTop="26dp">
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_arrow_back_24"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        />
+
+    <TextView
+        android:id="@+id/txt_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lengkapi informasi"
+        android:fontFamily="@font/poppinssemibold"
+        android:textSize="16sp"
+        android:layout_below="@id/back"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/black"
+        android:layout_marginTop="45dp"
+        android:layout_marginBottom="24dp"/>
+    
+    <LinearLayout
+        android:id="@+id/ly_1"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_1"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txt_nama_bimbel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nama Bimbel"
+            android:fontFamily="@font/poppinsmedium"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/edt_nama_bimbel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Masukkan nama bimbel"
+            android:background="@drawable/input_shape"
+            android:textSize="14sp"
+            android:fontFamily="@font/poppinsmedium"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:id="@+id/txt_alamat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Alamat"
+            android:fontFamily="@font/poppinsmedium"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/edt_alamat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Masukkan alamat"
+            android:background="@drawable/input_shape"
+            android:textSize="14sp"
+            android:fontFamily="@font/poppinsmedium"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:id="@+id/txt_nohp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nomor telepon"
+            android:fontFamily="@font/poppinsmedium"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/edt_nohp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="08xxxxxxxxxx"
+            android:background="@drawable/input_shape"
+            android:textSize="14sp"
+            android:fontFamily="@font/poppinsmedium"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"/>
+
+        <Button
+            android:id="@+id/btn_lanjut"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lanjut"
+            android:background="@drawable/button_shape"
+            android:fontFamily="@font/poppinssemibold"
+            android:textColor="@color/white"
+            android:textSize="16dp"/>
+
+
+    </LinearLayout>
+
+</RelativeLayout>
