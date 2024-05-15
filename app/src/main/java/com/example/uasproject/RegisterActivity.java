@@ -91,10 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }catch(Exception e){
                     Toast.makeText(RegisterActivity.this, String.valueOf(e), Toast.LENGTH_SHORT).show();
 
-                    Log.d("Debug App", "This is Debug");
-                    Log.i("Debug App", "This is info");
-                    Log.w("Debug App", "This is Warning");
-                    Log.e("Debug Error", String.valueOf(e));
+                    Log.e("Register Fail", String.valueOf(e));
                 }
             }
         });

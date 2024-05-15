@@ -8,4 +8,11 @@
     <string name="nama_anda">Nama Anda</string>
     <string name="konfirmasi_password">Konfirmasi password</string>
     <string name="sudah_punya_akun">Sudah punya akun?</string>
+    <string name="dashboard_txt">
+        Bergabunglah bersama kami dan bantu generasi muda raih masa depan mereka!
+    </string>
+    <string name="dashboard_txt2">
+        Proses pendaftarannya mudah dan cepat. Cukup klik tombol "Daftar" di bawah ini dan ikuti langkah-langkahnya.
+    </string>
+    <string name="dashboard_btn">Daftar Sekarang</string>
 </resources>

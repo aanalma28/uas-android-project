@@ -18,4 +18,10 @@ public class DBFirebase {
 
         mDatabase.child("users").child(id).setValue(userHashmap);
     }
+
+    public DatabaseReference getUser(String id){
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference data = mDatabase.child("users").child(id);
+        return data;
+    }
 }

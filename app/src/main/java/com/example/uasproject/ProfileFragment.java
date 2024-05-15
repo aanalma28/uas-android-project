@@ -1,10 +1,22 @@
 package com.example.uasproject;
 
 import android.os.Bundle;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -13,6 +25,8 @@ import android.view.ViewGroup;
  *
  */
 public class ProfileFragment extends Fragment {
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private DatabaseReference mDb = FirebaseDatabase.getInstance().getReference();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -58,6 +72,37 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        TextView nama_akun = view.findViewById(R.id.nama_akun);
+        TextView email_akun = view.findViewById(R.id.email_akun);
+
+        try{
+            DBFirebase getData = new DBFirebase();
+            FirebaseUser user = mAuth.getCurrentUser();
+            String id = user.getUid();
+            DatabaseReference data = getData.getUser(id);
+
+            data.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DataSnapshot> task) {
+                    if(!task.isSuccessful()){
+                        Log.e("firebase error", "Error getting data", task.getException());
+                    }else{
+                        String nama = task.getResult().child("name").getValue().toString();
+                        String email = task.getResult().child("email").getValue().toString();
+                        nama_akun.setText(nama);
+                        email_akun.setText(email);
+                        Log.d("firebase success", String.valueOf(task.getResult().getValue()));
+                    }
+                }
+            });
+
+            Log.d("Data success", "Success getting data");
+        }catch(Exception e){
+            Log.e("Data error", String.valueOf(e));
+        }
+
+        return view;
     }
+
 }

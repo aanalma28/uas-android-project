@@ -57,26 +57,31 @@ public class LoginActivity extends AppCompatActivity {
             if (email.isEmpty() && pass.isEmpty()) {
                 Toast.makeText(LoginActivity.this, "email atau password salah!", Toast.LENGTH_SHORT).show();
             }else{
-                mAuth.signInWithEmailAndPassword(email, pass).
-                        addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if(task.isSuccessful()){
-                                    Toast.makeText(LoginActivity.this, "Berhasil masuk", Toast.LENGTH_SHORT).show();
-                                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                                    Log.d("Login Succes", "Login Successfully");
+                try {
+                    mAuth.signInWithEmailAndPassword(email, pass).
+                            addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if(task.isSuccessful()){
+                                        Toast.makeText(LoginActivity.this, "Berhasil masuk", Toast.LENGTH_SHORT).show();
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        Log.d("Login Succes", "Login Successfully");
 
-                                    editor.putBoolean("masuk", true);
-                                    editor.apply();
-                                    Intent main = new Intent(LoginActivity.this, MainActivity.class);
-                                    startActivity(main);
-                                    finish();
-                                }else{
-                                    Toast.makeText(LoginActivity.this, "Gagal Masuk", Toast.LENGTH_SHORT).show();
-                                    Log.e("Login Error", String.valueOf(task.getException()));
+                                        editor.putBoolean("masuk", true);
+                                        editor.apply();
+                                        Intent main = new Intent(LoginActivity.this, MainActivity.class);
+                                        startActivity(main);
+                                        finish();
+                                    }else{
+                                        Toast.makeText(LoginActivity.this, "Gagal Masuk", Toast.LENGTH_SHORT).show();
+                                        Log.e("Login Error", String.valueOf(task.getException()));
+                                    }
                                 }
-                            }
-                        });
+                            });
+                }catch (Exception e){
+                    Toast.makeText(LoginActivity.this, String.valueOf(e), Toast.LENGTH_SHORT).show();
+                    Log.e("Debug Error", String.valueOf(e));
+                }
             }
         });
 

@@ -62,6 +62,7 @@
         android:layout_centerHorizontal="true"
         android:background="@drawable/button_shape"
         android:textColor="@color/white"
+        android:textAllCaps="false"
         android:fontFamily="@font/poppinssemibold"
         android:textSize="16dp"/>
 
