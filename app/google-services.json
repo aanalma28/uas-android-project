@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "783676786209",
+    "firebase_url": "https://bimbel-app-b75be-default-rtdb.firebaseio.com",
+    "project_id": "bimbel-app-b75be",
+    "storage_bucket": "bimbel-app-b75be.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:783676786209:android:9d06fbd88094ef3235c560",
+        "android_client_info": {
+          "package_name": "com.example.uasproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDP9hxAtmmMHUaXQsseL-BI_gn6kZ_cl7Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
