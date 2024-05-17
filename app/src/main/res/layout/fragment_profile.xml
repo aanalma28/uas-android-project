@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ProfileFragment"
     android:background="@color/white">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
         <TextView
             android:id="@+id/txt_akun"
             android:layout_width="wrap_content"
@@ -16,6 +13,7 @@
             android:text="Akun"
             android:fontFamily="@font/poppinsmedium"
             android:textSize="16sp"
+            android:textColor="@color/black"
             android:layout_marginTop="26dp"
             android:layout_marginLeft="32dp"/>
 
@@ -36,6 +34,7 @@
             android:text="Your Name"
             android:fontFamily="@font/poppinsmedium"
             android:textSize="16sp"
+            android:textColor="@color/black"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"/>
@@ -48,6 +47,7 @@
             android:text="yourname@gmail.com"
             android:fontFamily="@font/poppinsregular"
             android:textSize="14sp"
+            android:textColor="@color/black"
             android:layout_centerHorizontal="true"/>
 
         <Button
@@ -69,6 +69,4 @@
             android:paddingVertical="10dp"
             android:paddingHorizontal="16dp"/>
 
-    </RelativeLayout>
-
-</FrameLayout>
+</RelativeLayout>

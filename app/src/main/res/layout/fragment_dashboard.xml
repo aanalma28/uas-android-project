@@ -1,35 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DashboardFragment"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:paddingHorizontal="32dp">
 
     <!-- TODO: Update blank fragment layout -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="50dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp">
-        
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:text="@string/dashboard_txt"
             android:gravity="center"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:fontFamily="@font/poppinsbold"
+            android:textSize="16sp"
+            android:fontFamily="@font/poppinssemibold"
             android:textColor="@color/black"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="24dp"/>
 
         <ImageView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/dashboardimg"/>
 
@@ -37,18 +29,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/dashboard_txt2"
-            android:gravity="center"
-            android:textSize="15sp"
+            android:textAlignment="center"
+            android:textSize="14sp"
             android:fontFamily="@font/poppinsregular"
             android:textColor="@color/black"
-            android:layout_marginBottom="30dp"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginVertical="24dp"/>
 
         <Button
             android:id="@+id/btn_login"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:text="@string/dashboard_btn"
             android:layout_centerHorizontal="true"
             android:background="@drawable/button_shape"
@@ -57,6 +47,4 @@
             android:fontFamily="@font/poppinssemibold"
             android:textSize="16dp"/>
 
-    </LinearLayout>
-
-</FrameLayout>
+</LinearLayout>
