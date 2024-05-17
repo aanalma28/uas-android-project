@@ -51,7 +51,7 @@
             android:textSize="12sp"
             android:layout_marginBottom="24dp"/>
 
-        <EditText
+        <TextView
             android:id="@+id/edt_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -60,16 +60,7 @@
             android:textSize="14sp"
             android:fontFamily="@font/poppinsmedium"
             android:layout_marginBottom="16dp"/>
-
-        <Button
-            android:id="@+id/btn_kirim"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Kirim"
-            android:background="@drawable/button_shape"
-            android:fontFamily="@font/poppinssemibold"
-            android:textColor="@color/white"
-            android:textSize="16dp"/>
+        
 
 
     </LinearLayout>
