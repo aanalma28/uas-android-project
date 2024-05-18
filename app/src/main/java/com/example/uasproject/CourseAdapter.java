@@ -18,7 +18,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     @NonNull
     @Override
     public CourseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_course, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_course, parent, false);
         return new CourseViewHolder(v);
     }
 
@@ -28,6 +28,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         if (course != null) {
             holder.titleCourse.setText(course.getName());
             holder.price.setText(course.getPrice());
+//            holder.user_id.setText(course.getUser_id());
+//            holder.descCourse.setText(course.getDescription());
         }
     }
 
@@ -37,12 +39,14 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     }
 
     public static class CourseViewHolder extends RecyclerView.ViewHolder {
-        TextView titleCourse, price;
+        TextView titleCourse, price ;
 
         public CourseViewHolder(@NonNull View itemView) {
             super(itemView);
             titleCourse = itemView.findViewById(R.id.title_course);
             price = itemView.findViewById(R.id.price);
+//            user_id = itemView.findViewById(R.id.name_bimbel);
+//            descCourse = itemView.findViewById(R.id.desc_course);
         }
     }
 }

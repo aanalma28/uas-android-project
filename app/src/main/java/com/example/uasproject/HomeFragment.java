@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ public class HomeFragment extends Fragment {
     private List<Course> courseList;
     private RecyclerView homeRecycleView;
     private CourseAdapter courseAdapter;
+    private DatabaseReference database;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -38,11 +40,33 @@ public class HomeFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         courseList = generateCourseItem();
+//        courseList = new ArrayList<>();
+
+//        database = FirebaseDatabase.getInstance().getReference().child("course");
 
         homeRecycleView = rootView.findViewById(R.id.home_recycle_view);
         homeRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         courseAdapter = new CourseAdapter(courseList);
         homeRecycleView.setAdapter(courseAdapter);
+
+//        database.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                courseList.clear();
+//                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+//                    Course course = dataSnapshot.getValue(Course.class);
+//                    courseList.add(course);
+//                }
+//                courseAdapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                // Handle database errors (e.g., display error message)
+//                Log.e("HomeFragment", "Error fetching data: ", error.toException());
+//            }
+//        });
+
         return rootView;
     }
 
