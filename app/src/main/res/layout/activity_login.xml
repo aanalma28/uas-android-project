@@ -82,8 +82,27 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@+id/btn_login"
+            android:id="@+id/layout_loading"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp">
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:progressTint="@color/bluePrimary"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_below="@id/btn_login"
+            android:layout_below="@id/layout_loading"
             android:layout_centerInParent="true"
             android:layout_marginTop="20dp">
 

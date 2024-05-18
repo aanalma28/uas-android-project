@@ -45,31 +45,42 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppinsregular"
-            android:text="Untuk memastikan keamanan dan keaslian akun Anda, kami mohon untuk memverifikasi alamat email yang Anda gunakan saat mendaftar."
+            android:text="Untuk memastikan keamanan dan keaslian akun Anda, kami mohon untuk memverifikasi alamat email yang Anda gunakan saat mendaftar. Silahkan cek email anda dan klik link yang sudah disediakan untuk verifikasi."
             android:textAlignment="center"
             android:textColor="@color/grey"
             android:textSize="12sp"
             android:layout_marginBottom="24dp"/>
 
-        <EditText
+        <TextView
             android:id="@+id/edt_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="contoh@gmail.com"
-            android:background="@drawable/input_shape"
             android:textSize="14sp"
             android:fontFamily="@font/poppinsmedium"
             android:layout_marginBottom="16dp"/>
 
-        <Button
-            android:id="@+id/btn_kirim"
+        <TextView
+            android:id="@+id/countdown_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Kirim"
-            android:background="@drawable/button_shape"
+            android:gravity="center"
+            android:text="00:06"
+            android:textSize="14sp"
+            android:fontFamily="@font/poppinsmedium"
+            android:layout_marginBottom="10dp"/>
+
+        <Button
+            android:id="@+id/btn_verification"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/edt_conf_pass"
+            android:background="@drawable/button_shape_off"
             android:fontFamily="@font/poppinssemibold"
+            android:text="Verifikasi Sekarang"
+            android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="16dp"/>
+            android:textSize="16sp" />
 
 
     </LinearLayout>

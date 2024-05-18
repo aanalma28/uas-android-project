@@ -3,11 +3,14 @@ package com.example.uasproject;
 import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,12 +33,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class RegisterActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private EditText edt_nama, edt_email, edt_pass, edt_conf_pass;
     private Button btn_register;
     private TextView to_login;
+    private ProgressBar progressBar;
+    private ExecutorService executorService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +58,20 @@ public class RegisterActivity extends AppCompatActivity {
         edt_conf_pass = findViewById(R.id.edt_conf_pass);
         btn_register = findViewById(R.id.btn_register);
         to_login = findViewById(R.id.to_login);
+        progressBar = findViewById(R.id.progressBar);
+
 
         btn_register.setOnClickListener(v -> {
             String inNama = edt_nama.getText().toString();
             String inEmail = edt_email.getText().toString();
             String inPass = edt_pass.getText().toString();
             String inConfPass = edt_conf_pass.getText().toString();
+
+            btn_register.setBackgroundResource(R.drawable.button_shape);
+            btn_register.setEnabled(false);
+            progressBar.setVisibility(View.VISIBLE);
+            progressBar.setIndeterminate(true);
+            progressBar.setIndeterminateTintList(ColorStateList.valueOf(getResources().getColor(R.color.bluePrimary)));
 
             if (!inConfPass.equals(inPass)){
                 edt_conf_pass.setError("Password tidak sama");
@@ -73,25 +89,46 @@ public class RegisterActivity extends AppCompatActivity {
 
                                         db.addUser(inNama, userEmail, inPass, userId);
 
-                                        // Sign in success, update UI with the signed-in user's information
-                                        Log.d("Create User", "createUserWithEmail:success");
-                                        Toast.makeText(RegisterActivity.this, "Register berhasil!", Toast.LENGTH_SHORT).show();
+                                        Log.d("Register Success", "Registration Successfully");
                                         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                        Toast.makeText(RegisterActivity.this, "Registrasi Berhasil !", Toast.LENGTH_SHORT).show();
+
+                                        btn_register.setBackgroundResource(R.drawable.button_shape);
+                                        btn_register.setEnabled(true);
+                                        progressBar.setVisibility(View.GONE);
+                                        progressBar.setIndeterminate(false);
+
                                         startActivity(intent);
                                         finish();
+//                                    try{
+//                                    }catch(Exception e){
+//                                        Log.e("Register Fail", String.valueOf(e));
+//                                        Toast.makeText(RegisterActivity.this, "Registrasi Gagal !", Toast.LENGTH_SHORT).show();
+//                                    }finally {
+//
+//                                    }
 
                                     }else{
                                         // If sign in fails, display a message to the user.
                                         Log.w("Failed Auth", "createUserWithEmail:failure", task.getException());
-                                        Toast.makeText(RegisterActivity.this, "Authentication failed.",
-                                                Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(RegisterActivity.this, task.getException().getMessage().toString(),
+                                                Toast.LENGTH_LONG).show();
+
+                                        btn_register.setBackgroundResource(R.drawable.button_shape);
+                                        btn_register.setEnabled(true);
+                                        progressBar.setVisibility(View.GONE);
+                                        progressBar.setIndeterminate(false);
                                     }
                                 }
                             });
                 }catch(Exception e){
-                    Toast.makeText(RegisterActivity.this, String.valueOf(e), Toast.LENGTH_SHORT).show();
-
                     Log.e("Register Fail", String.valueOf(e));
+                    Toast.makeText(RegisterActivity.this, "Registrasi Gagal !", Toast.LENGTH_SHORT).show();
+
+                    btn_register.setBackgroundResource(R.drawable.button_shape);
+                    btn_register.setEnabled(true);
+                    progressBar.setVisibility(View.GONE);
+                    progressBar.setIndeterminate(false);
                 }
             }
         });
@@ -107,4 +144,5 @@ public class RegisterActivity extends AppCompatActivity {
         );
 
     }
+
 }

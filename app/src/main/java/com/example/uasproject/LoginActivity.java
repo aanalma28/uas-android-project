@@ -2,11 +2,13 @@ package com.example.uasproject;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +31,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText edt_email, edt_pass;
     private Button btn_login;
     private TextView to_register;
+    private ProgressBar progressBar;
 
     //shared pref
     public static final String SHARED_PREF_NAME = "myPref";
@@ -54,34 +57,44 @@ public class LoginActivity extends AppCompatActivity {
             String email = edt_email.getText().toString();
             String pass = edt_pass.getText().toString();
 
-            if (email.isEmpty() && pass.isEmpty()) {
-                Toast.makeText(LoginActivity.this, "email atau password salah!", Toast.LENGTH_SHORT).show();
+            if (email.isEmpty() || pass.isEmpty()) {
+                Toast.makeText(LoginActivity.this, "Email atau Password tidak boleh kosong", Toast.LENGTH_SHORT).show();
             }else{
-                try {
-                    mAuth.signInWithEmailAndPassword(email, pass).
-                            addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if(task.isSuccessful()){
-                                        Toast.makeText(LoginActivity.this, "Berhasil masuk", Toast.LENGTH_SHORT).show();
-                                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                                        Log.d("Login Succes", "Login Successfully");
+//                btn_login.setBackgroundResource(R.drawable.button_shape_off);
+//                btn_login.setEnabled(false);
+//                progressBar.setVisibility(View.VISIBLE);
+//                progressBar.setIndeterminate(true);
+//                progressBar.setIndeterminateTintList(ColorStateList.valueOf(getResources().getColor(R.color.bluePrimary)));
 
-                                        editor.putBoolean("masuk", true);
-                                        editor.apply();
-                                        Intent main = new Intent(LoginActivity.this, MainActivity.class);
-                                        startActivity(main);
-                                        finish();
-                                    }else{
-                                        Toast.makeText(LoginActivity.this, "Gagal Masuk", Toast.LENGTH_SHORT).show();
-                                        Log.e("Login Error", String.valueOf(task.getException()));
-                                    }
+                mAuth.signInWithEmailAndPassword(email, pass).
+                        addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if(task.isSuccessful()){
+                                    Toast.makeText(LoginActivity.this, "Berhasil masuk", Toast.LENGTH_SHORT).show();
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    Log.d("Login Succes", "Login Successfully");
+
+                                    editor.putBoolean("masuk", true);
+                                    editor.apply();
+                                    Intent main = new Intent(LoginActivity.this, MainActivity.class);
+                                    startActivity(main);
+                                    finish();
+//                                    try{
+//                                    }catch(Exception e){
+//                                        Log.e("Session error", String.valueOf(e));
+//                                    }finally {
+//                                        btn_login.setBackgroundResource(R.drawable.button_shape);
+//                                        btn_login.setEnabled(true);
+//                                        progressBar.setVisibility(View.GONE);
+//                                        progressBar.setIndeterminate(false);
+//                                    }
+                                }else{
+                                    Toast.makeText(LoginActivity.this, "Gagal Masuk", Toast.LENGTH_SHORT).show();
+                                    Log.e("Login Error", String.valueOf(task.getException()));
                                 }
-                            });
-                }catch (Exception e){
-                    Toast.makeText(LoginActivity.this, String.valueOf(e), Toast.LENGTH_SHORT).show();
-                    Log.e("Debug Error", String.valueOf(e));
-                }
+                            }
+                        });
             }
         });
 
