@@ -67,7 +67,7 @@ public class RegisterActivity extends AppCompatActivity {
             String inPass = edt_pass.getText().toString();
             String inConfPass = edt_conf_pass.getText().toString();
 
-            btn_register.setBackgroundResource(R.drawable.button_shape);
+            btn_register.setBackgroundResource(R.drawable.button_shape_off);
             btn_register.setEnabled(false);
             progressBar.setVisibility(View.VISIBLE);
             progressBar.setIndeterminate(true);

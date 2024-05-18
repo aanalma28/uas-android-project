@@ -23,48 +23,52 @@
             android:layout_marginRight="16dp"
             />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/title_course"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 android:fontFamily="@font/poppinsmedium"
                 android:textColor="@color/black"
                 android:text="Persiapan UTBK 2024"/>
 
             <TextView
                 android:id="@+id/name_bimbel"
+                android:layout_below="@id/title_course"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
+                android:textSize="12dp"
                 android:fontFamily="@font/poppinsregular"
                 android:textColor="@color/grey"
                 android:text="Ganesha Operation"/>
 
             <TextView
                 android:id="@+id/desc_course"
+                android:layout_below="@id/name_bimbel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
+                android:textSize="12dp"
                 android:fontFamily="@font/poppinsregular"
                 android:textColor="@color/black"
-                android:text="Lorem ipsum dolor sit ..."/>
+                android:text="Lorem ipsum dolor sit ..."
+                android:maxLines="1"/>
 
             <TextView
                 android:id="@+id/price"
+                android:layout_alignParentBottom="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
+                android:textSize="14dp"
                 android:fontFamily="@font/poppinsbold"
                 android:textColor="@color/yellow"
-                android:text="Rp. 200.000"/>
+                android:text="Rp. 200.000"
+                />
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 

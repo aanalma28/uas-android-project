@@ -51,10 +51,29 @@
             android:layout_centerHorizontal="true"/>
 
         <Button
-            android:id="@+id/logout"
+            android:id="@+id/ganti_pass"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/email_akun"
+            android:text="Ganti password"
+            android:textAllCaps="false"
+            android:textAlignment="textStart"
+            android:drawablePadding="8dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/btn_profile_shape"
+            android:textColor="@color/black"
+            android:fontFamily="@font/poppinsregular"
+            android:textSize="16sp"
+            android:drawableLeft="@drawable/baseline_lock_24"
+            android:layout_marginTop="32dp"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="16dp"/>
+
+        <Button
+            android:id="@+id/logout"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ganti_pass"
             android:text="Logout"
             android:textAllCaps="false"
             android:textAlignment="textStart"
@@ -65,7 +84,7 @@
             android:fontFamily="@font/poppinsregular"
             android:textSize="16sp"
             android:drawableLeft="@drawable/round_logout_24"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="8dp"
             android:paddingVertical="10dp"
             android:paddingHorizontal="16dp"/>
 

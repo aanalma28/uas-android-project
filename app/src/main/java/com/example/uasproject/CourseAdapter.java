@@ -30,8 +30,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             if (course != null) {
                 holder.titleCourse.setText(course.getName());
                 holder.price.setText(String.valueOf(course.getPrice()));
-//            holder.user_id.setText(course.getUser_id());
-//            holder.descCourse.setText(course.getDescription());
+                holder.user_id.setText(course.getUser_id());
+                holder.descCourse.setText(course.getDescription());
             }
         }catch (Exception e){
             Log.e("Bind Error", String.valueOf(e));
@@ -44,14 +44,14 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     }
 
     public static class CourseViewHolder extends RecyclerView.ViewHolder {
-        public TextView titleCourse, price ;
+        public TextView titleCourse, price, user_id, descCourse ;
 
         public CourseViewHolder(@NonNull View itemView) {
             super(itemView);
             titleCourse = itemView.findViewById(R.id.title_course);
             price = itemView.findViewById(R.id.price);
-//            user_id = itemView.findViewById(R.id.name_bimbel);
-//            descCourse = itemView.findViewById(R.id.desc_course);
+            user_id = itemView.findViewById(R.id.name_bimbel);
+            descCourse = itemView.findViewById(R.id.desc_course);
         }
     }
 }
