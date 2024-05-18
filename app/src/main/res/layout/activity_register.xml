@@ -122,15 +122,36 @@
             android:textSize="16sp"
             android:layout_marginTop="20dp"
             android:background="@drawable/button_shape"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white">
+        </Button>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@+id/btn_register"
+            android:id="@+id/layout_loading"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp">
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:progressTint="@color/bluePrimary"
+                android:visibility="gone"/>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_below="@id/btn_register"
+            android:layout_below="@id/layout_loading"
             android:layout_centerInParent="true"
             android:layout_marginTop="20dp">
+
 
             <TextView
                 android:id="@+id/txt_belumpunyaakun"
