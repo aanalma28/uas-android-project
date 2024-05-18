@@ -75,6 +75,10 @@ public class RegisterActivity extends AppCompatActivity {
 
             if (!inConfPass.equals(inPass)){
                 edt_conf_pass.setError("Password tidak sama");
+                btn_register.setBackgroundResource(R.drawable.button_shape);
+                btn_register.setEnabled(true);
+                progressBar.setVisibility(View.GONE);
+                progressBar.setIndeterminate(false);
             }else{
                 try{
                     mAuth.createUserWithEmailAndPassword(inEmail, inPass).
