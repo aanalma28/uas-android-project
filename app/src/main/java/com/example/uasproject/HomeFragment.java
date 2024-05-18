@@ -39,43 +39,50 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-        courseList = generateCourseItem();
-//        courseList = new ArrayList<>();
+//        courseList = generateCourseItem();
+        courseList = new ArrayList<>();
 
-//        database = FirebaseDatabase.getInstance().getReference().child("course");
+        database = FirebaseDatabase.getInstance().getReference().child("course");
 
         homeRecycleView = rootView.findViewById(R.id.home_recycle_view);
         homeRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         courseAdapter = new CourseAdapter(courseList);
         homeRecycleView.setAdapter(courseAdapter);
 
-//        database.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                courseList.clear();
-//                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-//                    Course course = dataSnapshot.getValue(Course.class);
-//                    courseList.add(course);
-//                }
-//                courseAdapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                // Handle database errors (e.g., display error message)
-//                Log.e("HomeFragment", "Error fetching data: ", error.toException());
-//            }
-//        });
+        database.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.d("MainActivity", "DataSnapshot count: " + snapshot.getChildrenCount());
+                courseList.clear();
+                try{
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                        Log.d("MainActivity", "DataSnapshot: " + dataSnapshot.toString());
+                        Course course = dataSnapshot.getValue(Course.class);
+                        courseList.add(course);
+                    }
+                    courseAdapter.notifyDataSetChanged();
+                }catch(Exception e){
+                    Log.e("Get list Error", String.valueOf(e));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle database errors (e.g., display error message)
+                Log.e("HomeFragment", "Error fetching data: ", error.toException());
+            }
+        });
 
         return rootView;
     }
 
-    private List<Course> generateCourseItem(){
-        List<Course> courses = new ArrayList<>();
-        courses.add(new Course("Persiapan UTBK", "200000"));
-        courses.add(new Course("Matematika", "200000"));
-        courses.add(new Course("Sejarah", "200000"));
-
-        return courses;
-    }
+//    private List<Course> generateCourseItem(){
+//        List<Course> courses = new ArrayList<>();
+//        courses.add(new Course("Persiapan UTBK", "200000"));
+//        courses.add(new Course("Matematika", "200000"));
+//        courses.add(new Course("Sejarah", "200000"));
+//
+//        return courses;
+//    }
 }

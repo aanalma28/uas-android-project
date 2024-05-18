@@ -1,5 +1,6 @@
 package com.example.uasproject;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseViewHolder> {
-    List<Course> courseList;
+    private List<Course> courseList;
     public CourseAdapter(List<Course> courseList) {
         this.courseList = courseList;
     }
@@ -24,12 +25,16 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
 
     @Override
     public void onBindViewHolder(@NonNull CourseViewHolder holder, int position) {
-        Course course = courseList.get(position);
-        if (course != null) {
-            holder.titleCourse.setText(course.getName());
-            holder.price.setText(course.getPrice());
+        try{
+            Course course = courseList.get(position);
+            if (course != null) {
+                holder.titleCourse.setText(course.getName());
+                holder.price.setText(String.valueOf(course.getPrice()));
 //            holder.user_id.setText(course.getUser_id());
 //            holder.descCourse.setText(course.getDescription());
+            }
+        }catch (Exception e){
+            Log.e("Bind Error", String.valueOf(e));
         }
     }
 
@@ -39,7 +44,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     }
 
     public static class CourseViewHolder extends RecyclerView.ViewHolder {
-        TextView titleCourse, price ;
+        public TextView titleCourse, price ;
 
         public CourseViewHolder(@NonNull View itemView) {
             super(itemView);
