@@ -28,8 +28,6 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     private FirebaseAuth mAuth;
     private DatabaseHelper db;
 
-    private TextView nama_akun, email_akun;
-
     public static final String SHARED_PREF_NAME = "myPref";
     private SharedPreferences sharedPreferences;
 
@@ -38,10 +36,9 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        nama_akun = findViewById(R.id.nama_akun);
-
         bottomNavigationView = findViewById(R.id.bottom_nav);
-        bottomNavigationView.setOnItemSelectedListener(this);
+        bottomNavigationView.setOnItemSelectedListener(this::onNavigationItemSelected);
+        bottomNavigationView.setSelectedItemId(R.id.home);
 
         mAuth = FirebaseAuth.getInstance();
 
