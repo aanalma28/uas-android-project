@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetailCourseActivity"
+    android:background="@color/white">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/shape"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"/>
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_arrow_back_24"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="26dp"
+        android:layout_marginLeft="32dp"
+        />
+
+    <RelativeLayout
+        android:layout_below="@id/back"
+        android:layout_width="350dp"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true">
+        <ImageView
+            android:id="@id/img_detail_course"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:background="@drawable/btn_profile_shape"
+            android:layout_marginTop="24dp"
+            android:layout_centerHorizontal="true"
+            />
+
+        <TextView
+            android:id="@+id/title_detail_course"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/img_detail_course"
+            android:text="Persiapan UTB 2024"
+            android:fontFamily="@font/poppinssemibold"
+            android:textSize="16dp"
+            android:textColor="@color/black"
+            android:layout_marginTop="16dp"
+            />
+
+        <LinearLayout
+            android:id="@+id/ly_detail_course"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/title_detail_course">
+            
+            <TextView
+                android:id="@+id/instructor_detail_course"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppinsregular"
+                android:text="Joko"
+                android:textSize="12dp"
+                android:layout_marginRight="16dp" />
+
+            <TextView
+                android:id="@+id/agency_detail_course"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppinsregular"
+                android:text="Ganesha Operation"
+                android:textSize="12dp"
+                android:layout_marginRight="16dp"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/price_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ly_detail_course"
+            android:text="Rp. 200.000"
+            android:fontFamily="@font/poppinsmedium"
+            android:layout_marginTop="12dp"
+            android:textColor="@color/yellow"
+            android:textSize="20dp"/>
+        
+        <Button
+            android:id="@+id/btn_beli"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Beli Sekarang"
+            android:layout_below="@+id/price_detail"
+            android:textAllCaps="false"
+            android:fontFamily="@font/poppinssemibold"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:background="@drawable/button_shape"
+            android:layout_marginTop="12dp"/>
+
+        <TextView
+            android:id="@+id/txt_detail_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_beli"
+            android:text="Deskripsi"
+            android:fontFamily="@font/poppinssemibold"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="24dp"
+            />
+
+        <TextView
+            android:id="@+id/desc_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_detail_desc"
+            android:text="Lorem ipsum dolor sit amet consectetur. Elementum eget gravida rutrum mi eu sed velit. Vulputate nisl eget eget pellentesque senectus orci senectus quis. Magna nisi a sed aliquam laoreet. Id nullam viverra amet sollicitudin molestie arcu."
+            android:layout_marginTop="8dp"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            />
+
+    </RelativeLayout>
+
+</RelativeLayout>

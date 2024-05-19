@@ -11,18 +11,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.UASProject"
-        tools:targetApi="31"
-        tools:ignore="AppLinkUrlError">
+        tools:ignore="AppLinkUrlError"
+        tools:targetApi="31">
+        <activity
+            android:name=".DetailCourseActivity"
+            android:exported="false" />
         <activity
             android:name=".AccountManagementActivity"
             android:exported="false">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="https"
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
                     android:host="uasproject.example.com"
-                    android:pathPrefix="/acctmgmt/__/auth/action"/>
+                    android:pathPrefix="/acctmgmt/__/auth/action"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
         <activity
