@@ -35,7 +35,7 @@
             android:id="@id/img_detail_course"
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:background="@color/secondgrey"
+            android:background="@drawable/btn_profile_shape"
             android:layout_marginTop="24dp"
             android:layout_centerHorizontal="true"
             />

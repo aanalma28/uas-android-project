@@ -16,6 +16,12 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     public CourseAdapter(List<Course> courseList) {
         this.courseList = courseList;
     }
+
+    public void setFilteredList(List<Course> filteredList){
+        this.courseList = filteredList;
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public CourseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

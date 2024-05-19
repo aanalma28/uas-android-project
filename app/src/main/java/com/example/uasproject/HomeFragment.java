@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,6 +31,8 @@ public class HomeFragment extends Fragment {
     private CourseAdapter courseAdapter;
     private DatabaseReference database;
 
+    private SearchView searchView;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -39,6 +43,20 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
+        searchView = rootView.findViewById(R.id.search_box);
+        searchView.clearFocus();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterList(newText);
+                return false;
+            }
+        });
 //        courseList = generateCourseItem();
         courseList = new ArrayList<>();
 
@@ -77,12 +95,17 @@ public class HomeFragment extends Fragment {
         return rootView;
     }
 
-//    private List<Course> generateCourseItem(){
-//        List<Course> courses = new ArrayList<>();
-//        courses.add(new Course("Persiapan UTBK", "200000"));
-//        courses.add(new Course("Matematika", "200000"));
-//        courses.add(new Course("Sejarah", "200000"));
-//
-//        return courses;
-//    }
+    private void filterList(String text) {
+        List<Course> filteredList = new ArrayList<>();
+        for (Course course : courseList){
+            if (course.getName().toLowerCase().contains(text.toLowerCase())){
+                filteredList.add(course);
+            }
+        }
+        if (filteredList.isEmpty()){
+            Toast.makeText(getActivity(), "No data found", Toast.LENGTH_SHORT).show();
+        }else{
+            courseAdapter.setFilteredList(filteredList);
+        }
+    }
 }
