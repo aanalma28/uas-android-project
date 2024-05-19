@@ -1,5 +1,7 @@
 package com.example.uasproject;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -24,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements RecycleViewInterface {
 
     private List<Course> courseList;
     private RecyclerView homeRecycleView;
@@ -65,7 +67,7 @@ public class HomeFragment extends Fragment {
         homeRecycleView = rootView.findViewById(R.id.home_recycle_view);
         homeRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        courseAdapter = new CourseAdapter(courseList);
+        courseAdapter = new CourseAdapter(courseList, this);
         homeRecycleView.setAdapter(courseAdapter);
 
         database.addValueEventListener(new ValueEventListener() {
@@ -107,5 +109,18 @@ public class HomeFragment extends Fragment {
         }else{
             courseAdapter.setFilteredList(filteredList);
         }
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Intent intent = new Intent(getActivity(), DetailCourseActivity.class);
+
+        intent.putExtra("title_course", courseList.get(position).getName());
+        intent.putExtra("agency", courseList.get(position).getUser_id());
+        intent.putExtra("desc", courseList.get(position).getDescription());
+        intent.putExtra("price", String.valueOf(courseList.get(position).getPrice()));
+        intent.putExtra("instructor", courseList.get(position).getInstructor());
+        startActivity(intent);
+        ((Activity) getActivity()).overridePendingTransition(0, 0);
     }
 }

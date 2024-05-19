@@ -60,6 +60,7 @@
             android:layout_below="@+id/title_detail_course">
             
             <TextView
+                android:id="@+id/instructor_detail_course"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppinsregular"
@@ -68,6 +69,7 @@
                 android:layout_marginRight="16dp" />
 
             <TextView
+                android:id="@+id/agency_detail_course"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppinsregular"
@@ -78,7 +80,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/detail_price"
+            android:id="@+id/price_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/ly_detail_course"
@@ -92,8 +94,8 @@
             android:id="@+id/btn_beli"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Miaw"
-            android:layout_below="@+id/detail_price"
+            android:text="Beli Sekarang"
+            android:layout_below="@+id/price_detail"
             android:textAllCaps="false"
             android:fontFamily="@font/poppinssemibold"
             android:textSize="16sp"
@@ -114,7 +116,7 @@
             />
 
         <TextView
-            android:id="@+id/detail_desc"
+            android:id="@+id/desc_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txt_detail_desc"
