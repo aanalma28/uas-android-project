@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,11 +44,11 @@ public class RegisterSellerActivity extends AppCompatActivity {
             String almt = alamat.getText().toString();
             String hp = no_hp.getText().toString();
 
-            Intent intent = new Intent(RegisterSellerActivity.this, EmailVerificationActivity.class);
-            intent.putExtra(Constant.BIMBELNAME, bimbel);
-            intent.putExtra(Constant.ADDRESS, almt);
-            intent.putExtra(Constant.PHONE, hp);
-            startActivity(intent);
+            if(bimbel.isEmpty() || almt.isEmpty() || hp.isEmpty()){
+                Toast.makeText(this, "All field required", Toast.LENGTH_SHORT).show();
+            }else{
+//                Do Register
+            }
         });
     }
 }
