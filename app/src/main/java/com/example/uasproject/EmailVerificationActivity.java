@@ -72,7 +72,10 @@ public class EmailVerificationActivity extends AppCompatActivity {
                 if(inputCode.equals(code)){
                     Log.d("Match", "Match Code: " + "Text = " + edtCode.getText().toString()
                             + "Rand: " + code);
+                    Intent intent = new Intent(EmailVerificationActivity.this, RegisterSellerActivity.class);
+                    startActivity(intent);
                 }else{
+                    Toast.makeText(this, "Kode tidak valid", Toast.LENGTH_SHORT).show();
                     Log.e("Not Match", "Not Match Code: " + "Text = " + edtCode.getText().toString()
                             + "Rand: " + code);
                 }
