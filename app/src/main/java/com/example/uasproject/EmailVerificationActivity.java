@@ -7,6 +7,7 @@ import android.os.CountDownTimer;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,21 +31,16 @@ public class EmailVerificationActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private Button btn;
     private TextView countdown, email;
+    private ImageView back;
     private EditText edtCode;
     private String code;
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         mAuth = FirebaseAuth.getInstance();
 
         setContentView(R.layout.activity_email_verification);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
         FirebaseUser user = mAuth.getCurrentUser();
 
@@ -52,6 +48,7 @@ public class EmailVerificationActivity extends AppCompatActivity {
         String address = getIntent().getStringExtra(Constant.ADDRESS);
         String hp = getIntent().getStringExtra(Constant.PHONE);
         btn = findViewById(R.id.btn_verification);
+        back = findViewById(R.id.back);
         email = findViewById(R.id.txt_desc);
         countdown = findViewById(R.id.countdown_text);
         edtCode = findViewById(R.id.edt_code);
@@ -77,6 +74,10 @@ public class EmailVerificationActivity extends AppCompatActivity {
                             + "Rand: " + code);
                 }
             }
+        });
+
+        back.setOnClickListener(v -> {
+            finish();
         });
 
         countdown.setOnClickListener(v -> {
