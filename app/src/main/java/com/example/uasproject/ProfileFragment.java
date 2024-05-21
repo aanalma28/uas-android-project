@@ -1,5 +1,6 @@
 package com.example.uasproject;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,12 +23,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ProfileFragment#newInstance} factory method to
- * create an instance of this fragment.
- *
- */
 public class ProfileFragment extends Fragment {
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private DatabaseReference mDb = FirebaseDatabase.getInstance().getReference();
@@ -50,9 +45,10 @@ public class ProfileFragment extends Fragment {
         TextView nama_akun = view.findViewById(R.id.nama_akun);
         TextView email_akun = view.findViewById(R.id.email_akun);
         Button btn_logout = view.findViewById(R.id.logout);
+        Button dashboard = view.findViewById(R.id.dashboard);
 
         sharedPreferences = getActivity().getSharedPreferences("myPref", Context.MODE_PRIVATE);
-
+//        String role = sharedPreferences.getString("role", "");
         btn_logout.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), LoginActivity.class);
             SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -64,11 +60,26 @@ public class ProfileFragment extends Fragment {
 
         });
 
+        dashboard.setOnClickListener(v -> {
+//            if (role == "agency") {
+//                Intent intent = new Intent(getActivity(), DashboardActivity.class);
+//                startActivity(intent);
+//            }else {
+                Intent intent = new Intent(getActivity(), DashboardRegisterActivity.class);
+                startActivity(intent);
+//            }
+        });
+
         try{
             String nama = sharedPreferences.getString("nama", "");
             String email = sharedPreferences.getString("email", "");
             nama_akun.setText(nama);
             email_akun.setText(email);
+//            if (role != "agency"){
+//                dashboard.setText("Daftar bimbel");
+//                Log.d("role", "onCreateView: "+role);
+//            }
+
         }catch(Exception e){
             Log.e("Data error", String.valueOf(e));
         }

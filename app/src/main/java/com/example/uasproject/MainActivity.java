@@ -23,10 +23,7 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
     private BottomNavigationView bottomNavigationView;
     private HomeFragment homeFragment = new HomeFragment();
     private PelajaranFragment pelajaranFragment = new PelajaranFragment();
-    private DashboardFragment dashboardFragment = new DashboardFragment();
     private ProfileFragment profileFragment = new ProfileFragment();
-    private FirebaseAuth mAuth;
-    private DatabaseHelper db;
 
     public static final String SHARED_PREF_NAME = "myPref";
     private SharedPreferences sharedPreferences;
@@ -40,12 +37,10 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
         bottomNavigationView.setOnItemSelectedListener(this::onNavigationItemSelected);
         bottomNavigationView.setSelectedItemId(R.id.home);
 
-        mAuth = FirebaseAuth.getInstance();
-
         sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
 
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser == null){
+        Boolean masuk = sharedPreferences.getBoolean("masuk", true);
+        if (masuk == false ){
             Intent login = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(login);
             finish();
@@ -60,9 +55,6 @@ public class MainActivity extends AppCompatActivity implements NavigationBarView
             return true;
         } else if (menuItem.getItemId() == R.id.pelajaran) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fl_fragment, pelajaranFragment).commit();
-                return true;
-        }else if (menuItem.getItemId() == R.id.dashboard) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fl_fragment, dashboardFragment).commit();
                 return true;
         }else if (menuItem.getItemId() == R.id.profile) {
                 getSupportFragmentManager().beginTransaction().replace(R.id.fl_fragment, profileFragment).commit();

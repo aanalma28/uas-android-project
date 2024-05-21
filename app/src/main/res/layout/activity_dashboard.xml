@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DashboardActivity"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_arrow_back_24"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="26dp"
+        android:layout_marginLeft="32dp"
+        />
+
+    <TextView
+        android:id="@+id/txt_agency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/back"
+        android:drawableLeft="@drawable/course_dark"
+        android:text="Pelajaran di Your Agency"
+        android:drawablePadding="8dp"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:fontFamily="@font/poppinsmedium"
+        android:layout_marginTop="26dp"
+        android:layout_marginLeft="16dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@+id/txt_agency"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/item_course_in_dashboard"
+        android:layout_marginTop="16dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_draft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_shape"
+            android:backgroundTint="@color/grey"
+            android:text="Draft"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:fontFamily="@font/poppinssemibold"
+            android:textSize="14dp" />
+
+        <Button
+            android:id="@+id/btn_tambah_pelajaran"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_shape"
+            android:text="Tambah pelajaran"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:fontFamily="@font/poppinssemibold"
+            android:paddingHorizontal="16dp"
+            android:textSize="14dp"
+            android:layout_marginLeft="8dp"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>
