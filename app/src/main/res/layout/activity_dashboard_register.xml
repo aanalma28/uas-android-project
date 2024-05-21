@@ -1,15 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DashboardFragment"
-    android:background="@color/white"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:paddingHorizontal="32dp">
+    tools:context=".DashboardRegisterActivity"
+    android:background="@color/white">
 
-    <!-- TODO: Update blank fragment layout -->
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_arrow_back_24"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="26dp"
+        android:layout_marginLeft="32dp"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_below="@id/back"
+        android:layout_centerHorizontal="true">
+
         <TextView
             android:layout_width="250dp"
             android:layout_height="wrap_content"
@@ -26,7 +41,7 @@
             android:src="@drawable/dashboardimg"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="320dp"
             android:layout_height="wrap_content"
             android:text="@string/dashboard_txt2"
             android:textAlignment="center"
@@ -46,5 +61,5 @@
             android:textAllCaps="false"
             android:fontFamily="@font/poppinssemibold"
             android:textSize="16dp"/>
-
-</LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
