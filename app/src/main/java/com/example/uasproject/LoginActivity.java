@@ -23,6 +23,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -65,17 +68,39 @@ public class LoginActivity extends AppCompatActivity {
             progressBar.setIndeterminateTintList(ColorStateList.valueOf(getResources().getColor(R.color.bluePrimary)));
 
             try{
+                SharedPreferences.Editor editor = sharedPreferences.edit();
                 mAuth.signInWithEmailAndPassword(email, pass).
                         addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful()){
                                     Toast.makeText(LoginActivity.this, "Berhasil masuk", Toast.LENGTH_SHORT).show();
-                                    SharedPreferences.Editor editor = sharedPreferences.edit();
                                     Log.d("Login Succes", "Login Successfully");
 
-                                    editor.putBoolean("masuk", true);
-                                    editor.apply();
+                                    DBFirebase getData = new DBFirebase();
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    String id = user.getUid();
+                                    DatabaseReference data = getData.getUser(id);
+
+                                    data.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DataSnapshot> task) {
+                                            if(!task.isSuccessful()){
+                                                Log.e("firebase error", "Error getting data", task.getException());
+                                            }else{
+                                                String nama = task.getResult().child("name").getValue().toString();
+                                                String email = task.getResult().child("email").getValue().toString();
+//                                                String role = task.getResult().child("role").getValue().toString();
+//                                                Log.d("role", "onComplete: " + role);
+                                                editor.putString("nama", nama);
+                                                editor.putString("email", email);
+                                                editor.putBoolean("masuk", true);
+//                                                editor.putString("role", role);
+                                                editor.apply();
+                                                Log.d("firebase success", String.valueOf(task.getResult().getValue()));
+                                            }
+                                        }
+                                    });
                                     Intent main = new Intent(LoginActivity.this, MainActivity.class);
 
                                     btn_login.setBackgroundResource(R.drawable.button_shape);
