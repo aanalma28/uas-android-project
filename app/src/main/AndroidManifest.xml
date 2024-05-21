@@ -26,8 +26,8 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="uasproject.example.com"
-                    android:pathPrefix="/acctmgmt/__/auth/action"
+                    android:host="educa.com"
+                    android:pathPrefix="/verifyemail"
                     android:scheme="https" />
             </intent-filter>
         </activity>
