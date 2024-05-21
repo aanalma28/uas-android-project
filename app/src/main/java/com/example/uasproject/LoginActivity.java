@@ -92,6 +92,7 @@ public class LoginActivity extends AppCompatActivity {
                                                 String email = task.getResult().child("email").getValue().toString();
                                                 editor.putString("nama", nama);
                                                 editor.putString("email", email);
+                                                editor.putBoolean("masuk", true);
                                                 editor.apply();
                                                 Log.d("firebase success", String.valueOf(task.getResult().getValue()));
                                             }
