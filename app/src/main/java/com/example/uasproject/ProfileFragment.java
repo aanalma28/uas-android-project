@@ -48,7 +48,7 @@ public class ProfileFragment extends Fragment {
         Button dashboard = view.findViewById(R.id.dashboard);
 
         sharedPreferences = getActivity().getSharedPreferences("myPref", Context.MODE_PRIVATE);
-//        String role = sharedPreferences.getString("role", "");
+        String role = sharedPreferences.getString("role", "");
         btn_logout.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), LoginActivity.class);
             SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -61,13 +61,15 @@ public class ProfileFragment extends Fragment {
         });
 
         dashboard.setOnClickListener(v -> {
-//            if (role == "agency") {
-//                Intent intent = new Intent(getActivity(), DashboardActivity.class);
-//                startActivity(intent);
-//            }else {
+            if (role.equals("agency")) {
+                Log.d("Role", "sharedpreferences: " + role);
+                Intent intent = new Intent(getActivity(), DashboardActivity.class);
+                startActivity(intent);
+            }else {
+                Log.d("Role", "sharedpreferences: " + role);
                 Intent intent = new Intent(getActivity(), DashboardRegisterActivity.class);
                 startActivity(intent);
-//            }
+            }
         });
 
         try{

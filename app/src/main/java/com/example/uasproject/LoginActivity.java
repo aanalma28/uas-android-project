@@ -90,12 +90,12 @@ public class LoginActivity extends AppCompatActivity {
                                             }else{
                                                 String nama = task.getResult().child("name").getValue().toString();
                                                 String email = task.getResult().child("email").getValue().toString();
-//                                                String role = task.getResult().child("role").getValue().toString();
-//                                                Log.d("role", "onComplete: " + role);
+                                                String role = task.getResult().child("role").getValue().toString();
+                                                Log.d("role", "onComplete: " + role);
                                                 editor.putString("nama", nama);
                                                 editor.putString("email", email);
                                                 editor.putBoolean("masuk", true);
-//                                                editor.putString("role", role);
+                                                editor.putString("role", role);
                                                 editor.apply();
                                                 Log.d("firebase success", String.valueOf(task.getResult().getValue()));
                                             }

@@ -47,19 +47,20 @@ public class HomeFragment extends Fragment implements RecycleViewInterface {
 
         searchView = rootView.findViewById(R.id.search_box);
         searchView.clearFocus();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String newText) {
+                    return false;
+                }
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                filterList(newText);
-                return false;
-            }
-        });
-//        courseList = generateCourseItem();
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    filterList(newText);
+                    return false;
+                }
+            });
+
+
         courseList = new ArrayList<>();
 
         database = FirebaseDatabase.getInstance().getReference().child("course");
