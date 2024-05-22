@@ -1,5 +1,6 @@
 package com.example.uasproject;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +50,12 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     @Override
     public int getItemCount() {
         return courseList.size();
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void updateList(List<Course> newList) {
+        courseList = newList;
+        notifyDataSetChanged();
     }
 
     public static class CourseViewHolder extends RecyclerView.ViewHolder {

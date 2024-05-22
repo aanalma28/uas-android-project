@@ -1,6 +1,7 @@
 package com.example.uasproject;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -22,6 +23,7 @@ public class RegisterSellerActivity extends AppCompatActivity {
     private Button btn;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
+    public static final String SHARED_PREF_NAME = "myPref";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,18 @@ public class RegisterSellerActivity extends AppCompatActivity {
 
                     Log.d("ID USER", id);
                     Toast.makeText(this, "Successfully Register", Toast.LENGTH_SHORT).show();
+
+                    SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                    editor.putString("nama", bimbel);
+                    editor.putString("email", user.getEmail().toString());
+                    editor.putString("role", "Seller");
+                    editor.apply();
+
+                    Intent intent = new Intent(RegisterSellerActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
                 }catch(Exception e){
                     Toast.makeText(this, "Register Failed", Toast.LENGTH_SHORT).show();
                     Log.e("Register Fail", String.valueOf(e));
