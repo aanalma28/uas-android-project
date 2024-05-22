@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreateCourseActivity"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_arrow_back_24"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="26dp"
+        android:layout_marginLeft="32dp"
+        />
+
+    <TextView
+        android:id="@+id/buat_pelajaran"
+        android:layout_below="@id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Buat Pelajaran"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="36dp"
+        android:fontFamily="@font/poppinssemibold"
+        android:textSize="16sp"
+        android:textColor="@color/black"/>
+
+    <RelativeLayout
+        android:id="@+id/ry_1"
+        android:layout_below="@id/buat_pelajaran"
+        android:layout_marginTop="24dp"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        >
+
+        <TextView
+            android:id="@+id/label_nama"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nama"
+            android:fontFamily="@font/poppinsmedium"
+            android:textSize="14sp"
+            android:textColor="@color/black"/>
+
+        <EditText
+            android:id="@+id/edt_nama"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/label_nama"
+            android:hint="Masukkan nama pelajaran"
+            android:fontFamily="@font/poppinsmedium"
+            android:textSize="14sp"
+            android:background="@drawable/input_shape"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/label_tentang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edt_nama"
+            android:text="Tentang"
+            android:fontFamily="@font/poppinsmedium"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="20dp"/>
+
+        <EditText
+            android:id="@+id/edt_tentang"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/label_tentang"
+            android:hint="Masukkan tentang pelajaran"
+            android:fontFamily="@font/poppinsmedium"
+            android:textSize="14sp"
+            android:background="@drawable/input_shape"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/label_pengajar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edt_tentang"
+            android:text="Pengajar"
+            android:fontFamily="@font/poppinsmedium"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="20dp"/>
+
+        <EditText
+            android:id="@+id/edt_pengajar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/label_pengajar"
+            android:hint="Masukkan pengajar pelajaran"
+            android:fontFamily="@font/poppinsmedium"
+            android:textSize="14sp"
+            android:background="@drawable/input_shape"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/label_harga"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edt_pengajar"
+            android:text="Harga"
+            android:fontFamily="@font/poppinsmedium"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="20dp"/>
+
+        <EditText
+            android:id="@+id/edt_harga"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/label_harga"
+            android:hint="Rp. 0"
+            android:inputType="number"
+            android:fontFamily="@font/poppinsmedium"
+            android:textSize="14sp"
+            android:background="@drawable/input_shape"
+            android:layout_marginTop="8dp" />
+
+        <RelativeLayout
+            android:id="@+id/container_uploadimg"
+            android:layout_below="@id/edt_harga"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/input_shape"
+            android:gravity="center"
+            android:paddingVertical="24dp"
+            android:layout_marginTop="8dp">
+
+            <Button
+                android:id="@+id/select_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_blue_shape"
+                android:text="Pilih gambar"
+                android:textAllCaps="false"
+                android:textColor="@color/bluePrimary"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="8dp"
+                android:fontFamily="@font/poppinsregular"
+                android:textSize="12dp"/>
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btn_simpan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/container_uploadimg"
+            android:text="Simpan"
+            android:fontFamily="@font/poppinssemibold"
+            android:textSize="16sp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button_shape"
+            android:textColor="@color/white"/>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
