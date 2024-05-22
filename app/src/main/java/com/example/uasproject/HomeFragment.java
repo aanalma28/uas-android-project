@@ -21,6 +21,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -99,17 +100,25 @@ public class HomeFragment extends Fragment implements RecycleViewInterface {
     }
 
     private void filterList(String text) {
-        List<Course> filteredList = new ArrayList<>();
-        for (Course course : courseList){
-            if (course.getName().toLowerCase().contains(text.toLowerCase())){
-                filteredList.add(course);
+        Query searchQuery = database.orderByChild("name").startAt(text).endAt(text + "\uf8ff");
+        searchQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                List<Course> courseLists = new ArrayList<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    Course course = dataSnapshot.getValue(Course.class);
+                    if(course != null){
+                        courseLists.add(course);
+                    }
+                }
+                courseAdapter.updateList(courseLists);
             }
-        }
-        if (filteredList.isEmpty()){
-            Toast.makeText(getActivity(), "No data found", Toast.LENGTH_SHORT).show();
-        }else{
-            courseAdapter.setFilteredList(filteredList);
-        }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("HomeActivity", "onCancelled", error.toException());
+            }
+        });
     }
 
     @Override

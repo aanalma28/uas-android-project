@@ -43,6 +43,7 @@ public class DBFirebase {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     User user = snapshot.getValue(User.class);
+
                     String email = user.getEmail();
                     String password = user.getPassword();
                     String role = "Seller";
