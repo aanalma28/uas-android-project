@@ -81,7 +81,9 @@ public class HomeFragment extends Fragment implements RecycleViewInterface {
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                         Log.d("MainActivity", "DataSnapshot: " + dataSnapshot.toString());
                         Course course = dataSnapshot.getValue(Course.class);
-                        courseList.add(course);
+                        if(course != null && !course.getStatus().equals("close")){
+                            courseList.add(course);
+                        }
                     }
                     courseAdapter.notifyDataSetChanged();
                 }catch(Exception e){
@@ -107,7 +109,7 @@ public class HomeFragment extends Fragment implements RecycleViewInterface {
                 List<Course> courseLists = new ArrayList<>();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Course course = dataSnapshot.getValue(Course.class);
-                    if(course != null){
+                    if(course != null && !course.getStatus().equals("close")){
                         courseLists.add(course);
                     }
                 }
@@ -124,13 +126,30 @@ public class HomeFragment extends Fragment implements RecycleViewInterface {
     @Override
     public void onItemClick(int position) {
         Intent intent = new Intent(getActivity(), DetailCourseActivity.class);
+        String id = courseList.get(position).getUser_id();
+        DBFirebase db = new DBFirebase();
+        DatabaseReference data = db.getUser(id);
 
-        intent.putExtra("title_course", courseList.get(position).getName());
-        intent.putExtra("agency", courseList.get(position).getUser_id());
-        intent.putExtra("desc", courseList.get(position).getDescription());
-        intent.putExtra("price", String.valueOf(courseList.get(position).getPrice()));
-        intent.putExtra("instructor", courseList.get(position).getInstructor());
-        startActivity(intent);
-        ((Activity) getActivity()).overridePendingTransition(0, 0);
+        data.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+                String name = user.getName();
+
+                intent.putExtra("title_course", courseList.get(position).getName());
+                intent.putExtra("agency", name);
+                intent.putExtra("desc", courseList.get(position).getDescription());
+                intent.putExtra("price", String.valueOf(courseList.get(position).getPrice()));
+                intent.putExtra("instructor", courseList.get(position).getInstructor());
+                startActivity(intent);
+                ((Activity) getActivity()).overridePendingTransition(0, 0);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w("TAG", "Failed to read value.", error.toException());
+            }
+        });
+
     }
 }

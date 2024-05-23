@@ -10,11 +10,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.List;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseViewHolder> {
     private final RecycleViewInterface recycleViewInterface;
     private List<Course> courseList;
+
     public CourseAdapter(List<Course> courseList, RecycleViewInterface recycleViewInterface) {
         this.courseList = courseList;
         this.recycleViewInterface = recycleViewInterface;
@@ -36,12 +43,32 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     public void onBindViewHolder(@NonNull CourseViewHolder holder, int position) {
         try{
             Course course = courseList.get(position);
-            if (course != null) {
-                holder.titleCourse.setText(course.getName());
-                holder.price.setText(String.valueOf(course.getPrice()));
-                holder.user_id.setText(course.getUser_id());
-                holder.descCourse.setText(course.getDescription());
-            }
+
+            DBFirebase db = new DBFirebase();
+            DatabaseReference data = db.getUser(course.getUser_id());
+            data.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(snapshot.exists()){
+                        User user = snapshot.getValue(User.class);
+                        String name = user.getName();
+
+                        if (course != null) {
+                            holder.titleCourse.setText(course.getName());
+                            holder.price.setText(String.valueOf(course.getPrice()));
+                            holder.user_id.setText(name);
+                            holder.descCourse.setText(course.getDescription());
+                        }
+                    }else{
+                        Log.e("User Not found", "User doesnt exist");
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.w("TAG", "Failed to read value.", error.toException());
+                }
+            });
         }catch (Exception e){
             Log.e("Bind Error", String.valueOf(e));
         }

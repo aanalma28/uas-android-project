@@ -73,6 +73,19 @@ public class DBFirebase {
 //        mDatabase.updateChildren(childUpdates);
     }
 
+    public void createCourse(String user_id, String name, String instructor, String description, String image, Integer price){
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        String course_id = mDatabase.child("course").push().getKey();
+        String status = "close";
+        Course course = new Course(course_id, user_id, name, instructor, description, status, image, price);
+        try{
+            mDatabase.child("course").child(course_id).setValue(course);
+            Log.d("Create Course", "Course created successfully");
+        }catch(Exception e){
+            Log.e("Create Course", String.valueOf(e));
+        }
+    }
+
 
 
 }
