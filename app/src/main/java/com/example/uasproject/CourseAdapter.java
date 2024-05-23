@@ -16,7 +16,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseViewHolder> {
     private final RecycleViewInterface recycleViewInterface;
@@ -52,10 +54,14 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
                     if(snapshot.exists()){
                         User user = snapshot.getValue(User.class);
                         String name = user.getName();
+                        Locale localeID = new Locale("in", "ID");
+                        NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
+                        String formattedPrice = formatRupiah.format(course.getPrice());
+                        formattedPrice = formattedPrice.replace("Rp", "Rp. ").replace(",00", "");
 
                         if (course != null) {
                             holder.titleCourse.setText(course.getName());
-                            holder.price.setText(String.valueOf(course.getPrice()));
+                            holder.price.setText(String.valueOf(formattedPrice));
                             holder.user_id.setText(name);
                             holder.descCourse.setText(course.getDescription());
                         }
@@ -69,6 +75,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
                     Log.w("TAG", "Failed to read value.", error.toException());
                 }
             });
+
         }catch (Exception e){
             Log.e("Bind Error", String.valueOf(e));
         }

@@ -24,8 +24,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class HomeFragment extends Fragment implements RecycleViewInterface {
 
@@ -136,10 +138,14 @@ public class HomeFragment extends Fragment implements RecycleViewInterface {
                 User user = snapshot.getValue(User.class);
                 String name = user.getName();
 
+                Locale localeID = new Locale("in", "ID");
+                NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
+                String formattedPrice = formatRupiah.format(courseList.get(position).getPrice());
+                formattedPrice = formattedPrice.replace("Rp", "Rp. ").replace(",00", "");
                 intent.putExtra("title_course", courseList.get(position).getName());
                 intent.putExtra("agency", name);
                 intent.putExtra("desc", courseList.get(position).getDescription());
-                intent.putExtra("price", String.valueOf(courseList.get(position).getPrice()));
+                intent.putExtra("price", formattedPrice);
                 intent.putExtra("instructor", courseList.get(position).getInstructor());
                 startActivity(intent);
                 ((Activity) getActivity()).overridePendingTransition(0, 0);
