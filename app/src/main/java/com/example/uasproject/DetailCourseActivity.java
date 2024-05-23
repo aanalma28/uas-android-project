@@ -11,6 +11,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class DetailCourseActivity extends AppCompatActivity {
 
     TextView title, instructor, agency, price, desc;

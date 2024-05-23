@@ -1,5 +1,6 @@
 package com.example.uasproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,11 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link PelajaranFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class PelajaranFragment extends Fragment {
 
     Button btn_cari_pelajaran;
@@ -37,7 +33,8 @@ public class PelajaranFragment extends Fragment {
         btn_cari_pelajaran = view.findViewById(R.id.btn_cari_pelajaran);
 
         btn_cari_pelajaran.setOnClickListener(v -> {
-
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            startActivity(intent);
         });
 
         return view;
