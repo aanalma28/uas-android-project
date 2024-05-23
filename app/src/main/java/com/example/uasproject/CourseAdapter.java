@@ -48,6 +48,14 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
 
             DBFirebase db = new DBFirebase();
             DatabaseReference data = db.getUser(course.getUser_id());
+<<<<<<< HEAD
+=======
+            Locale localeID = new Locale("in", "ID");
+            NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
+            String formattedPrice = formatRupiah.format(course.getPrice());
+            formattedPrice = formattedPrice.replace("Rp", "Rp. ").replace(",00", "");
+            String finalFormattedPrice = formattedPrice;
+>>>>>>> 235df48 (merge main)
             data.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -61,7 +69,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
 
                         if (course != null) {
                             holder.titleCourse.setText(course.getName());
-                            holder.price.setText(String.valueOf(formattedPrice));
+                            holder.price.setText(String.valueOf(finalFormattedPrice));
                             holder.user_id.setText(name);
                             holder.descCourse.setText(course.getDescription());
                         }
