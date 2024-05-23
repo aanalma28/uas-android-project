@@ -37,21 +37,33 @@ public class DBFirebase {
     }
 
     public void updatePassword(String id, String newPassword){
-        Map<String, Object> update = new HashMap<>();
-        update.put("password", newPassword);
+        try{
+            Map<String, Object> update = new HashMap<>();
+            update.put("password", newPassword);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("course");
-        mDatabase.child(id).updateChildren(update);
+            mDatabase = FirebaseDatabase.getInstance().getReference("course");
+            mDatabase.child(id).updateChildren(update);
+
+            Log.d("Update Password", "Update password successfully");
+        }catch(Exception e){
+            Log.d("Update Password", String.valueOf(e));
+        }
     }
 
     public void editUserSeller(String agency, String address, String phone, String id){
-        Map<String, Object> data = new HashMap<>();
-        data.put("agency", agency);
-        data.put("address", address);
-        data.put("phone", phone);
+        try{
+            Map<String, Object> data = new HashMap<>();
+            data.put("agency", agency);
+            data.put("address", address);
+            data.put("phone", phone);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("users");
-        mDatabase.child(id).updateChildren(data);
+            mDatabase = FirebaseDatabase.getInstance().getReference("users");
+            mDatabase.child(id).updateChildren(data);
+
+            Log.d("Edit Seller", "Edit seller successfully");
+        }catch(Exception e){
+            Log.e("Edit Seller", String.valueOf(e));
+        }
     }
 
     public void updateUserSeller(String id, String agency, String phone, String address){
@@ -104,5 +116,59 @@ public class DBFirebase {
         }
     }
 
+    public void updateCourse(){
+//        update course func
+    }
+
+    public void deleteCourse(String course_id){
+        try{
+            mDatabase = FirebaseDatabase.getInstance().getReference("course");
+            mDatabase.child(course_id).removeValue();
+
+            Log.d("Delete Course", "Delete course successfully");
+        }catch(Exception e){
+            Log.e("Delete Course", String.valueOf(e));
+        }
+    }
+
+    public void createBab(String course_id, String name, String description){
+        try{
+            mDatabase = FirebaseDatabase.getInstance().getReference();
+            String bab_id = mDatabase.child("bab").push().getKey();
+
+            Bab bab = new Bab(bab_id, course_id, name, description);
+            mDatabase.child("bab").child(bab_id).setValue(bab);
+
+            Log.d("Create Bab", "Create bab successfully");
+        }catch(Exception e){
+            Log.e("Create Bab", String.valueOf(e));
+        }
+    }
+
+    public void updateBab(String bab_id, String name, String description){
+        try{
+            Map<String, Object> data = new HashMap<>();
+            data.put("name", name);
+            data.put("description", description);
+
+            mDatabase = FirebaseDatabase.getInstance().getReference("bab");
+            mDatabase.child(bab_id).updateChildren(data);
+
+            Log.d("Update Bab", "Update bab successfully");
+        }catch(Exception e){
+            Log.e("Update Bab", String.valueOf(e));
+        }
+    }
+
+    public void deleteBab(String bab_id){
+        try{
+            mDatabase = FirebaseDatabase.getInstance().getReference("bab");
+            mDatabase.child(bab_id).removeValue();
+
+            Log.d("Delete Bab", "Delete bab successfully");
+        }catch(Exception e){
+            Log.e("Delete Bab", String.valueOf(e));
+        }
+    }
 
 }
