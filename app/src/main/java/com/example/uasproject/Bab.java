@@ -4,17 +4,17 @@ public class Bab {
     private String bab_id;
     private String course_id;
     private String name;
-    private String description;
+    private String detail;
 
     public Bab(){
 //        Firebase Datasnapshot
     }
 
-    public Bab(String bab_id, String course_id, String name, String description){
+    public Bab(String bab_id, String course_id, String name, String detail){
         this.bab_id = bab_id;
         this.course_id = course_id;
         this.name = name;
-        this.description = description;
+        this.detail = detail;
     }
 
     public String getBab_id(){
@@ -41,11 +41,11 @@ public class Bab {
         this.name = name;
     }
 
-    public String getDescription(){
-        return description;
+    public String getDetail(){
+        return detail;
     }
 
-    public void setDescription(String description){
-        this.description = description;
+    public void setDetail(String detail){
+        this.detail = detail;
     }
 }

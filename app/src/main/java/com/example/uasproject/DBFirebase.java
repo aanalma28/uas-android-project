@@ -131,12 +131,12 @@ public class DBFirebase {
         }
     }
 
-    public void createBab(String course_id, String name, String description){
+    public void createBab(String course_id, String name, String detail){
         try{
             mDatabase = FirebaseDatabase.getInstance().getReference();
             String bab_id = mDatabase.child("bab").push().getKey();
 
-            Bab bab = new Bab(bab_id, course_id, name, description);
+            Bab bab = new Bab(bab_id, course_id, name, detail);
             mDatabase.child("bab").child(bab_id).setValue(bab);
 
             Log.d("Create Bab", "Create bab successfully");
@@ -145,13 +145,47 @@ public class DBFirebase {
         }
     }
 
-    public void updateBab(String bab_id, String name, String description){
+    public void updateBab(String bab_id, String name, String detail){
+//        This method make sure data is already in realtime db
+//        Querying for make sure data exist, need more latency
+
+//        mDatabase = FirebaseDatabase.getInstance().getReference("bab");
+//        DatabaseReference data = mDatabase.child(bab_id);
+//
+//        data.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if(snapshot.exists()){
+//                    Map<String, Object> data = new HashMap<>();
+//                    data.put("name", name);
+//                    data.put("description", detail);
+//
+//
+//                    mDatabase.child(bab_id).updateChildren(data);
+//
+//                    Log.d("Update Bab", "Update bab successfully");
+//                }else{
+//                    Log.d("Update Bab", "Data not found");
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                Log.w("TAG", "Failed to read value.", error.toException());
+//            }
+//        });
+
+//        This method directly update data without checking if data already exist
+//        This method faster than above cause, no need query for search if data exist
+//        Less latency
+
         try{
+            mDatabase = FirebaseDatabase.getInstance().getReference("bab");
+
             Map<String, Object> data = new HashMap<>();
             data.put("name", name);
-            data.put("description", description);
+            data.put("description", detail);
 
-            mDatabase = FirebaseDatabase.getInstance().getReference("bab");
             mDatabase.child(bab_id).updateChildren(data);
 
             Log.d("Update Bab", "Update bab successfully");
@@ -168,6 +202,47 @@ public class DBFirebase {
             Log.d("Delete Bab", "Delete bab successfully");
         }catch(Exception e){
             Log.e("Delete Bab", String.valueOf(e));
+        }
+    }
+
+    public void createMateri(String materi_id, String title, String description){
+        try{
+            mDatabase = FirebaseDatabase.getInstance().getReference();
+            String bab_id = mDatabase.child("materi").push().getKey();
+
+            Materi materi = new Materi(materi_id, bab_id, title, description);
+            mDatabase.child("materi").child(bab_id).setValue(materi);
+
+            Log.e("Create Materi", "Create materi successfully");
+        }catch(Exception e){
+            Log.e("Create Materi", String.valueOf(e));
+        }
+    }
+
+    public void updateMateri(String materi_id, String title, String description){
+        mDatabase = FirebaseDatabase.getInstance().getReference("materi");
+        DatabaseReference data = mDatabase
+        try{
+            Map<String, Object> data = new HashMap<>();
+            data.put("title", title);
+            data.put("description", description);
+
+            mDatabase.child(materi_id).updateChildren(data);
+
+            Log.e("Update Materi", "Update materi successfully");
+        }catch(Exception e){
+            Log.e("Update Materi", String.valueOf(e));
+        }
+    }
+
+    public void deleteMateri(String materi_id){
+        try{
+            mDatabase = FirebaseDatabase.getInstance().getReference("materi");
+            mDatabase.child(materi_id).removeValue();
+
+            Log.e("Delete Materi", "Delete materi successfully");
+        }catch(Exception e){
+            Log.e("Delete Materi", String.valueOf(e));
         }
     }
 
