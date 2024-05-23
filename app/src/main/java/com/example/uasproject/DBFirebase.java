@@ -220,8 +220,6 @@ public class DBFirebase {
     }
 
     public void updateMateri(String materi_id, String title, String description){
-        mDatabase = FirebaseDatabase.getInstance().getReference("materi");
-        DatabaseReference data = mDatabase
         try{
             Map<String, Object> data = new HashMap<>();
             data.put("title", title);
