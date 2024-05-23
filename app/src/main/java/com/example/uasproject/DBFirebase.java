@@ -36,6 +36,24 @@ public class DBFirebase {
         return data;
     }
 
+    public void updatePassword(String id, String newPassword){
+        Map<String, Object> update = new HashMap<>();
+        update.put("password", newPassword);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference("course");
+        mDatabase.child(id).updateChildren(update);
+    }
+
+    public void editUserSeller(String agency, String address, String phone, String id){
+        Map<String, Object> data = new HashMap<>();
+        data.put("agency", agency);
+        data.put("address", address);
+        data.put("phone", phone);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference("users");
+        mDatabase.child(id).updateChildren(data);
+    }
+
     public void updateUserSeller(String id, String agency, String phone, String address){
         DatabaseReference data = getUser(id);
         data.addValueEventListener(new ValueEventListener() {
@@ -85,7 +103,6 @@ public class DBFirebase {
             Log.e("Create Course", String.valueOf(e));
         }
     }
-
 
 
 }

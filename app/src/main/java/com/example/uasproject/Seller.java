@@ -81,10 +81,7 @@ public class Seller {
 //    @Exclude
 //    public Map<String, Object> toMap(){
 //        HashMap<String, Object> result = new HashMap<>();
-//        result.put("id", id);
 //        result.put("agency", agency);
-//        result.put("email", email);
-//        result.put("password", password);
 //        result.put("phone", phone);
 //        result.put("address", address);
 //
