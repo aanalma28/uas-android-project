@@ -118,7 +118,7 @@ public class DBFirebase {
         }
     }
 
-<<<<<<< HEAD
+
     public void updateCourse(){
 //        update course func
     }
@@ -236,21 +236,21 @@ public class DBFirebase {
         }
     }
 
-    public void deleteMateri(String materi_id){
-        try{
+    public void deleteMateri(String materi_id) {
+        try {
             mDatabase = FirebaseDatabase.getInstance().getReference("materi");
             mDatabase.child(materi_id).removeValue();
 
             Log.e("Delete Materi", "Delete materi successfully");
-        }catch(Exception e){
+        } catch (Exception e) {
             Log.e("Delete Materi", String.valueOf(e));
         }
-=======
+    }
+
     public Query getSpecifyCourse(String user_id){
         mDatabase = FirebaseDatabase.getInstance().getReference("course");
 
         return mDatabase.orderByChild("user_id").equalTo(user_id);
->>>>>>> 17029e4 (show specify course at draft)
     }
 
 }

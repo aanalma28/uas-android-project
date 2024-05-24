@@ -1,6 +1,7 @@
 package com.example.uasproject;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -45,6 +47,10 @@ public class DraftCourseAdapter extends RecyclerView.Adapter<DraftCourseAdapter.
         return new CourseViewHolder(v, recycleViewInterface);
     }
 
+    private Context getContext(View view) {
+        return view.getContext();
+    }
+
     @Override
     public void onBindViewHolder(@NonNull CourseViewHolder holder, int position) {
         try{
@@ -52,6 +58,7 @@ public class DraftCourseAdapter extends RecyclerView.Adapter<DraftCourseAdapter.
             DBFirebase db = new DBFirebase();
             String user_id = mAuth.getCurrentUser().getUid();
             DatabaseReference user = db.getUser(user_id);
+            String imgUrl = course.getImage();
 
             user.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -64,7 +71,7 @@ public class DraftCourseAdapter extends RecyclerView.Adapter<DraftCourseAdapter.
                         holder.title.setText(course.getName());
                         holder.agency.setText(seller.getAgency());
                         holder.description.setText(course.getDescription());
-
+                        Glide.with(getContext(holder.itemView)).load(imgUrl).fitCenter().into(holder.img_course);
 
                         Log.d("Course Data", "Course found");
                     }else{
