@@ -42,7 +42,13 @@ public class DashboardActivity extends AppCompatActivity {
         Button draft = findViewById(R.id.btn_draft);
         opsiInfoBimbel = findViewById(R.id.info_bimbel);
         TextView nama_bimbel = findViewById(R.id.txt_agency);
+        TextView info_bimbel = findViewById(R.id.info_bimbel);
         sharedPreferences = getSharedPreferences("myPref", MODE_PRIVATE);
+
+        info_bimbel.setOnClickListener(v -> {
+            Intent intent = new Intent(DashboardActivity.this, InfoBimbelActivity.class);
+            startActivity(intent);
+        });
 
         back.setOnClickListener(v -> {
             finish();
@@ -105,8 +111,14 @@ public class DashboardActivity extends AppCompatActivity {
                     if (dataSnapshot.exists()) {
                         // Mengambil field agency
                         String agency = dataSnapshot.child("agency").getValue(String.class);
+                        String address = dataSnapshot.child("address").getValue(String.class);
+                        String phone = dataSnapshot.child("phone").getValue(String.class);
                         Log.d(TAG, "Agency: " + agency);
+                        Log.d(TAG, "Address: " + address);
+                        Log.d(TAG, "Phone: " + phone);
                         editor.putString("agency", agency);
+                        editor.putString("address", address);
+                        editor.putString("phone", phone);
                         editor.apply();
                         // Anda dapat menggunakan field agency di sini (misalnya menampilkannya di UI)
                     } else {

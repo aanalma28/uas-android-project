@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".InfoBimbelActivity"
+    tools:context=".EditInfoBimbelActivity"
     android:background="@color/white">
 
     <ImageView
@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/back"
-        android:text="Informasi bimbel"
+        android:text="Edit Informasi bimbel"
         android:textColor="@color/black"
         android:textSize="16dp"
         android:fontFamily="@font/poppinsmedium"
@@ -43,7 +43,7 @@
         android:textColor="@color/black"
         android:textSize="14dp"/>
 
-    <TextView
+    <EditText
         android:id="@+id/info_nama_bimbel"
         android:layout_below="@id/label_nama_bimbel"
         android:layout_width="match_parent"
@@ -68,7 +68,7 @@
         android:textColor="@color/black"
         android:textSize="14dp"/>
 
-    <TextView
+    <EditText
         android:id="@+id/info_address"
         android:layout_below="@id/label_address"
         android:layout_width="match_parent"
@@ -93,7 +93,7 @@
         android:textColor="@color/black"
         android:textSize="14dp"/>
 
-    <TextView
+    <EditText
         android:id="@+id/info_nohp"
         android:layout_below="@id/label_nohp"
         android:layout_width="match_parent"
@@ -113,10 +113,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
-        android:background="@drawable/border_blue_shape"
-        android:text="Edit"
+        android:background="@drawable/button_shape"
+        android:text="Simpan"
         android:textAllCaps="false"
-        android:textColor="@color/bluePrimary"
+        android:textColor="@color/white"
         android:fontFamily="@font/poppinssemibold"
         android:textSize="16dp"/>
 
