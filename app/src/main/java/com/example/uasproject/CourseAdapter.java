@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.NumberFormat;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,7 +46,6 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     public void onBindViewHolder(@NonNull CourseViewHolder holder, int position) {
         try{
             Course course = courseList.get(position);
-
             DBFirebase db = new DBFirebase();
             DatabaseReference data = db.getUser(course.getUser_id());
 
@@ -64,7 +64,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
 
                         if (course != null) {
                             holder.titleCourse.setText(course.getName());
-                            holder.price.setText(String.valueOf(finalFormattedPrice));
+                            holder.price.setText(finalFormattedPrice);
                             holder.user_id.setText(name);
                             holder.descCourse.setText(course.getDescription());
                         }
