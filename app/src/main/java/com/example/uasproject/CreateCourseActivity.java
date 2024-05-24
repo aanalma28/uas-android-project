@@ -1,10 +1,12 @@
 package com.example.uasproject;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -16,6 +18,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import android.graphics.Bitmap;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,7 +36,8 @@ public class CreateCourseActivity extends AppCompatActivity {
     private EditText edtNama, edtTentang, edtPengajar, edtHarga;
     private DatabaseReference reference;
     private FirebaseAuth mAuth;
-
+    private ProgressBar progressBar;
+    private Button buttonSelectImage, buttonSimpan;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,8 +52,9 @@ public class CreateCourseActivity extends AppCompatActivity {
         edtTentang = findViewById(R.id.edt_tentang);
         edtPengajar = findViewById(R.id.edt_pengajar);
         edtHarga = findViewById(R.id.edt_harga);
-        Button buttonSelectImage = findViewById(R.id.select_img);
-        Button buttonSimpan = findViewById(R.id.btn_simpan);
+        buttonSelectImage = findViewById(R.id.select_img);
+        buttonSimpan = findViewById(R.id.btn_simpan);
+        progressBar = findViewById(R.id.progressBar);
         storageReference = FirebaseStorage.getInstance().getReference("uploads");
 
         buttonSelectImage.setOnClickListener(v -> openFileChooser());
@@ -89,6 +94,12 @@ public class CreateCourseActivity extends AppCompatActivity {
         try {
             DBFirebase db = new DBFirebase();
 
+            buttonSimpan.setBackgroundResource(R.drawable.button_shape_off);
+            buttonSimpan.setEnabled(false);
+            progressBar.setVisibility(View.VISIBLE);
+            progressBar.setIndeterminate(true);
+            progressBar.setIndeterminateTintList(ColorStateList.valueOf(getResources().getColor(R.color.bluePrimary)));
+
             if (imageUri != null) {
                 StorageReference fileReference = storageReference.child(System.currentTimeMillis() + ".jpg");
                 fileReference.putFile(imageUri)
@@ -99,19 +110,37 @@ public class CreateCourseActivity extends AppCompatActivity {
                                     String image = downloadUri.toString();
 
                                     db.createCourse(user_id, nama, pengajar, tentang, image, Integer.valueOf(harga));
+
+                                    buttonSimpan.setBackgroundResource(R.drawable.button_shape);
+                                    buttonSimpan.setEnabled(true);
+                                    progressBar.setVisibility(View.GONE);
+                                    progressBar.setIndeterminate(false);
+
                                     Toast.makeText(CreateCourseActivity.this, "Upload successful", Toast.LENGTH_SHORT).show();
                                     finish();
                                 }
                             });
                         })
                         .addOnFailureListener(e -> {
+                            buttonSimpan.setBackgroundResource(R.drawable.button_shape);
+                            buttonSimpan.setEnabled(true);
+                            progressBar.setVisibility(View.GONE);
+                            progressBar.setIndeterminate(false);
                             Toast.makeText(CreateCourseActivity.this, "Upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         });
             } else {
+                buttonSimpan.setBackgroundResource(R.drawable.button_shape);
+                buttonSimpan.setEnabled(true);
+                progressBar.setVisibility(View.GONE);
+                progressBar.setIndeterminate(false);
                 Toast.makeText(this, "No file selected", Toast.LENGTH_SHORT).show();
             }
 
         }catch(Exception e){
+            buttonSimpan.setBackgroundResource(R.drawable.button_shape);
+            buttonSimpan.setEnabled(true);
+            progressBar.setVisibility(View.GONE);
+            progressBar.setIndeterminate(false);
             Log.e("Input Course", String.valueOf(e));
         }
     }
