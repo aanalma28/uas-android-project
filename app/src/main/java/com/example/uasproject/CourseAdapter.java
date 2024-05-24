@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.NumberFormat;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -17,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
+import java.util.Locale;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseViewHolder> {
     private final RecycleViewInterface recycleViewInterface;
@@ -43,9 +45,13 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     public void onBindViewHolder(@NonNull CourseViewHolder holder, int position) {
         try{
             Course course = courseList.get(position);
-
             DBFirebase db = new DBFirebase();
             DatabaseReference data = db.getUser(course.getUser_id());
+            Locale localeID = new Locale("in", "ID");
+            NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
+            String formattedPrice = formatRupiah.format(course.getPrice());
+            formattedPrice = formattedPrice.replace("Rp", "Rp. ").replace(",00", "");
+            String finalFormattedPrice = formattedPrice;
             data.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -55,7 +61,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
 
                         if (course != null) {
                             holder.titleCourse.setText(course.getName());
-                            holder.price.setText(String.valueOf(course.getPrice()));
+                            holder.price.setText(String.valueOf(finalFormattedPrice));
                             holder.user_id.setText(name);
                             holder.descCourse.setText(course.getDescription());
                         }

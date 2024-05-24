@@ -32,6 +32,32 @@
         android:layout_marginTop="26dp"
         android:layout_marginLeft="16dp"/>
 
+    <ImageView
+        android:id="@+id/options"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/options"
+        android:padding="8dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="24dp"/>
+
+    <TextView
+        android:id="@+id/info_bimbel"
+        android:layout_below="@id/options"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Informasi bimbel"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="12dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/btn_border_grey_shape"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="8dp"
+        android:elevation="10dp"
+        android:visibility="gone"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_below="@+id/txt_agency"
         android:layout_width="match_parent"

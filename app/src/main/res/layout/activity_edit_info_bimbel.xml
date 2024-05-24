@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditInfoBimbelActivity"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_arrow_back_24"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="26dp"
+        android:layout_marginLeft="32dp"
+        />
+
+    <TextView
+        android:id="@+id/txt_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/back"
+        android:text="Edit Informasi bimbel"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        android:fontFamily="@font/poppinsmedium"
+        android:layout_marginTop="26dp"
+        android:layout_marginLeft="16dp"/>
+
+    <TextView
+        android:id="@+id/label_nama_bimbel"
+        android:layout_below="@id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nama bimbel"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/poppinsmedium"
+        android:textColor="@color/black"
+        android:textSize="14dp"/>
+
+    <EditText
+        android:id="@+id/info_nama_bimbel"
+        android:layout_below="@id/label_nama_bimbel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="nama bimbel"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/poppinsregular"
+        android:textColor="@color/black"
+        android:textSize="14dp"
+        android:background="@drawable/input_shape"/>
+
+    <TextView
+        android:id="@+id/label_address"
+        android:layout_below="@id/info_nama_bimbel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Alamat"
+        android:layout_marginLeft="32dp"
+        android:fontFamily="@font/poppinsmedium"
+        android:textColor="@color/black"
+        android:textSize="14dp"/>
+
+    <EditText
+        android:id="@+id/info_address"
+        android:layout_below="@id/label_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="address"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/poppinsregular"
+        android:textColor="@color/black"
+        android:textSize="14dp"
+        android:background="@drawable/input_shape"/>
+
+    <TextView
+        android:id="@+id/label_nohp"
+        android:layout_below="@id/info_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nomor telepon"
+        android:layout_marginLeft="32dp"
+        android:fontFamily="@font/poppinsmedium"
+        android:textColor="@color/black"
+        android:textSize="14dp"/>
+
+    <EditText
+        android:id="@+id/info_nohp"
+        android:layout_below="@id/label_nohp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="08xxxxxxxx"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/poppinsregular"
+        android:textColor="@color/black"
+        android:textSize="14dp"
+        android:background="@drawable/input_shape"/>
+
+    <Button
+        android:id="@+id/edit_info_bimbel"
+        android:layout_below="@+id/info_nohp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="32dp"
+        android:background="@drawable/button_shape"
+        android:text="Simpan"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:fontFamily="@font/poppinssemibold"
+        android:textSize="16dp"/>
+
+</RelativeLayout>
