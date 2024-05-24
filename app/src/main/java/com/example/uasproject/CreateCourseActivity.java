@@ -43,7 +43,7 @@ public class CreateCourseActivity extends AppCompatActivity {
             finish();
         });
 
-        imageView = findViewById(R.id.imageView);
+        imageView = findViewById(R.id.imagePreview);
         edtNama = findViewById(R.id.edt_nama);
         edtTentang = findViewById(R.id.edt_tentang);
         edtPengajar = findViewById(R.id.edt_pengajar);
@@ -100,6 +100,7 @@ public class CreateCourseActivity extends AppCompatActivity {
 
                                     db.createCourse(user_id, nama, pengajar, tentang, image, Integer.valueOf(harga));
                                     Toast.makeText(CreateCourseActivity.this, "Upload successful", Toast.LENGTH_SHORT).show();
+                                    finish();
                                 }
                             });
                         })
