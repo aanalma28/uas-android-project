@@ -94,6 +94,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         return courseList.size();
     }
 
+//    Search Course function
     @SuppressLint("NotifyDataSetChanged")
     public void updateList(List<Course> newList) {
         courseList = newList;

@@ -1,5 +1,6 @@
 package com.example.uasproject;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -75,6 +76,7 @@ public class HomeFragment extends Fragment implements RecycleViewInterface {
         homeRecycleView.setAdapter(courseAdapter);
 
         database.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Log.d("MainActivity", "DataSnapshot count: " + snapshot.getChildrenCount());

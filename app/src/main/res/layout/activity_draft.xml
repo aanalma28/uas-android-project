@@ -33,6 +33,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_below="@+id/back"
+        android:id="@+id/draft_recycle_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/item_course_draft"

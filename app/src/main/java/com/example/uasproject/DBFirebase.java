@@ -4,11 +4,13 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.firebase.Firebase;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
@@ -116,6 +118,7 @@ public class DBFirebase {
         }
     }
 
+<<<<<<< HEAD
     public void updateCourse(){
 //        update course func
     }
@@ -242,6 +245,12 @@ public class DBFirebase {
         }catch(Exception e){
             Log.e("Delete Materi", String.valueOf(e));
         }
+=======
+    public Query getSpecifyCourse(String user_id){
+        mDatabase = FirebaseDatabase.getInstance().getReference("course");
+
+        return mDatabase.orderByChild("user_id").equalTo(user_id);
+>>>>>>> 17029e4 (show specify course at draft)
     }
 
 }
