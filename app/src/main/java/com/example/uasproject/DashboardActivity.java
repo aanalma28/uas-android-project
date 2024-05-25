@@ -1,5 +1,6 @@
 package com.example.uasproject;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,28 +10,36 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-public class DashboardActivity extends AppCompatActivity {
-    private static final String TAG = "MainActivity";
+import java.util.ArrayList;
+import java.util.List;
+
+public class DashboardActivity extends AppCompatActivity implements RecycleViewInterface {
+    private static final String TAG = "DashboardActivity";
     TextView opsiInfoBimbel;
     FirebaseAuth mAuth;
     SharedPreferences sharedPreferences;
+    private List<Course> courseList;
+    private RecyclerView dashboardRecycleView;
+    private DashboardCourseAdapter dashboardCourseAdapter;
+    private DatabaseReference mDatabase;
+
+    public DashboardActivity(){
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +84,51 @@ public class DashboardActivity extends AppCompatActivity {
             nama_bimbel.setText("Pelajaran di " + agency);
             // Anda dapat menggunakan nilai agency di sini
         }
+
+        courseList = new ArrayList<>();
+
+        dashboardRecycleView = findViewById(R.id.dashboard_recycle_view);
+        dashboardRecycleView.setLayoutManager(new LinearLayoutManager(this));
+
+        dashboardCourseAdapter = new DashboardCourseAdapter( (RecycleViewInterface) this, courseList);
+        dashboardRecycleView.setAdapter(dashboardCourseAdapter);
+
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        String user_id = user.getUid().toString();
+        DBFirebase db = new DBFirebase();
+        Query data = db.getSpecifyOpenCourse();
+
+        data.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.d(TAG, "DataSnapshot count: " + snapshot.getChildrenCount());
+                courseList.clear();
+                try{
+                    if(snapshot.exists()){
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                            Log.d(TAG, "DataSnapshot: " + dataSnapshot.toString());
+                            Course course = dataSnapshot.getValue(Course.class);
+                            if(course != null && user_id.equals(course.getUser_id())){
+                                courseList.add(course);
+                            }
+                        }
+                        dashboardCourseAdapter.notifyDataSetChanged();
+                    }else{
+                        Log.d("FirebaseData", "No courses found for this user.");
+                    }
+                }catch(Exception e){
+                    Log.e("Get list Error", String.valueOf(e));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle database errors (e.g., display error message)
+                Log.e(TAG, "Error fetching data: ", error.toException());
+            }
+        });
     }
     private void toggleInfoBimbel() {
         Boolean cekvisibel = opsiInfoBimbel.getVisibility() == View.GONE;
@@ -134,5 +188,10 @@ public class DashboardActivity extends AppCompatActivity {
         } else {
             Log.d(TAG, "Pengguna belum login.");
         }
+    }
+
+    @Override
+    public void onItemClick(int position) {
+
     }
 }

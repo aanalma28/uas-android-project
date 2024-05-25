@@ -18,6 +18,12 @@
         tools:ignore="AppLinkUrlError"
         tools:targetApi="31">
         <activity
+            android:name=".DashboardDetailCourseActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GantiPasswordActivity"
+            android:exported="false" />
+        <activity
             android:name=".EditCourseActivity"
             android:exported="false" />
         <activity
