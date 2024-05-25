@@ -1,16 +1,20 @@
 package com.example.uasproject;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.NumberFormat;
+
+import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,6 +46,10 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         return new CourseViewHolder(v, recycleViewInterface);
     }
 
+    private Context getContext(View view) {
+        return view.getContext();
+    }
+
     @Override
     public void onBindViewHolder(@NonNull CourseViewHolder holder, int position) {
         try{
@@ -55,6 +63,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
                     if(snapshot.exists()){
                         User user = snapshot.getValue(User.class);
                         String name = user.getName();
+                        String imgUrl = course.getImage();
 
                         Locale localeID = new Locale("in", "ID");
                         NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
@@ -67,6 +76,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
                             holder.price.setText(finalFormattedPrice);
                             holder.user_id.setText(name);
                             holder.descCourse.setText(course.getDescription());
+                            Glide.with(getContext(holder.itemView)).load(imgUrl).fitCenter().into(holder.img_course);
                         }
                     }else{
                         Log.e("User Not found", "User doesnt exist");
@@ -97,7 +107,9 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     }
 
     public static class CourseViewHolder extends RecyclerView.ViewHolder {
-        public TextView titleCourse, price, user_id, descCourse ;
+        public TextView titleCourse, price, user_id, descCourse;
+
+        public ImageView img_course;
 
         public CourseViewHolder(@NonNull View itemView, RecycleViewInterface recycleViewInterface) {
             super(itemView);
@@ -105,6 +117,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             price = itemView.findViewById(R.id.price);
             user_id = itemView.findViewById(R.id.name_bimbel);
             descCourse = itemView.findViewById(R.id.desc_course);
+            img_course = itemView.findViewById(R.id.img_course);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
