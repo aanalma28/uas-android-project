@@ -107,6 +107,12 @@ public class DBFirebase {
 //        mDatabase.updateChildren(childUpdates);
     }
 
+    public DatabaseReference getAllCourses(){
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference data = mDatabase.child("course");
+        return data;
+    }
+
     public void createCourse(String user_id, String name, String instructor, String description, String image, Integer price){
         mDatabase = FirebaseDatabase.getInstance().getReference();
         String course_id = mDatabase.child("course").push().getKey();

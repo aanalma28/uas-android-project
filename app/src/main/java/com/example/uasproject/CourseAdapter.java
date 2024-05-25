@@ -34,6 +34,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         this.recycleViewInterface = recycleViewInterface;
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void setFilteredList(List<Course> filteredList){
         this.courseList = filteredList;
         notifyDataSetChanged();
@@ -56,6 +57,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             Course course = courseList.get(position);
             DBFirebase db = new DBFirebase();
             DatabaseReference data = db.getUser(course.getUser_id());
+
+            Log.d("AdapterCourse", course.getName());
 
             data.addValueEventListener(new ValueEventListener() {
                 @Override

@@ -49,23 +49,22 @@ public class HomeFragment extends Fragment implements RecycleViewInterface {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
+        courseList = new ArrayList<>();
+
         searchView = rootView.findViewById(R.id.search_box);
         searchView.clearFocus();
-            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String newText) {
-                    return false;
-                }
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String newText) {
+                return false;
+            }
 
-                @Override
-                public boolean onQueryTextChange(String newText) {
-                    filterList(newText);
-                    return false;
-                }
-            });
-
-
-        courseList = new ArrayList<>();
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterList(newText);
+                return false;
+            }
+        });
 
         database = FirebaseDatabase.getInstance().getReference().child("course");
 
@@ -75,17 +74,20 @@ public class HomeFragment extends Fragment implements RecycleViewInterface {
         courseAdapter = new CourseAdapter(courseList, this);
         homeRecycleView.setAdapter(courseAdapter);
 
+        Query data = database.child("status").equalTo("open");
+
         database.addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Log.d("MainActivity", "DataSnapshot count: " + snapshot.getChildrenCount());
                 courseList.clear();
+//                Log.d("MainActivity", "DataSnapshot count: " + snapshot.toString());
                 try{
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                         Log.d("MainActivity", "DataSnapshot: " + dataSnapshot.toString());
                         Course course = dataSnapshot.getValue(Course.class);
-                        if(course != null && !course.getStatus().equals("close")){
+                        if(course != null){
                             courseList.add(course);
                         }
                     }
@@ -108,16 +110,18 @@ public class HomeFragment extends Fragment implements RecycleViewInterface {
     private void filterList(String text) {
         Query searchQuery = database.orderByChild("name").startAt(text).endAt(text + "\uf8ff");
         searchQuery.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<Course> courseLists = new ArrayList<>();
+                courseList.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Course course = dataSnapshot.getValue(Course.class);
                     if(course != null && !course.getStatus().equals("close")){
-                        courseLists.add(course);
+                        courseList.add(course);
                     }
                 }
-                courseAdapter.updateList(courseLists);
+                courseAdapter.setFilteredList(courseList);
+                courseAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -140,20 +144,25 @@ public class HomeFragment extends Fragment implements RecycleViewInterface {
         formattedPrice = formattedPrice.replace("Rp", "Rp. ").replace(",00", "");
         String finalFormattedPrice = formattedPrice;
 
-        data.addValueEventListener(new ValueEventListener() {
+        data.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
-                String name = user.getName();
 
-                intent.putExtra("title_course", courseList.get(position).getName());
-                intent.putExtra("agency", name);
-                intent.putExtra("img", courseList.get(position).getImage());
-                intent.putExtra("desc", courseList.get(position).getDescription());
-                intent.putExtra("price", finalFormattedPrice);
-                intent.putExtra("instructor", courseList.get(position).getInstructor());
-                startActivity(intent);
+                if(user != null){
+                    String name = user.getName();
+                    intent.putExtra("title_course", courseList.get(position).getName());
+                    intent.putExtra("agency", name);
+                    intent.putExtra("img", courseList.get(position).getImage());
+                    intent.putExtra("desc", courseList.get(position).getDescription());
+                    intent.putExtra("price", finalFormattedPrice);
+                    intent.putExtra("instructor", courseList.get(position).getInstructor());
+                    startActivity(intent);
 //                ((Activity) getActivity()).overridePendingTransition(0, 0);
+
+                }else{
+                    Log.e("User", "User is null");
+                }
             }
 
             @Override
