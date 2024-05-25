@@ -32,20 +32,22 @@
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true">
         <ImageView
-            android:id="@id/img_detail_course"
+            android:id="@id/img_course"
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:background="@drawable/btn_profile_shape"
+            android:background="@drawable/bg_img"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
             android:layout_marginTop="24dp"
             android:layout_centerHorizontal="true"
             />
 
         <TextView
-            android:id="@+id/title_detail_course"
+            android:id="@+id/title_course"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/img_detail_course"
-            android:text="Persiapan UTB 2024"
+            android:layout_below="@+id/img_course"
+            android:text="Title course"
             android:fontFamily="@font/poppinssemibold"
             android:textSize="16dp"
             android:textColor="@color/black"
@@ -53,37 +55,37 @@
             />
 
         <LinearLayout
-            android:id="@+id/ly_detail_course"
+            android:id="@+id/ly_course"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_below="@+id/title_detail_course">
+            android:layout_below="@+id/title_course">
             
             <TextView
-                android:id="@+id/instructor_detail_course"
+                android:id="@+id/instructor_course"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppinsregular"
-                android:text="Joko"
+                android:text="Instructor"
                 android:textSize="12dp"
                 android:layout_marginRight="16dp" />
 
             <TextView
-                android:id="@+id/agency_detail_course"
+                android:id="@+id/agency_course"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppinsregular"
-                android:text="Ganesha Operation"
+                android:text="Nama bimbel"
                 android:textSize="12dp"
                 android:layout_marginRight="16dp"/>
 
         </LinearLayout>
 
         <TextView
-            android:id="@+id/price_detail"
+            android:id="@+id/price_course"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ly_detail_course"
+            android:layout_below="@id/ly_course"
             android:text="Rp. 200.000"
             android:fontFamily="@font/poppinssemibold"
             android:layout_marginTop="12dp"
@@ -95,7 +97,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Beli Sekarang"
-            android:layout_below="@+id/price_detail"
+            android:layout_below="@+id/price_course"
             android:textAllCaps="false"
             android:fontFamily="@font/poppinssemibold"
             android:textSize="16sp"
@@ -116,7 +118,7 @@
             />
 
         <TextView
-            android:id="@+id/desc_detail"
+            android:id="@+id/desc_course"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txt_detail_desc"

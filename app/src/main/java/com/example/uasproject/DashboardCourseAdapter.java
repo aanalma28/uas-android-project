@@ -25,13 +25,15 @@ import java.util.Locale;
 
 public class DashboardCourseAdapter extends RecyclerView.Adapter<DashboardCourseAdapter.CourseViewHolder>{
     private final RecycleViewInterface recycleViewInterface;
-    private List<Course> courseList;
+    private final List<Course> courseList;
+    private final Context context;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users");
 
     public DashboardCourseAdapter(RecycleViewInterface recycleViewInterface, List<Course> courseList) {
         this.recycleViewInterface = recycleViewInterface;
         this.courseList = courseList;
+        this.context = (Context) recycleViewInterface;
     }
 
     @NonNull
@@ -103,6 +105,19 @@ public class DashboardCourseAdapter extends RecyclerView.Adapter<DashboardCourse
             }catch (Exception e){
                 Log.e("Layout", String.valueOf(e));
             }
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (recycleViewInterface != null){
+                        int pos = getAdapterPosition();
+
+                        if (pos != RecyclerView.NO_POSITION){
+                            recycleViewInterface.onItemClick(pos);
+                        }
+                    }
+                }
+            });
         }
     }
 }
