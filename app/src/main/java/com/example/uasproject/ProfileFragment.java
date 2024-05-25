@@ -46,6 +46,7 @@ public class ProfileFragment extends Fragment {
         TextView email_akun = view.findViewById(R.id.email_akun);
         Button btn_logout = view.findViewById(R.id.logout);
         Button dashboard = view.findViewById(R.id.dashboard);
+        Button ganti_pass = view.findViewById(R.id.ganti_pass);
 
         sharedPreferences = getActivity().getSharedPreferences("myPref", Context.MODE_PRIVATE);
         String role = sharedPreferences.getString("role", "");
@@ -58,6 +59,11 @@ public class ProfileFragment extends Fragment {
             startActivity(intent);
             getActivity().finish();
 
+        });
+
+        ganti_pass.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), GantiPasswordActivity.class);
+            startActivity(intent);
         });
 
         dashboard.setOnClickListener(v -> {

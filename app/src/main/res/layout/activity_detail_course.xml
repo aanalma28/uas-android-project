@@ -85,7 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/ly_detail_course"
             android:text="Rp. 200.000"
-            android:fontFamily="@font/poppinsmedium"
+            android:fontFamily="@font/poppinssemibold"
             android:layout_marginTop="12dp"
             android:textColor="@color/yellow"
             android:textSize="20dp"/>

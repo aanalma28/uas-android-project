@@ -33,19 +33,13 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.List;
 
 public class DraftCourseAdapter extends RecyclerView.Adapter<DraftCourseAdapter.CourseViewHolder> {
-    private RecycleViewInterface recycleViewInterface;
+    private final RecycleViewInterface recycleViewInterface;
     private List<Course> courseList;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users");
     public DraftCourseAdapter(List<Course> courseList, RecycleViewInterface recycleViewInterface) {
         this.courseList = courseList;
         this.recycleViewInterface = recycleViewInterface;
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    public void setFilteredList(List<Course> filteredList){
-        this.courseList = filteredList;
-        notifyDataSetChanged();
     }
 
     @NonNull
