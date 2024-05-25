@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
-            android:id="@+id/txt_bab"
+            android:id="@+id/bab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Bab 1"
@@ -24,8 +24,8 @@
             android:paddingVertical="4dp"/>
 
         <TextView
-            android:id="@+id/txt_title_bab"
-            android:layout_below="@id/txt_bab"
+            android:id="@+id/title_bab"
+            android:layout_below="@id/bab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Title bab"
@@ -36,8 +36,8 @@
             android:paddingTop="8dp"/>
 
         <TextView
-            android:id="@+id/txt_materi"
-            android:layout_below="@id/txt_title_bab"
+            android:id="@+id/desc_bab"
+            android:layout_below="@id/title_bab"
             android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
