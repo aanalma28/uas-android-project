@@ -133,29 +133,27 @@ public class HomeFragment extends Fragment implements RecycleViewInterface {
         String id = courseList.get(position).getUser_id();
         DBFirebase db = new DBFirebase();
         DatabaseReference data = db.getUser(id);
+
         Locale localeID = new Locale("in", "ID");
         NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
         String formattedPrice = formatRupiah.format(courseList.get(position).getPrice());
         formattedPrice = formattedPrice.replace("Rp", "Rp. ").replace(",00", "");
         String finalFormattedPrice = formattedPrice;
+
         data.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
                 String name = user.getName();
 
-                Locale localeID = new Locale("in", "ID");
-                NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
-                String formattedPrice = formatRupiah.format(courseList.get(position).getPrice());
-                formattedPrice = formattedPrice.replace("Rp", "Rp. ").replace(",00", "");
                 intent.putExtra("title_course", courseList.get(position).getName());
                 intent.putExtra("agency", name);
+                intent.putExtra("img", courseList.get(position).getImage());
                 intent.putExtra("desc", courseList.get(position).getDescription());
-                intent.putExtra("price", formattedPrice);
                 intent.putExtra("price", finalFormattedPrice);
                 intent.putExtra("instructor", courseList.get(position).getInstructor());
                 startActivity(intent);
-                ((Activity) getActivity()).overridePendingTransition(0, 0);
+//                ((Activity) getActivity()).overridePendingTransition(0, 0);
             }
 
             @Override
