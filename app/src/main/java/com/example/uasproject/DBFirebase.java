@@ -253,4 +253,16 @@ public class DBFirebase {
         return mDatabase.orderByChild("user_id").equalTo(user_id);
     }
 
+    public Query getSpecifyOpenCourse(){
+        mDatabase = FirebaseDatabase.getInstance().getReference("course");
+
+        return mDatabase.orderByChild("status").equalTo("open");
+    }
+
+    public Query getSpecifyCloseCourse(){
+        mDatabase = FirebaseDatabase.getInstance().getReference("course");
+
+        return mDatabase.orderByChild("status").equalTo("close");
+    }
+
 }

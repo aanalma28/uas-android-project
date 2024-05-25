@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DashboardDetailCourseActivity"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_arrow_back_24"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="26dp"
+        android:layout_marginLeft="32dp"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="24dp">
+        <ImageView
+            android:id="@+id/btn_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_pen"
+            android:background="@drawable/btn_border_grey_shape"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="8dp"
+            android:layout_marginRight="8dp"/>
+
+        <ImageView
+            android:id="@+id/btn_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_trash"
+            android:background="@drawable/btn_border_grey_shape"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="8dp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/scrollview"
+        android:layout_below="@id/back"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="30dp">
+        <RelativeLayout
+            android:layout_below="@id/back"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_marginHorizontal="32dp">
+            <ImageView
+                android:id="@id/img_course"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:background="@drawable/btn_profile_shape"
+                android:layout_centerHorizontal="true"
+                />
+
+            <TextView
+                android:id="@+id/title_course"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img_course"
+                android:text="Title Course"
+                android:fontFamily="@font/poppinssemibold"
+                android:textSize="16dp"
+                android:textColor="@color/black"
+                android:layout_marginTop="16dp"
+                />
+
+            <LinearLayout
+                android:id="@+id/ly_detail_course"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@+id/title_course">
+
+                <TextView
+                    android:id="@+id/instructor_course"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppinsregular"
+                    android:text="Instructor"
+                    android:textSize="12dp"
+                    android:layout_marginRight="16dp" />
+
+                <TextView
+                    android:id="@+id/name_bimbel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppinsregular"
+                    android:text="Nama bimbel"
+                    android:textSize="12dp"
+                    android:layout_marginRight="16dp"/>
+
+                <TextView
+                    android:id="@+id/akses"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppinsregular"
+                    android:text="Akses 1 bulan"
+                    android:textSize="12dp"
+                    android:layout_marginRight="16dp"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/price_course"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ly_detail_course"
+                android:text="Rp. 200.000"
+                android:fontFamily="@font/poppinssemibold"
+                android:textColor="@color/yellow"
+                android:textSize="16dp"/>
+
+            <TextView
+                android:id="@+id/desc_course"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/price_course"
+                android:text="Lorem ipsum dolor sit amet consectetur. Elementum eget gravida rutrum mi eu sed velit. Vulputate nisl eget eget pellentesque senectus orci senectus quis. Magna nisi a sed aliquam laoreet. Id nullam viverra amet sollicitudin molestie arcu."
+                android:layout_marginTop="4dp"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                />
+
+            <TextView
+                android:id="@+id/daftar_bab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/desc_course"
+                android:text="Daftar Bab"
+                android:fontFamily="@font/poppinssemibold"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="16dp"
+                />
+
+            <TextView
+                android:id="@+id/jumlah_bab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/daftar_bab"
+                android:text="Jumlah Bab : 0"
+                android:fontFamily="@font/poppinsregular"
+                android:textSize="12sp"
+                android:textColor="@color/grey" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycleView_bab"
+                android:layout_below="@id/jumlah_bab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                tools:listitem="@layout/item_bab"/>
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/add_bab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/btn_circle_blue"
+        android:padding="16dp"/>
+</RelativeLayout>

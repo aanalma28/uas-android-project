@@ -57,7 +57,7 @@ public class DraftActivity extends AppCompatActivity implements RecycleViewInter
         FirebaseUser user = mAuth.getCurrentUser();
         String user_id = user.getUid().toString();
         DBFirebase db = new DBFirebase();
-        Query data = db.getSpecifyCourse(user_id);
+        Query data = db.getSpecifyCloseCourse();
 
         data.addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
@@ -70,7 +70,7 @@ public class DraftActivity extends AppCompatActivity implements RecycleViewInter
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                             Log.d("DraftActivity", "DataSnapshot: " + dataSnapshot.toString());
                             Course course = dataSnapshot.getValue(Course.class);
-                            if(course != null){
+                            if(course != null && user_id.equals(course.getUser_id())){
                                 courseList.add(course);
                             }
                         }

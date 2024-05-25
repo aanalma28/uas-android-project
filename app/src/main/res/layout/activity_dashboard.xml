@@ -59,6 +59,7 @@
         android:visibility="gone"/>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/dashboard_recycle_view"
         android:layout_below="@+id/txt_agency"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -1,6 +1,5 @@
 package com.example.uasproject;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,31 +12,32 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
-public class DraftCourseAdapter extends RecyclerView.Adapter<DraftCourseAdapter.CourseViewHolder> {
+public class DashboardCourseAdapter extends RecyclerView.Adapter<DashboardCourseAdapter.CourseViewHolder>{
     private final RecycleViewInterface recycleViewInterface;
     private List<Course> courseList;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users");
-    public DraftCourseAdapter(List<Course> courseList, RecycleViewInterface recycleViewInterface) {
-        this.courseList = courseList;
+
+    public DashboardCourseAdapter(RecycleViewInterface recycleViewInterface, List<Course> courseList) {
         this.recycleViewInterface = recycleViewInterface;
+        this.courseList = courseList;
     }
 
     @NonNull
     @Override
-    public CourseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_course_draft, parent, false);
+    public DashboardCourseAdapter.CourseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_course_in_dashboard, parent, false);
         return new CourseViewHolder(v, recycleViewInterface);
     }
 
@@ -46,7 +46,7 @@ public class DraftCourseAdapter extends RecyclerView.Adapter<DraftCourseAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CourseViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull DashboardCourseAdapter.CourseViewHolder holder, int position) {
         try{
             Course course = courseList.get(position);
             DBFirebase db = new DBFirebase();
@@ -85,10 +85,10 @@ public class DraftCourseAdapter extends RecyclerView.Adapter<DraftCourseAdapter.
 
     @Override
     public int getItemCount() {
-        return courseList.size();
+        return courseList.size() ;
     }
 
-    public static class CourseViewHolder extends RecyclerView.ViewHolder{
+    public static class CourseViewHolder extends RecyclerView.ViewHolder {
         public TextView title, agency, description;
         public ImageView img_course;
         public CourseViewHolder(@NonNull View itemView, RecycleViewInterface recycleViewInterface){
@@ -104,6 +104,5 @@ public class DraftCourseAdapter extends RecyclerView.Adapter<DraftCourseAdapter.
                 Log.e("Layout", String.valueOf(e));
             }
         }
-
     }
 }
