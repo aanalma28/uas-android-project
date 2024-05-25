@@ -1,18 +1,23 @@
 package com.example.uasproject;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -86,6 +91,57 @@ public class DraftCourseAdapter extends RecyclerView.Adapter<DraftCourseAdapter.
                         
                         holder.btn_publish.setOnClickListener(v -> {
                             Toast.makeText(getContext(holder.itemView), "Clicked", Toast.LENGTH_SHORT).show();
+                        });
+
+                        holder.btnDelete.setOnClickListener(v -> {
+                            ConstraintLayout alertConstrainLayout = holder.itemView.findViewById(R.id.alert_constrain_layout);
+                            View view = LayoutInflater.from(holder.itemView.getContext()).inflate(R.layout.alert_dialog, alertConstrainLayout, false);
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(holder.itemView.getContext());
+                            builder.setView(view);
+
+                            final AlertDialog alertDialog = builder.create();
+
+                            Button btnNo = view.findViewById(R.id.alertNo);
+                            Button btnDone = view.findViewById(R.id.alertDone);
+                            LinearLayout wrapper = view.findViewById(R.id.layout_loading);
+                            ConstraintLayout layoutDialog = view.findViewById(R.id.layout_dialog);
+                            ProgressBar progressBar = view.findViewById(R.id.progressBar);
+
+                            btnNo.setOnClickListener(v1 -> {
+                                alertDialog.dismiss();
+                            });
+
+                            btnDone.setOnClickListener(v1 -> {
+
+                                wrapper.setVisibility(View.VISIBLE);
+                                layoutDialog.setVisibility(View.GONE);
+                                progressBar.setVisibility(View.VISIBLE);
+                                progressBar.setIndeterminate(true);
+                                progressBar.setIndeterminateTintList(ColorStateList.valueOf(holder.itemView.getContext().getResources().getColor(R.color.bluePrimary)));
+
+                                DBFirebase db = new DBFirebase();
+                                db.deleteCourse(id);
+
+                                ConstraintLayout successConstrainLayout = holder.itemView.findViewById(R.id.success_constrain_layout);
+                                View viewSuccess = LayoutInflater.from(holder.itemView.getContext()).inflate(R.layout.success_dialog, successConstrainLayout, false);
+
+                                AlertDialog.Builder builderSuccess = new AlertDialog.Builder(holder.itemView.getContext());
+                                builderSuccess.setView(viewSuccess);
+
+                                final AlertDialog alertDialogSuccess = builderSuccess.create();
+
+                                Button tutup = viewSuccess.findViewById(R.id.successDone);
+
+                                tutup.setOnClickListener(v2 -> {
+                                    alertDialog.dismiss();
+                                    alertDialogSuccess.dismiss();
+                                });
+
+                                alertDialogSuccess.show();
+                            });
+
+                            alertDialog.show();
                         });
 
                         holder.btnEdit.setOnClickListener(v -> {
