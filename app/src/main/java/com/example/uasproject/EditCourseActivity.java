@@ -1,7 +1,11 @@
 package com.example.uasproject;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -10,25 +14,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-
-import androidx.activity.EdgeToEdge;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import android.graphics.Bitmap;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
-public class CreateCourseActivity extends AppCompatActivity {
-
+public class EditCourseActivity extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri imageUri;
     private ImageView imageView;
@@ -38,14 +34,22 @@ public class CreateCourseActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private ProgressBar progressBar;
     private Button buttonSelectImage, buttonSimpan;
+    private String old_name, old_desc, old_instructor, old_price, old_img, course_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_course);
+        setContentView(R.layout.activity_edit_course);
         ImageView back = findViewById(R.id.back);
         back.setOnClickListener(v -> {
             finish();
         });
+
+        old_name = getIntent().getStringExtra("name");
+        old_desc = getIntent().getStringExtra("desc");
+        old_instructor = getIntent().getStringExtra("instructor");
+        old_price = getIntent().getStringExtra("price");
+        old_img = getIntent().getStringExtra("image");
+        course_id = getIntent().getStringExtra("course_id");
 
         imageView = findViewById(R.id.imagePreview);
         edtNama = findViewById(R.id.edt_nama);
@@ -57,9 +61,14 @@ public class CreateCourseActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         storageReference = FirebaseStorage.getInstance().getReference("uploads");
 
+        edtNama.setText(old_name);
+        edtTentang.setText(old_desc);
+        edtPengajar.setText(old_instructor);
+        edtHarga.setText(old_price);
+        Glide.with(this).load(old_img).fitCenter().into(imageView);
+
         buttonSelectImage.setOnClickListener(v -> openFileChooser());
         buttonSimpan.setOnClickListener(v -> uploadCourse());
-
     }
 
     private void openFileChooser(){
@@ -89,7 +98,6 @@ public class CreateCourseActivity extends AppCompatActivity {
         String harga = edtHarga.getText().toString();
         String pengajar = edtPengajar.getText().toString();
         FirebaseUser user = mAuth.getInstance().getCurrentUser();
-        String user_id = user.getUid();
 
         try {
             DBFirebase db = new DBFirebase();
@@ -109,14 +117,14 @@ public class CreateCourseActivity extends AppCompatActivity {
                                     Uri downloadUri = task.getResult();
                                     String image = downloadUri.toString();
 
-                                    db.createCourse(user_id, nama, pengajar, tentang, image, Integer.valueOf(harga));
+                                    db.updateCourse(course_id, nama, pengajar, tentang, image, Integer.valueOf(harga));
 
                                     buttonSimpan.setBackgroundResource(R.drawable.button_shape);
                                     buttonSimpan.setEnabled(true);
                                     progressBar.setVisibility(View.GONE);
                                     progressBar.setIndeterminate(false);
 
-                                    Toast.makeText(CreateCourseActivity.this, "Upload successful", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(EditCourseActivity.this, "Update successful", Toast.LENGTH_SHORT).show();
                                     finish();
                                 }
                             });
@@ -126,7 +134,7 @@ public class CreateCourseActivity extends AppCompatActivity {
                             buttonSimpan.setEnabled(true);
                             progressBar.setVisibility(View.GONE);
                             progressBar.setIndeterminate(false);
-                            Toast.makeText(CreateCourseActivity.this, "Upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditCourseActivity.this, "Update failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         });
             } else {
                 buttonSimpan.setBackgroundResource(R.drawable.button_shape);

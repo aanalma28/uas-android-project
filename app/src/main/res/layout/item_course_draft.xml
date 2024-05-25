@@ -13,6 +13,7 @@
         android:paddingLeft="4dp">
 
         <TextView
+            android:id="@+id/btn_publish"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Publish"
@@ -28,6 +29,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:id="@+id/edit_course"
             android:src="@drawable/ic_pen"
             android:background="@drawable/btn_border_grey_shape"
             android:paddingHorizontal="12dp"
@@ -38,6 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:src="@drawable/ic_trash"
+            android:id="@+id/delete_course"
             android:background="@drawable/btn_border_grey_shape"
             android:paddingHorizontal="12dp"
             android:paddingVertical="8dp"/>

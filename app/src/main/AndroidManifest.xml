@@ -24,6 +24,9 @@
             android:name=".GantiPasswordActivity"
             android:exported="false" />
         <activity
+            android:name=".EditCourseActivity"
+            android:exported="false" />
+        <activity
             android:name=".EditInfoBimbelActivity"
             android:exported="false" />
         <activity
