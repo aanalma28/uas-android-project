@@ -27,7 +27,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/alertTitle" />
+            app:layout_constraintBottom_toTopOf="@+id/successTitle" />
 
         <TextView
             android:layout_width="match_parent"
@@ -53,7 +53,7 @@
             android:textSize="15sp"
             android:layout_marginEnd="20dp"
             android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@+id/alertTitle"
+            app:layout_constraintTop_toBottomOf="@+id/successTitle"
             app:layout_constraintBottom_toTopOf="@+id/successDone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
