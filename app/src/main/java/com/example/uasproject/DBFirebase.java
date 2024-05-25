@@ -119,8 +119,23 @@ public class DBFirebase {
     }
 
 
-    public void updateCourse(){
+    public void updateCourse(String course_id, String name, String instructor, String description, String image, Integer price){
 //        update course func
+        mDatabase = FirebaseDatabase.getInstance().getReference("course");
+        Map<String, Object> data = new HashMap<>();
+        data.put("name", name);
+        data.put("description", description);
+        data.put("instructor", instructor);
+        data.put("price", price);
+        data.put("image", image);
+
+        mDatabase.child(course_id).updateChildren(data).addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                Log.d("UpdateCourse", "Course updated successfully.");
+            }else{
+                Log.e("UpdateCourse", "Failed to update course.", task.getException());
+            }
+        });
     }
 
     public void deleteCourse(String course_id){
