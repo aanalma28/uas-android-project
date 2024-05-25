@@ -18,6 +18,12 @@
         tools:ignore="AppLinkUrlError"
         tools:targetApi="31">
         <activity
+            android:name=".BabActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CreateBabActivity"
+            android:exported="false" />
+        <activity
             android:name=".DashboardDetailCourseActivity"
             android:exported="false" />
         <activity
