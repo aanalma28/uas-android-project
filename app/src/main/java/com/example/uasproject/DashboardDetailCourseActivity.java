@@ -36,6 +36,12 @@ public class DashboardDetailCourseActivity extends AppCompatActivity {
         TextView desc = findViewById(R.id.desc_course);
         ImageView img = findViewById(R.id.img_course);
         ImageView btnEdit = findViewById(R.id.btn_edit);
+        ImageView btnCreateBab = findViewById(R.id.add_bab);
+
+        btnCreateBab.setOnClickListener(v -> {
+            Intent intent = new Intent(DashboardDetailCourseActivity.this, CreateBabActivity.class);
+            startActivity(intent);
+        });
 
         btnEdit.setOnClickListener(v -> {
             Intent intent = new Intent(DashboardDetailCourseActivity.this, EditCourseActivity.class);
