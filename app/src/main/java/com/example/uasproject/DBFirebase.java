@@ -4,6 +4,8 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.Firebase;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
@@ -138,10 +140,10 @@ public class DBFirebase {
         });
     }
 
-    public void deleteCourse(String course_id){
+    public void deleteCourse(String course_id, OnCompleteListener<Void> onCompleteListener){
         try{
             mDatabase = FirebaseDatabase.getInstance().getReference("course");
-            mDatabase.child(course_id).removeValue();
+            mDatabase.child(course_id).removeValue().addOnCompleteListener(onCompleteListener);
 
             Log.d("Delete Course", "Delete course successfully");
         }catch(Exception e){

@@ -21,6 +21,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -94,14 +96,6 @@ public class DraftCourseAdapter extends RecyclerView.Adapter<DraftCourseAdapter.
 
                             final AlertDialog alertDialog = builder.create();
 
-                            ConstraintLayout successConstrainLayout = holder.itemView.findViewById(R.id.success_constrain_layout);
-                            View viewSuccess = LayoutInflater.from(holder.itemView.getContext()).inflate(R.layout.success_dialog, successConstrainLayout, false);
-
-                            AlertDialog.Builder builderSuccess = new AlertDialog.Builder(holder.itemView.getContext());
-                            builderSuccess.setView(viewSuccess);
-
-                            final AlertDialog alertDialogSuccess = builderSuccess.create();
-
                             Button btnNo = view.findViewById(R.id.alertNo);
                             Button btnDone = view.findViewById(R.id.alertDone);
                             ImageView imgView = view.findViewById(R.id.centeredImageView);
@@ -123,38 +117,44 @@ public class DraftCourseAdapter extends RecyclerView.Adapter<DraftCourseAdapter.
                             });
 
                             btnDone.setOnClickListener(v1 -> {
-                                try{
-                                    wrapper.setVisibility(View.VISIBLE);
-                                    layoutDialog.setVisibility(View.GONE);
-                                    progressBar.setVisibility(View.VISIBLE);
-                                    progressBar.setIndeterminate(true);
-                                    progressBar.setIndeterminateTintList(ColorStateList.valueOf(holder.itemView.getContext().getResources().getColor(R.color.bluePrimary)));
+                                wrapper.setVisibility(View.VISIBLE);
+                                layoutDialog.setVisibility(View.GONE);
+                                progressBar.setVisibility(View.VISIBLE);
+                                progressBar.setIndeterminate(true);
+                                progressBar.setIndeterminateTintList(ColorStateList.valueOf(holder.itemView.getContext().getResources().getColor(R.color.bluePrimary)));
 
-                                    DatabaseReference db = FirebaseDatabase.getInstance().getReference("course");
-                                    Map<String, Object> data = new HashMap<>();
-                                    data.put("status", "open");
+                                DatabaseReference db = FirebaseDatabase.getInstance().getReference("course");
+                                Map<String, Object> data = new HashMap<>();
+                                data.put("status", "open");
 
-                                    db.child(id).updateChildren(data);
+                                db.child(id).updateChildren(data).addOnCompleteListener(task -> {
+                                    if(task.isSuccessful()){
+                                        ConstraintLayout successConstrainLayout = holder.itemView.findViewById(R.id.success_constrain_layout);
+                                        View viewSuccess = LayoutInflater.from(holder.itemView.getContext()).inflate(R.layout.success_dialog, successConstrainLayout, false);
 
-                                    TextView successTitle = viewSuccess.findViewById(R.id.successTitle);
-                                    TextView successDesc = viewSuccess.findViewById(R.id.successDesc);
-                                    Button tutup = viewSuccess.findViewById(R.id.successDone);
+                                        AlertDialog.Builder builderSuccess = new AlertDialog.Builder(holder.itemView.getContext());
+                                        builderSuccess.setView(viewSuccess);
 
-                                    successDesc.setText("Modul berhasil di publish !");
+                                        final AlertDialog alertDialogSuccess = builderSuccess.create();
 
-                                    tutup.setOnClickListener(v2 -> {
+                                        TextView successTitle = viewSuccess.findViewById(R.id.successTitle);
+                                        TextView successDesc = viewSuccess.findViewById(R.id.successDesc);
+                                        Button tutup = viewSuccess.findViewById(R.id.successDone);
+
+                                        successDesc.setText("Modul berhasil di publish !");
+
+                                        tutup.setOnClickListener(v2 -> {
+                                            alertDialogSuccess.dismiss();
+                                        });
+
                                         alertDialog.dismiss();
-                                        alertDialogSuccess.dismiss();
-                                    });
-
-                                    alertDialogSuccess.show();
-                                }catch(Exception e){
-                                    alertDialogSuccess.dismiss();
-                                    alertDialog.dismiss();
-                                    Toast.makeText(holder.itemView.getContext(), "Oopss! Sepertinya ada kesalahan", Toast.LENGTH_SHORT).show();
-                                }
+                                        alertDialogSuccess.show();
+                                    }else{
+                                        Toast.makeText(holder.itemView.getContext(), "Oops... Sepertinya ada yang salah", Toast.LENGTH_SHORT).show();
+                                        alertDialog.dismiss();
+                                    }
+                                });
                             });
-
                             alertDialog.show();
                         });
 
@@ -186,28 +186,31 @@ public class DraftCourseAdapter extends RecyclerView.Adapter<DraftCourseAdapter.
                             });
 
                             btnDone.setOnClickListener(v1 -> {
-                                try{
-                                    wrapper.setVisibility(View.VISIBLE);
-                                    layoutDialog.setVisibility(View.GONE);
-                                    progressBar.setVisibility(View.VISIBLE);
-                                    progressBar.setIndeterminate(true);
-                                    progressBar.setIndeterminateTintList(ColorStateList.valueOf(holder.itemView.getContext().getResources().getColor(R.color.bluePrimary)));
+                                wrapper.setVisibility(View.VISIBLE);
+                                layoutDialog.setVisibility(View.GONE);
+                                progressBar.setVisibility(View.VISIBLE);
+                                progressBar.setIndeterminate(true);
+                                progressBar.setIndeterminateTintList(ColorStateList.valueOf(holder.itemView.getContext().getResources().getColor(R.color.bluePrimary)));
 
-                                    DBFirebase db = new DBFirebase();
-                                    db.deleteCourse(id);
+                                DBFirebase db = new DBFirebase();
+                                db.deleteCourse(id, new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()){
+                                            Button tutup = viewSuccess.findViewById(R.id.successDone);
 
-                                    Button tutup = viewSuccess.findViewById(R.id.successDone);
+                                            tutup.setOnClickListener(v2 -> {
+                                                alertDialogSuccess.dismiss();
+                                            });
 
-                                    tutup.setOnClickListener(v2 -> {
-                                        alertDialog.dismiss();
-                                        alertDialogSuccess.dismiss();
-                                    });
-
-                                    alertDialogSuccess.show();
-                                }catch(Exception e){
-                                    alertDialogSuccess.dismiss();
-                                    alertDialog.dismiss();
-                                }
+                                            alertDialog.dismiss();
+                                            alertDialogSuccess.show();
+                                        }else{
+                                            Toast.makeText(holder.itemView.getContext(), "Oops... Sepertinya ada yang salah", Toast.LENGTH_SHORT).show();
+                                            alertDialog.dismiss();
+                                        }
+                                    }
+                                });
                             });
 
                             alertDialog.show();
