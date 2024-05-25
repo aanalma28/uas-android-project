@@ -70,7 +70,7 @@ public class DraftActivity extends AppCompatActivity implements RecycleViewInter
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                             Log.d("DraftActivity", "DataSnapshot: " + dataSnapshot.toString());
                             Course course = dataSnapshot.getValue(Course.class);
-                            if(course != null && user_id.equals(course.getUser_id())){
+                            if(course != null && user_id.equals(course.getUser_id()) && course.getStatus().equals("close")){
                                 courseList.add(course);
                             }
                         }

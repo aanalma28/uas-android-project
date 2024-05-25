@@ -30,7 +30,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DraftCourseAdapter extends RecyclerView.Adapter<DraftCourseAdapter.CourseViewHolder> {
     private final RecycleViewInterface recycleViewInterface;
@@ -84,7 +86,76 @@ public class DraftCourseAdapter extends RecyclerView.Adapter<DraftCourseAdapter.
                         Glide.with(getContext(holder.itemView)).load(imgUrl).fitCenter().into(holder.img_course);
                         
                         holder.btn_publish.setOnClickListener(v -> {
-                            Toast.makeText(getContext(holder.itemView), "Clicked", Toast.LENGTH_SHORT).show();
+                            ConstraintLayout alertConstrainLayout = holder.itemView.findViewById(R.id.alert_constrain_layout);
+                            View view = LayoutInflater.from(holder.itemView.getContext()).inflate(R.layout.alert_dialog, alertConstrainLayout, false);
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(holder.itemView.getContext());
+                            builder.setView(view);
+
+                            final AlertDialog alertDialog = builder.create();
+
+                            ConstraintLayout successConstrainLayout = holder.itemView.findViewById(R.id.success_constrain_layout);
+                            View viewSuccess = LayoutInflater.from(holder.itemView.getContext()).inflate(R.layout.success_dialog, successConstrainLayout, false);
+
+                            AlertDialog.Builder builderSuccess = new AlertDialog.Builder(holder.itemView.getContext());
+                            builderSuccess.setView(viewSuccess);
+
+                            final AlertDialog alertDialogSuccess = builderSuccess.create();
+
+                            Button btnNo = view.findViewById(R.id.alertNo);
+                            Button btnDone = view.findViewById(R.id.alertDone);
+                            ImageView imgView = view.findViewById(R.id.centeredImageView);
+                            TextView publishTxt = view.findViewById(R.id.alertTitle);
+                            TextView publishDesc = view.findViewById(R.id.alertDesc);
+
+                            imgView.setImageResource(R.drawable.info);
+                            publishTxt.setText("Publish");
+                            publishDesc.setText("Kamu yakin ingin publish modul ini?");
+                            btnDone.setBackgroundResource(R.drawable.btn_info);
+                            btnDone.setText("Publish");
+
+                            LinearLayout wrapper = view.findViewById(R.id.layout_loading);
+                            ConstraintLayout layoutDialog = view.findViewById(R.id.layout_dialog);
+                            ProgressBar progressBar = view.findViewById(R.id.progressBar);
+
+                            btnNo.setOnClickListener(v1 -> {
+                                alertDialog.dismiss();
+                            });
+
+                            btnDone.setOnClickListener(v1 -> {
+                                try{
+                                    wrapper.setVisibility(View.VISIBLE);
+                                    layoutDialog.setVisibility(View.GONE);
+                                    progressBar.setVisibility(View.VISIBLE);
+                                    progressBar.setIndeterminate(true);
+                                    progressBar.setIndeterminateTintList(ColorStateList.valueOf(holder.itemView.getContext().getResources().getColor(R.color.bluePrimary)));
+
+                                    DatabaseReference db = FirebaseDatabase.getInstance().getReference("course");
+                                    Map<String, Object> data = new HashMap<>();
+                                    data.put("status", "open");
+
+                                    db.child(id).updateChildren(data);
+
+                                    TextView successTitle = viewSuccess.findViewById(R.id.successTitle);
+                                    TextView successDesc = viewSuccess.findViewById(R.id.successDesc);
+                                    Button tutup = viewSuccess.findViewById(R.id.successDone);
+
+                                    successDesc.setText("Modul berhasil di publish !");
+
+                                    tutup.setOnClickListener(v2 -> {
+                                        alertDialog.dismiss();
+                                        alertDialogSuccess.dismiss();
+                                    });
+
+                                    alertDialogSuccess.show();
+                                }catch(Exception e){
+                                    alertDialogSuccess.dismiss();
+                                    alertDialog.dismiss();
+                                    Toast.makeText(holder.itemView.getContext(), "Oopss! Sepertinya ada kesalahan", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                            alertDialog.show();
                         });
 
                         holder.btnDelete.setOnClickListener(v -> {
@@ -95,6 +166,14 @@ public class DraftCourseAdapter extends RecyclerView.Adapter<DraftCourseAdapter.
                             builder.setView(view);
 
                             final AlertDialog alertDialog = builder.create();
+
+                            ConstraintLayout successConstrainLayout = holder.itemView.findViewById(R.id.success_constrain_layout);
+                            View viewSuccess = LayoutInflater.from(holder.itemView.getContext()).inflate(R.layout.success_dialog, successConstrainLayout, false);
+
+                            AlertDialog.Builder builderSuccess = new AlertDialog.Builder(holder.itemView.getContext());
+                            builderSuccess.setView(viewSuccess);
+
+                            final AlertDialog alertDialogSuccess = builderSuccess.create();
 
                             Button btnNo = view.findViewById(R.id.alertNo);
                             Button btnDone = view.findViewById(R.id.alertDone);
@@ -107,32 +186,28 @@ public class DraftCourseAdapter extends RecyclerView.Adapter<DraftCourseAdapter.
                             });
 
                             btnDone.setOnClickListener(v1 -> {
+                                try{
+                                    wrapper.setVisibility(View.VISIBLE);
+                                    layoutDialog.setVisibility(View.GONE);
+                                    progressBar.setVisibility(View.VISIBLE);
+                                    progressBar.setIndeterminate(true);
+                                    progressBar.setIndeterminateTintList(ColorStateList.valueOf(holder.itemView.getContext().getResources().getColor(R.color.bluePrimary)));
 
-                                wrapper.setVisibility(View.VISIBLE);
-                                layoutDialog.setVisibility(View.GONE);
-                                progressBar.setVisibility(View.VISIBLE);
-                                progressBar.setIndeterminate(true);
-                                progressBar.setIndeterminateTintList(ColorStateList.valueOf(holder.itemView.getContext().getResources().getColor(R.color.bluePrimary)));
+                                    DBFirebase db = new DBFirebase();
+                                    db.deleteCourse(id);
 
-                                DBFirebase db = new DBFirebase();
-                                db.deleteCourse(id);
+                                    Button tutup = viewSuccess.findViewById(R.id.successDone);
 
-                                ConstraintLayout successConstrainLayout = holder.itemView.findViewById(R.id.success_constrain_layout);
-                                View viewSuccess = LayoutInflater.from(holder.itemView.getContext()).inflate(R.layout.success_dialog, successConstrainLayout, false);
+                                    tutup.setOnClickListener(v2 -> {
+                                        alertDialog.dismiss();
+                                        alertDialogSuccess.dismiss();
+                                    });
 
-                                AlertDialog.Builder builderSuccess = new AlertDialog.Builder(holder.itemView.getContext());
-                                builderSuccess.setView(viewSuccess);
-
-                                final AlertDialog alertDialogSuccess = builderSuccess.create();
-
-                                Button tutup = viewSuccess.findViewById(R.id.successDone);
-
-                                tutup.setOnClickListener(v2 -> {
-                                    alertDialog.dismiss();
+                                    alertDialogSuccess.show();
+                                }catch(Exception e){
                                     alertDialogSuccess.dismiss();
-                                });
-
-                                alertDialogSuccess.show();
+                                    alertDialog.dismiss();
+                                }
                             });
 
                             alertDialog.show();
