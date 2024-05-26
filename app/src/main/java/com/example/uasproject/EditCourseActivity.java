@@ -64,8 +64,17 @@ public class EditCourseActivity extends AppCompatActivity {
         edtNama.setText(old_name);
         edtTentang.setText(old_desc);
         edtPengajar.setText(old_instructor);
-        edtHarga.setText(old_price);
         Glide.with(this).load(old_img).fitCenter().into(imageView);
+        if (old_price != null) {
+            try {
+                String normalizedPrice = old_price.replace("Rp. ", "").replace(".", "");
+                edtHarga.setText(normalizedPrice);
+            } catch (NumberFormatException e) {
+                Log.e("EditCourseActivity", "Error parsing price: ", e);
+            }
+        } else {
+            Log.e("EditCourseActivity", "Price extra is null");
+        }
 
         buttonSelectImage.setOnClickListener(v -> openFileChooser());
         buttonSimpan.setOnClickListener(v -> uploadCourse());
