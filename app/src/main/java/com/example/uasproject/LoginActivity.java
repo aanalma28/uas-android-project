@@ -25,7 +25,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -74,53 +76,69 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful()){
-                                    Toast.makeText(LoginActivity.this, "Berhasil masuk", Toast.LENGTH_SHORT).show();
-                                    Log.d("Login Succes", "Login Successfully");
-
                                     DBFirebase getData = new DBFirebase();
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     String id = user.getUid();
                                     DatabaseReference data = getData.getUser(id);
 
-                                    data.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                                    Log.d("USER", String.valueOf(id));
+                                    Log.d("USER DATA", String.valueOf(data));
+
+                                    data.addValueEventListener(new ValueEventListener() {
                                         @Override
-                                        public void onComplete(@NonNull Task<DataSnapshot> task) {
-                                            if(!task.isSuccessful()){
-                                                Log.e("firebase error", "Error getting data", task.getException());
-                                            }else{
-                                                String nama = task.getResult().child("name").getValue().toString();
-                                                String email = task.getResult().child("email").getValue().toString();
-                                                String role = task.getResult().child("role").getValue().toString();
-                                                Log.d("role", "onComplete: " + role);
-                                                editor.putString("nama", nama);
-                                                editor.putString("email", email);
-                                                editor.putBoolean("masuk", true);
-                                                editor.putString("role", role);
-                                                editor.apply();
-                                                Log.d("firebase success", String.valueOf(task.getResult().getValue()));
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            try{
+                                                if(snapshot.exists()){
+
+                                                    if(snapshot.hasChild("name")){
+                                                        String nama = snapshot.child("name").getValue(String.class);
+                                                        editor.putString("nama", nama);
+                                                    }else{
+                                                        String agency = snapshot.child("agency").getValue(String.class);
+                                                        editor.putString("nama", agency);
+                                                    }
+
+                                                    String email = snapshot.child("email").getValue(String.class);
+                                                    String role = snapshot.child("role").getValue(String.class);
+
+                                                    editor.putString("email", email);
+                                                    editor.putBoolean("masuk", true);
+                                                    editor.putString("role", role);
+                                                    editor.apply();
+
+                                                    Intent main = new Intent(LoginActivity.this, MainActivity.class);
+
+                                                    btn_login.setBackgroundResource(R.drawable.button_shape);
+                                                    btn_login.setEnabled(true);
+                                                    progressBar.setVisibility(View.GONE);
+                                                    progressBar.setIndeterminate(false);
+
+                                                    Toast.makeText(LoginActivity.this, "Berhasil masuk", Toast.LENGTH_SHORT).show();
+                                                    Log.d("Login Succes", "Login Successfully");
+
+                                                    startActivity(main);
+                                                    finish();
+                                                }
+                                            }catch(Exception e){
+                                                btn_login.setBackgroundResource(R.drawable.button_shape);
+                                                btn_login.setEnabled(true);
+                                                progressBar.setVisibility(View.GONE);
+                                                progressBar.setIndeterminate(false);
+                                                Log.e("SNAPSHOT USER", String.valueOf(e));
                                             }
                                         }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+                                            btn_login.setBackgroundResource(R.drawable.button_shape);
+                                            btn_login.setEnabled(true);
+                                            progressBar.setVisibility(View.GONE);
+                                            progressBar.setIndeterminate(false);
+                                            Log.e("SNAPSHOT DATABASE", String.valueOf(error));
+                                        }
                                     });
-                                    Intent main = new Intent(LoginActivity.this, MainActivity.class);
-
-                                    btn_login.setBackgroundResource(R.drawable.button_shape);
-                                    btn_login.setEnabled(true);
-                                    progressBar.setVisibility(View.GONE);
-                                    progressBar.setIndeterminate(false);
-
-                                    startActivity(main);
-                                    finish();
-//                                    try{
-//                                    }catch(Exception e){
-//                                        Log.e("Session error", String.valueOf(e));
-//                                    }finally {
-//                                        btn_login.setBackgroundResource(R.drawable.button_shape);
-//                                        btn_login.setEnabled(true);
-//                                        progressBar.setVisibility(View.GONE);
-//                                        progressBar.setIndeterminate(false);
-//                                    }
                                 }else{
-                                    Toast.makeText(LoginActivity.this, "Gagal Masuk", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginActivity.this, task.getException().getMessage().toString(), Toast.LENGTH_SHORT).show();
                                     Log.e("Login Error", String.valueOf(task.getException()));
 
                                     btn_login.setBackgroundResource(R.drawable.button_shape);

@@ -45,7 +45,7 @@ public class DBFirebase {
             Map<String, Object> update = new HashMap<>();
             update.put("password", newPassword);
 
-            mDatabase = FirebaseDatabase.getInstance().getReference("course");
+            mDatabase = FirebaseDatabase.getInstance().getReference("users");
             mDatabase.child(id).updateChildren(update);
 
             Log.d("Update Password", "Update password successfully");
@@ -80,7 +80,7 @@ public class DBFirebase {
 
                     String email = user.getEmail();
                     String password = user.getPassword();
-                    String role = "Seller";
+                    String role = "Agency";
                     Seller seller = new Seller(id, agency, email, password, phone, address, role);
 
                     mDatabase = FirebaseDatabase.getInstance().getReference();

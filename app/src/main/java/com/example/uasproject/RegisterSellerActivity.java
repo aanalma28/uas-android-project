@@ -68,7 +68,7 @@ public class RegisterSellerActivity extends AppCompatActivity {
 
                     editor.putString("nama", bimbel);
                     editor.putString("email", user.getEmail().toString());
-                    editor.putString("role", "Seller");
+                    editor.putString("role", "Agency");
                     editor.apply();
 
                     Intent intent = new Intent(RegisterSellerActivity.this, MainActivity.class);

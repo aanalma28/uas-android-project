@@ -67,7 +67,7 @@ public class ProfileFragment extends Fragment {
         });
 
         dashboard.setOnClickListener(v -> {
-            if (role.equals("agency")) {
+            if (role.equals("Agency")) {
                 Log.d("Role", "sharedpreferences: " + role);
                 Intent intent = new Intent(getActivity(), DashboardActivity.class);
                 startActivity(intent);
