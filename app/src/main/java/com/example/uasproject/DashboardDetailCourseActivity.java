@@ -1,17 +1,29 @@
 package com.example.uasproject;
 
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 public class DashboardDetailCourseActivity extends AppCompatActivity {
 
@@ -36,6 +48,7 @@ public class DashboardDetailCourseActivity extends AppCompatActivity {
         TextView desc = findViewById(R.id.desc_course);
         ImageView img = findViewById(R.id.img_course);
         ImageView btnEdit = findViewById(R.id.btn_edit);
+        ImageView btnDelete = findViewById(R.id.btn_delete);
         ImageView btnCreateBab = findViewById(R.id.add_bab);
 
         btnCreateBab.setOnClickListener(v -> {
@@ -60,6 +73,66 @@ public class DashboardDetailCourseActivity extends AppCompatActivity {
         price.setText(priceCourse);
         desc.setText(descCourse);
         Glide.with(this).load(imgCourse).fitCenter().into(img);
+
+        btnDelete.setOnClickListener(v -> {
+            ConstraintLayout alertConstrainLayout = findViewById(R.id.alert_constrain_layout);
+            View view = LayoutInflater.from(this).inflate(R.layout.alert_dialog, alertConstrainLayout, false);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setView(view);
+
+            final AlertDialog alertDialog = builder.create();
+
+            ConstraintLayout successConstrainLayout = findViewById(R.id.success_constrain_layout);
+            View viewSuccess = LayoutInflater.from(this).inflate(R.layout.success_dialog, successConstrainLayout, false);
+
+            AlertDialog.Builder builderSuccess = new AlertDialog.Builder(this);
+            builderSuccess.setView(viewSuccess);
+
+            final AlertDialog alertDialogSuccess = builderSuccess.create();
+
+            Button btnNo = view.findViewById(R.id.alertNo);
+            Button btnDone = view.findViewById(R.id.alertDone);
+            LinearLayout wrapper = view.findViewById(R.id.layout_loading);
+            ConstraintLayout layoutDialog = view.findViewById(R.id.layout_dialog);
+            ProgressBar progressBar = view.findViewById(R.id.progressBar);
+
+            btnNo.setOnClickListener(v1 -> {
+                alertDialog.dismiss();
+            });
+
+            btnDone.setOnClickListener(v1 -> {
+                wrapper.setVisibility(View.VISIBLE);
+                layoutDialog.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+                progressBar.setIndeterminate(true);
+                progressBar.setIndeterminateTintList(ColorStateList.valueOf(this.getResources().getColor(R.color.bluePrimary)));
+
+                DBFirebase db = new DBFirebase();
+                db.deleteCourse(id, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            Button tutup = viewSuccess.findViewById(R.id.successDone);
+
+                            tutup.setOnClickListener(v2 -> {
+                                alertDialogSuccess.dismiss();
+                                finish();
+                            });
+
+                            alertDialog.dismiss();
+                            alertDialogSuccess.show();
+
+                        }else{
+                            Toast.makeText(DashboardDetailCourseActivity.this, "Oops... Sepertinya ada yang salah", Toast.LENGTH_SHORT).show();
+                            alertDialog.dismiss();
+                        }
+                    }
+                });
+            });
+
+            alertDialog.show();
+        });
 
         back.setOnClickListener(v -> {
             finish();

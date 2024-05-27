@@ -28,9 +28,10 @@
 
     <RelativeLayout
         android:layout_below="@id/back"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="32dp">
         <ImageView
             android:id="@id/img_course"
             android:layout_width="match_parent"
