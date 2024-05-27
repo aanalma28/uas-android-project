@@ -87,7 +87,7 @@ public class HomeFragment extends Fragment implements RecycleViewInterface {
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                         Log.d("MainActivity", "DataSnapshot: " + dataSnapshot.toString());
                         Course course = dataSnapshot.getValue(Course.class);
-                        if(course != null){
+                        if(course != null && course.getStatus().equals("open")){
                             courseList.add(course);
                         }
                     }

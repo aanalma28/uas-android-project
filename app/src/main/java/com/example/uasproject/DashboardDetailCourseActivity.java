@@ -20,12 +20,24 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-public class DashboardDetailCourseActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class DashboardDetailCourseActivity extends AppCompatActivity implements RecycleViewInterface {
+
+    private List<Bab> babList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,5 +149,45 @@ public class DashboardDetailCourseActivity extends AppCompatActivity {
         back.setOnClickListener(v -> {
             finish();
         });
+
+        RecyclerView recyclerView = findViewById(R.id.recycleView_bab);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        babList = new ArrayList<>();
+        BabAdapter babAdapter = new BabAdapter(babList, this);
+        recyclerView.setAdapter(babAdapter);
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("babs");
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                babList.clear();
+                for (DataSnapshot babSnapshot : snapshot.getChildren()) {
+                    Bab bab = babSnapshot.getValue(Bab.class);
+                    if (bab != null && bab.getCourse_id().equals(id)){
+                        babList.add(bab);
+                    }
+                }
+                babAdapter.notifyDataSetChanged();
+                TextView jumlahBab = findViewById(R.id.jumlah_bab);
+                jumlahBab.setText("Jumlah Bab : " + babList.size());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(DashboardDetailCourseActivity.this, "Failed to load data.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Bab clickedBab = babList.get(position);
+
+        Intent intent = new Intent(this, BabActivity.class);
+        intent.putExtra("title", clickedBab.getName());
+        intent.putExtra("description", clickedBab.getDetail());
+        startActivity(intent);
     }
 }
