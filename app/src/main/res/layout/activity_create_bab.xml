@@ -79,11 +79,30 @@
         android:layout_marginTop="8dp"
         android:layout_marginHorizontal="32dp"/>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/edt_tentang"
+        android:id="@+id/layout_loading"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:progressTint="@color/bluePrimary"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
     <Button
         android:id="@+id/btn_simpan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/edt_tentang"
+        android:layout_below="@+id/layout_loading"
         android:layout_marginHorizontal="32dp"
         android:text="Simpan"
         android:fontFamily="@font/poppinssemibold"

@@ -160,10 +160,10 @@ public class DBFirebase {
     public void createBab(String course_id, String name, String detail){
         try{
             mDatabase = FirebaseDatabase.getInstance().getReference();
-            String bab_id = mDatabase.child("bab").push().getKey();
+            String bab_id = mDatabase.child("babs").push().getKey();
 
             Bab bab = new Bab(bab_id, course_id, name, detail);
-            mDatabase.child("bab").child(bab_id).setValue(bab);
+            mDatabase.child("babs").child(bab_id).setValue(bab);
 
             Log.d("Create Bab", "Create bab successfully");
         }catch(Exception e){
@@ -231,13 +231,13 @@ public class DBFirebase {
         }
     }
 
-    public void createMateri(String materi_id, String title, String description){
+    public void createMateri(String bab_id, String course_id, String title, String content){
         try{
             mDatabase = FirebaseDatabase.getInstance().getReference();
-            String bab_id = mDatabase.child("materi").push().getKey();
+            String materi_id = mDatabase.child("materi").push().getKey();
 
-            Materi materi = new Materi(materi_id, bab_id, title, description);
-            mDatabase.child("materi").child(bab_id).setValue(materi);
+            Materi materi = new Materi(materi_id, bab_id, course_id, title, content);
+            mDatabase.child("materi").child(materi_id).setValue(materi);
 
             Log.e("Create Materi", "Create materi successfully");
         }catch(Exception e){

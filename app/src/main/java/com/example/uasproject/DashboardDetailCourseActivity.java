@@ -1,5 +1,6 @@
 package com.example.uasproject;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -36,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DashboardDetailCourseActivity extends AppCompatActivity implements RecycleViewInterface {
-
+    private String titleCourse, instructorCourse, agencyCourse, descCourse, priceCourse, imgCourse, course_id;
     private List<Bab> babList;
 
     @Override
@@ -44,13 +45,13 @@ public class DashboardDetailCourseActivity extends AppCompatActivity implements 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard_detail_course);
 
-        String titleCourse = getIntent().getStringExtra("title_course");
-        String instructorCourse = getIntent().getStringExtra("instructor");
-        String agencyCourse = getIntent().getStringExtra("agency");
-        String descCourse = getIntent().getStringExtra("desc");
-        String priceCourse = getIntent().getStringExtra("price");
-        String imgCourse = getIntent().getStringExtra("img");
-        String id = getIntent().getStringExtra("course_id");
+        titleCourse = getIntent().getStringExtra("title_course");
+        instructorCourse = getIntent().getStringExtra("instructor");
+        agencyCourse = getIntent().getStringExtra("agency");
+        descCourse = getIntent().getStringExtra("desc");
+        priceCourse = getIntent().getStringExtra("price");
+        imgCourse = getIntent().getStringExtra("img");
+        course_id = getIntent().getStringExtra("course_id");
 
         ImageView back = findViewById(R.id.back);
         TextView title = findViewById(R.id.title_course);
@@ -65,6 +66,13 @@ public class DashboardDetailCourseActivity extends AppCompatActivity implements 
 
         btnCreateBab.setOnClickListener(v -> {
             Intent intent = new Intent(DashboardDetailCourseActivity.this, CreateBabActivity.class);
+            intent.putExtra("title_course", titleCourse);
+            intent.putExtra("instructor", instructorCourse);
+            intent.putExtra("agency", agencyCourse);
+            intent.putExtra("desc", descCourse);
+            intent.putExtra("price", priceCourse);
+            intent.putExtra("img", imgCourse);
+            intent.putExtra("course_id", course_id);
             startActivity(intent);
         });
 
@@ -75,7 +83,7 @@ public class DashboardDetailCourseActivity extends AppCompatActivity implements 
             intent.putExtra("instructor", instructorCourse);
             intent.putExtra("price", priceCourse);
             intent.putExtra("image", imgCourse);
-            intent.putExtra("course_id", id);
+            intent.putExtra("course_id", course_id);
             startActivity(intent);
         });
 
@@ -121,7 +129,7 @@ public class DashboardDetailCourseActivity extends AppCompatActivity implements 
                 progressBar.setIndeterminateTintList(ColorStateList.valueOf(this.getResources().getColor(R.color.bluePrimary)));
 
                 DBFirebase db = new DBFirebase();
-                db.deleteCourse(id, new OnCompleteListener<Void>() {
+                db.deleteCourse(course_id, new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
@@ -159,12 +167,13 @@ public class DashboardDetailCourseActivity extends AppCompatActivity implements 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("babs");
 
         databaseReference.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 babList.clear();
                 for (DataSnapshot babSnapshot : snapshot.getChildren()) {
                     Bab bab = babSnapshot.getValue(Bab.class);
-                    if (bab != null && bab.getCourse_id().equals(id)){
+                    if (bab != null && bab.getCourse_id().equals(course_id)){
                         babList.add(bab);
                     }
                 }
@@ -186,6 +195,8 @@ public class DashboardDetailCourseActivity extends AppCompatActivity implements 
         Bab clickedBab = babList.get(position);
 
         Intent intent = new Intent(this, BabActivity.class);
+        intent.putExtra("course_id", course_id);
+        intent.putExtra("bab_id", clickedBab.getBab_id());
         intent.putExtra("title", clickedBab.getName());
         intent.putExtra("description", clickedBab.getDetail());
         startActivity(intent);

@@ -82,6 +82,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="280dp"
         android:layout_height="wrap_content"
+        android:id="@+id/recycleView_materi"
         android:layout_below="@id/desc_bab"
         android:layout_marginTop="28dp"
         android:layout_centerHorizontal="true"

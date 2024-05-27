@@ -3,17 +3,19 @@ package com.example.uasproject;
 public class Materi {
     private String materi_id;
     private String bab_id;
+    private String course_id;
     private String title;
-    private String description;
+    private String content;
     public Materi(){
 //        Firebase Datasnapshot
     }
 
-    public Materi(String materi_id, String bab_id, String title, String description){
+    public Materi(String materi_id, String bab_id, String course_id, String title, String content){
         this.materi_id = materi_id;
         this.bab_id = bab_id;
+        this.course_id = course_id;
         this.title = title;
-        this.description = description;
+        this.content = content;
     }
 
     public String getMateri_id(){
@@ -31,7 +33,12 @@ public class Materi {
     public void setBab_id(String bab_id){
         this.bab_id = bab_id;
     }
-
+    public String getCourse_id(){
+        return course_id;
+    }
+    public void setCourse_id(String course_id){
+        this.course_id = course_id;
+    }
     public String getTitle(){
         return title;
     }
@@ -40,11 +47,11 @@ public class Materi {
         this.title = title;
     }
 
-    public String getDescription(){
-        return description;
+    public String getContent(){
+        return content;
     }
 
-    public void setDescription(String description){
-        this.description = description;
+    public void setContent(String content){
+        this.content = content;
     }
 }
