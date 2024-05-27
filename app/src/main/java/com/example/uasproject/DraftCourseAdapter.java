@@ -22,6 +22,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,6 +33,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +45,7 @@ public class DraftCourseAdapter extends RecyclerView.Adapter<DraftCourseAdapter.
     private List<Course> courseList;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users");
+    @SuppressLint("NotifyDataSetChanged")
     public DraftCourseAdapter(List<Course> courseList, RecycleViewInterface recycleViewInterface) {
         this.courseList = courseList;
         this.recycleViewInterface = recycleViewInterface;
@@ -199,12 +204,35 @@ public class DraftCourseAdapter extends RecyclerView.Adapter<DraftCourseAdapter.
                                         if(task.isSuccessful()){
                                             Button tutup = viewSuccess.findViewById(R.id.successDone);
 
+                                            String[] parts = image.split("/");
+                                            String lastPart = parts[parts.length - 1];
+                                            String fileName = lastPart.split("\\?")[0];
+
+                                            FirebaseStorage storage = FirebaseStorage.getInstance();
+                                            StorageReference storageRef = storage.getReference();
+                                            String file = fileName.replace("%2F", "/");
+                                            StorageReference path = storageRef.child(file);
+
+                                            Log.d("FILENAME", file);
+                                            path.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void unused) {
+                                                    Log.d("Delete File", "Successfully delete File");
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Log.e("Delete File", String.valueOf(e));
+                                                }
+                                            });
+
                                             tutup.setOnClickListener(v2 -> {
                                                 alertDialogSuccess.dismiss();
                                             });
 
                                             alertDialog.dismiss();
                                             alertDialogSuccess.show();
+
                                         }else{
                                             Toast.makeText(holder.itemView.getContext(), "Oops... Sepertinya ada yang salah", Toast.LENGTH_SHORT).show();
                                             alertDialog.dismiss();

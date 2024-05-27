@@ -64,8 +64,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if(snapshot.exists()){
-                        User user = snapshot.getValue(User.class);
-                        String name = user.getName();
+                        Seller seller = snapshot.getValue(Seller.class);
+                        String name = seller.getAgency();
                         String imgUrl = course.getImage();
 
                         Locale localeID = new Locale("in", "ID");
