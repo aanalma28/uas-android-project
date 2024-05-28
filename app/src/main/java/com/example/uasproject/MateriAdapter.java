@@ -10,41 +10,41 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class BabAdapter extends RecyclerView.Adapter<BabAdapter.BabViewHolder> {
+public class MateriAdapter extends RecyclerView.Adapter<MateriAdapter.MateriViewHolder> {
     private final RecycleViewInterface recycleViewInterface;
-    private List<Bab> babList;
+    private List<Materi> materiList;
 
-    public BabAdapter(List<Bab> babList, RecycleViewInterface recycleViewInterface) {
-        this.babList = babList;
+    public MateriAdapter(List<Materi> materiList, RecycleViewInterface recycleViewInterface) {
+        this.materiList = materiList;
         this.recycleViewInterface = recycleViewInterface;
     }
 
     @NonNull
     @Override
-    public BabViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MateriViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_bab, parent, false);
-        return new BabViewHolder(view, recycleViewInterface);
+        return new MateriViewHolder(view, recycleViewInterface);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BabViewHolder holder, int position) {
-        Bab bab = babList.get(position);
-        holder.babnumber.setText("Bab " + (position + 1));
-        holder.title.setText(bab.getName());
-        holder.description.setText(bab.getDetail());
+    public void onBindViewHolder(@NonNull MateriViewHolder holder, int position) {
+        Materi materi = materiList.get(position);
+        holder.materinumber.setText("Materi " + (position + 1));
+        holder.title.setText(materi.getTitle());
+        holder.description.setText(materi.getContent());
     }
 
     @Override
     public int getItemCount() {
-        return babList.size();
+        return materiList.size();
     }
 
-    public static class BabViewHolder extends RecyclerView.ViewHolder {
-        TextView babnumber,title, description;
+    public static class MateriViewHolder extends RecyclerView.ViewHolder {
+        TextView materinumber,title, description;
 
-        public BabViewHolder(@NonNull View itemView, RecycleViewInterface recycleViewInterface) {
+        public MateriViewHolder(@NonNull View itemView, RecycleViewInterface recycleViewInterface) {
             super(itemView);
-            babnumber = itemView.findViewById(R.id.bab);
+            materinumber = itemView.findViewById(R.id.bab);
             title = itemView.findViewById(R.id.title_bab);
             description = itemView.findViewById(R.id.desc_bab);
 
