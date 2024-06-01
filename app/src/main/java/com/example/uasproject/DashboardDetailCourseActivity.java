@@ -27,15 +27,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class DashboardDetailCourseActivity extends AppCompatActivity implements RecycleViewInterface {
     private String titleCourse, instructorCourse, agencyCourse, descCourse, priceCourse, imgCourse, course_id;
@@ -117,6 +122,9 @@ public class DashboardDetailCourseActivity extends AppCompatActivity implements 
             LinearLayout wrapper = view.findViewById(R.id.layout_loading);
             ConstraintLayout layoutDialog = view.findViewById(R.id.layout_dialog);
             ProgressBar progressBar = view.findViewById(R.id.progressBar);
+            TextView alertDesc = view.findViewById(R.id.alertDesc);
+
+            alertDesc.setText("Jika course dihapus maka bab, materi dan quiz yang ada di course ini otomatis akan dihapus. Yakin hapus ?");
 
             btnNo.setOnClickListener(v1 -> {
                 alertDialog.dismiss();
@@ -130,24 +138,115 @@ public class DashboardDetailCourseActivity extends AppCompatActivity implements 
                 progressBar.setIndeterminateTintList(ColorStateList.valueOf(this.getResources().getColor(R.color.bluePrimary)));
 
                 DBFirebase db = new DBFirebase();
-                db.deleteCourse(course_id, new OnCompleteListener<Void>() {
+                DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference();
+
+                // Flag to track if any delete operation fails
+                AtomicBoolean deleteFailed = new AtomicBoolean(false);
+
+                // Delete materi
+                dbReference.child("materi").orderByChild("course_id").equalTo(course_id).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
-                            Button tutup = viewSuccess.findViewById(R.id.successDone);
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                            if(dataSnapshot.exists()){
+                                dataSnapshot.getRef().removeValue().addOnSuccessListener(aVoid -> {
+                                    Log.d("DeleteMateri", "Delete Materi Successfully");
 
-                            tutup.setOnClickListener(v2 -> {
-                                alertDialogSuccess.dismiss();
-                                finish();
-                            });
-
-                            alertDialog.dismiss();
-                            alertDialogSuccess.show();
-
-                        }else{
-                            Toast.makeText(DashboardDetailCourseActivity.this, "Oops... Sepertinya ada yang salah", Toast.LENGTH_SHORT).show();
-                            alertDialog.dismiss();
+                                }).addOnFailureListener(e -> {
+                                    Log.e("DeleteMateri", String.valueOf(e));
+                                    deleteFailed.set(true);  // Set the flag to true if deletion fails
+                                    // Show error message and stop further execution
+                                    Toast.makeText(DashboardDetailCourseActivity.this, "Gagal menghapus materi", Toast.LENGTH_SHORT).show();
+                                    progressBar.setVisibility(View.GONE);
+                                    layoutDialog.setVisibility(View.GONE);
+                                });
+                                if (deleteFailed.get()) break; // Stop if any delete operation fails
+                            }
                         }
+
+                        if (!deleteFailed.get()) {
+                            // Delete babs
+                            dbReference.child("babs").orderByChild("course_id").equalTo(course_id).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    for (DataSnapshot dataSnapshots : snapshot.getChildren()){
+                                        if(dataSnapshots.exists()){
+                                            dataSnapshots.getRef().removeValue().addOnSuccessListener(aVoid -> {
+                                                Log.d("DeleteBab", "Delete bab successfully");
+
+                                            }).addOnFailureListener(e -> {
+                                                Log.e("DeleteBab", String.valueOf(e));
+                                                deleteFailed.set(true);  // Set the flag to true if deletion fails
+                                                // Show error message and stop further execution
+                                                Toast.makeText(DashboardDetailCourseActivity.this, "Gagal menghapus bab", Toast.LENGTH_SHORT).show();
+                                                progressBar.setVisibility(View.GONE);
+                                                layoutDialog.setVisibility(View.GONE);
+                                            });
+                                            if (deleteFailed.get()) break; // Stop if any delete operation fails
+                                        }
+                                    }
+
+                                    if (!deleteFailed.get()) {
+                                        // Delete course
+                                        db.deleteCourse(course_id, new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if(task.isSuccessful()){
+                                                    Button tutup = viewSuccess.findViewById(R.id.successDone);
+
+                                                    String[] parts = imgCourse.split("/");
+                                                    String lastPart = parts[parts.length - 1];
+                                                    String fileName = lastPart.split("\\?")[0];
+
+                                                    FirebaseStorage storage = FirebaseStorage.getInstance();
+                                                    StorageReference storageRef = storage.getReference();
+                                                    String file = fileName.replace("%2F", "/");
+                                                    StorageReference path = storageRef.child(file);
+                                                    path.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void unused) {
+                                                            Log.d("Delete File", "Successfully delete File");
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            Log.e("Delete File", String.valueOf(e));
+                                                        }
+                                                    });
+
+                                                    tutup.setOnClickListener(v2 -> {
+                                                        alertDialogSuccess.dismiss();
+                                                        finish();
+                                                    });
+
+                                                    alertDialog.dismiss();
+                                                    alertDialogSuccess.show();
+                                                } else {
+                                                    Toast.makeText(DashboardDetailCourseActivity.this, "Oops... Sepertinya ada yang salah", Toast.LENGTH_SHORT).show();
+                                                    alertDialog.dismiss();
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                    Log.e("DBDeleteError", "Failed to read data.", error.toException());
+                                    Toast.makeText(DashboardDetailCourseActivity.this, "Gagal membaca data bab", Toast.LENGTH_SHORT).show();
+                                    progressBar.setVisibility(View.GONE);
+                                    layoutDialog.setVisibility(View.GONE);
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.e("DBDeleteError", "Failed to read data.", error.toException());
+                        Toast.makeText(DashboardDetailCourseActivity.this, "Gagal membaca data materi", Toast.LENGTH_SHORT).show();
+                        progressBar.setVisibility(View.GONE);
+                        layoutDialog.setVisibility(View.VISIBLE);
                     }
                 });
             });

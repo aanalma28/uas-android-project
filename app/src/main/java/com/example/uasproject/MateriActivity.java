@@ -56,20 +56,16 @@ public class MateriActivity extends AppCompatActivity {
         title.setText(titleMateri);
         content.setText(contentMateri);
 
-        if(position == 0){
+        if(position == 0 && (materiList.size()-1) != 0){
             prev.setVisibility(View.GONE);
-        }else if((materiList.size()-1) == position){
+        }else if((materiList.size()-1) == position && (materiList.size()-1) != 0){
+            next.setVisibility(View.GONE);
+        }else if(materiList.size() == 1){
+            prev.setVisibility(View.GONE);
             next.setVisibility(View.GONE);
         }
 
-        back.setOnClickListener( v -> {
-            Intent intent = new Intent(MateriActivity.this, BabActivity.class);
-            intent.putExtra("course_id", course_id);
-            intent.putExtra("bab_id", bab_id);
-            intent.putExtra("title", titleBab);
-            intent.putExtra("description", descBab);
-
-            startActivity(intent);
+        back.setOnClickListener(v -> {
             finish();
         });
 
@@ -87,7 +83,7 @@ public class MateriActivity extends AppCompatActivity {
         prev.setOnClickListener(v -> {
             Intent intent = new Intent(MateriActivity.this, MateriActivity.class);
             intent.putParcelableArrayListExtra("materi_list", materiList);
-            intent.putExtra("materiIndex", position+1);
+            intent.putExtra("materiIndex", "Materi " + (position+1));
             intent.putExtra("position", position-1);
 
             intent.putExtra("course_id", course_id);
@@ -103,7 +99,7 @@ public class MateriActivity extends AppCompatActivity {
         next.setOnClickListener(v -> {
             Intent intent = new Intent(MateriActivity.this, MateriActivity.class);
             intent.putParcelableArrayListExtra("materi_list", materiList);
-            intent.putExtra("materiIndex", position+1);
+            intent.putExtra("materiIndex", "Materi " + (position+1));
             intent.putExtra("position", position+1);
 
             intent.putExtra("course_id", course_id);
