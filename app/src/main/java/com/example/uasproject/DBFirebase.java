@@ -206,11 +206,11 @@ public class DBFirebase {
 //        Less latency
 
         try{
-            mDatabase = FirebaseDatabase.getInstance().getReference("bab");
+            mDatabase = FirebaseDatabase.getInstance().getReference("babs");
 
             Map<String, Object> data = new HashMap<>();
             data.put("name", name);
-            data.put("description", detail);
+            data.put("detail", detail);
 
             mDatabase.child(bab_id).updateChildren(data);
 
@@ -245,11 +245,12 @@ public class DBFirebase {
         }
     }
 
-    public void updateMateri(String materi_id, String title, String description){
+    public void updateMateri(String materi_id, String title, String content){
         try{
+            mDatabase = FirebaseDatabase.getInstance().getReference("materi");
             Map<String, Object> data = new HashMap<>();
             data.put("title", title);
-            data.put("description", description);
+            data.put("content", content);
 
             mDatabase.child(materi_id).updateChildren(data);
 

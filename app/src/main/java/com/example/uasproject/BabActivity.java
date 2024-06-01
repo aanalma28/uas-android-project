@@ -27,7 +27,7 @@ import java.util.List;
 
 public class BabActivity extends AppCompatActivity implements RecycleViewInterface {
     private String course_id, bab_id, titleBab, descBab;
-    private ImageView addMateri;
+    private ImageView addMateri, btnEdit, btnDelete;
     private ArrayList<Materi> materiList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +36,8 @@ public class BabActivity extends AppCompatActivity implements RecycleViewInterfa
         ImageView back = findViewById(R.id.back);
         TextView title = findViewById(R.id.title_bab);
         TextView desc = findViewById(R.id.desc_bab);
+        btnEdit = findViewById(R.id.btn_edit);
+        btnDelete = findViewById(R.id.btn_delete);
 
         course_id = getIntent().getStringExtra("course_id");
         bab_id = getIntent().getStringExtra("bab_id");
@@ -91,6 +93,16 @@ public class BabActivity extends AppCompatActivity implements RecycleViewInterfa
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(BabActivity.this, "Failed to load data.", Toast.LENGTH_SHORT).show();
             }
+        });
+
+        btnEdit.setOnClickListener(v -> {
+            Intent intent = new Intent(this, EditBabActivity.class);
+            intent.putExtra("bab_id", bab_id);
+            intent.putExtra("title", titleBab);
+            intent.putExtra("description", descBab);
+
+            startActivity(intent);
+            finish();
         });
 
     }

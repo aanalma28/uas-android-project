@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreateCourseActivity"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_arrow_back_24"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="26dp"
+        android:layout_marginLeft="32dp"
+        />
+
+    <TextView
+        android:id="@+id/buat_pelajaran"
+        android:layout_below="@id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Pelajaran"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/poppinssemibold"
+        android:textSize="16sp"
+        android:textColor="@color/black"/>
+
+    <ScrollView
+        android:layout_below="@id/buat_pelajaran"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="30dp">
+
+        <RelativeLayout
+            android:id="@+id/ry_1"
+            android:layout_below="@id/buat_pelajaran"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="16dp"
+            android:layout_marginHorizontal="32dp">
+
+            <TextView
+                android:id="@+id/label_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Judul"
+                android:fontFamily="@font/poppinsmedium"
+                android:textSize="14sp"
+                android:textColor="@color/black"/>
+
+            <EditText
+                android:id="@+id/edt_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/label_title"
+                android:hint="Masukkan judul bab"
+                android:fontFamily="@font/poppinsmedium"
+                android:textSize="14sp"
+                android:background="@drawable/input_shape"
+                android:layout_marginTop="8dp"/>
+
+            <TextView
+                android:id="@+id/label_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/edt_title"
+                android:text="Description"
+                android:fontFamily="@font/poppinsmedium"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="20dp"/>
+
+            <EditText
+                android:id="@+id/edt_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/label_description"
+                android:hint="Masukkan deskripsi bab"
+                android:fontFamily="@font/poppinsmedium"
+                android:textSize="14sp"
+                android:background="@drawable/input_shape"
+                android:layout_marginTop="8dp"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_below="@+id/edt_description"
+                android:id="@+id/layout_loading"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="10dp">
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:progressTint="@color/bluePrimary"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layout_loading"
+                android:text="Update"
+                android:fontFamily="@font/poppinssemibold"
+                android:textSize="16sp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/button_shape"
+                android:textColor="@color/white"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

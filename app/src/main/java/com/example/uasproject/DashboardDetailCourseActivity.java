@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -192,13 +193,17 @@ public class DashboardDetailCourseActivity extends AppCompatActivity implements 
 
     @Override
     public void onItemClick(int position) {
-        Bab clickedBab = babList.get(position);
+        try{
+            Bab clickedBab = babList.get(position);
 
-        Intent intent = new Intent(this, BabActivity.class);
-        intent.putExtra("course_id", course_id);
-        intent.putExtra("bab_id", clickedBab.getBab_id());
-        intent.putExtra("title", clickedBab.getName());
-        intent.putExtra("description", clickedBab.getDetail());
-        startActivity(intent);
+            Intent intent = new Intent(this, BabActivity.class);
+            intent.putExtra("course_id", course_id);
+            intent.putExtra("bab_id", clickedBab.getBab_id());
+            intent.putExtra("title", clickedBab.getName());
+            intent.putExtra("description", clickedBab.getDetail());
+            startActivity(intent);
+        }catch(Exception e){
+            Log.e("BabClick", String.valueOf(e));
+        }
     }
 }

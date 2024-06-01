@@ -2,6 +2,7 @@ package com.example.uasproject;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -23,6 +24,8 @@ public class MateriActivity extends AppCompatActivity {
     private int position;
     private String materiIndex, titleMateri, contentMateri;
     private String course_id, bab_id, titleBab, descBab;
+    private ImageView edit, delete;
+    private Materi materiData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +36,8 @@ public class MateriActivity extends AppCompatActivity {
         content = findViewById(R.id.isi_materi);
         prev = findViewById(R.id.prev);
         next = findViewById(R.id.next);
+        edit = findViewById(R.id.btn_edit);
+        delete = findViewById(R.id.btn_delete);
 
         course_id = getIntent().getStringExtra("course_id");
         bab_id = getIntent().getStringExtra("bab_id");
@@ -42,7 +47,7 @@ public class MateriActivity extends AppCompatActivity {
         materiList = getIntent().getParcelableArrayListExtra("materi_list");
         materiIndex = getIntent().getStringExtra("materiIndex");
         position = getIntent().getIntExtra("position", 0);
-        Materi materiData = materiList.get(position);
+        materiData = materiList.get(position);
 
         titleMateri = materiData.getTitle();
         contentMateri = materiData.getContent();
@@ -63,6 +68,17 @@ public class MateriActivity extends AppCompatActivity {
             intent.putExtra("bab_id", bab_id);
             intent.putExtra("title", titleBab);
             intent.putExtra("description", descBab);
+
+            startActivity(intent);
+            finish();
+        });
+
+        edit.setOnClickListener(v -> {
+            String id = materiData.getMateri_id();
+            Intent intent = new Intent(this, EditMateriActivity.class);
+            intent.putExtra("materi_title", titleMateri);
+            intent.putExtra("materi_content", contentMateri);
+            intent.putExtra("materi_id", id);
 
             startActivity(intent);
             finish();
