@@ -44,7 +44,7 @@ public class DraftCourseAdapter extends RecyclerView.Adapter<DraftCourseAdapter.
     private final RecycleViewInterface recycleViewInterface;
     private List<Course> courseList;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users");
+    DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("course");
     @SuppressLint("NotifyDataSetChanged")
     public DraftCourseAdapter(List<Course> courseList, RecycleViewInterface recycleViewInterface) {
         this.courseList = courseList;
@@ -66,196 +66,209 @@ public class DraftCourseAdapter extends RecyclerView.Adapter<DraftCourseAdapter.
     public void onBindViewHolder(@NonNull CourseViewHolder holder, int position) {
         try{
             Course course = courseList.get(position);
-            DBFirebase db = new DBFirebase();
             String user_id = mAuth.getCurrentUser().getUid();
-            DatabaseReference user = db.getUser(user_id);
             String imgUrl = course.getImage();
+            DatabaseReference babsRef = FirebaseDatabase.getInstance().getReference("babs");
 
-            user.addValueEventListener(new ValueEventListener() {
+            mDatabase.orderByChild("user_id").equalTo(user_id).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     Log.d("Course Data", "DataSnapshot count: " + snapshot.getChildrenCount());
                     if(snapshot.exists()){
-                        Seller seller = snapshot.getValue(Seller.class);
-                        String nama = course.getName();
-                        String desc = course.getDescription();
-                        String instructor = course.getInstructor();
-                        String price = course.getPrice().toString();
-                        String image = course.getImage();
-                        String id = course.getCourse_id();
+                        babsRef.orderByChild("course_id").equalTo(course.getCourse_id()).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot babSnapshot) {
+                                String nama = course.getName();
+                                String desc = course.getDescription();
+                                String instructor = course.getInstructor();
+                                String price = course.getPrice().toString();
+                                String image = course.getImage();
+                                String id = course.getCourse_id();
+                                int babCount = (int) babSnapshot.getChildrenCount();
 
-                        Log.d("Course Data", "DataSnapshot: " + course.toString());
-                        Log.d("Course Data", "Seller: " + seller.getAgency());
+                                Log.d("Course Data", "DataSnapshot: " + course.toString());
 
-                        holder.title.setText(course.getName());
-                        holder.agency.setText(seller.getAgency());
-                        holder.description.setText(course.getDescription());
-                        Glide.with(getContext(holder.itemView)).load(imgUrl).fitCenter().into(holder.img_course);
-                        
-                        holder.btn_publish.setOnClickListener(v -> {
-                            ConstraintLayout alertConstrainLayout = holder.itemView.findViewById(R.id.alert_constrain_layout);
-                            View view = LayoutInflater.from(holder.itemView.getContext()).inflate(R.layout.alert_dialog, alertConstrainLayout, false);
+                                holder.title.setText(course.getName());
+                                holder.jumlah_bab.setText(babCount + " Bab");
+                                holder.description.setText(course.getDescription());
+                                Glide.with(getContext(holder.itemView)).load(imgUrl).fitCenter().into(holder.img_course);
 
-                            AlertDialog.Builder builder = new AlertDialog.Builder(holder.itemView.getContext());
-                            builder.setView(view);
+                                holder.btn_publish.setOnClickListener(v -> {
+                                    ConstraintLayout alertConstrainLayout = holder.itemView.findViewById(R.id.alert_constrain_layout);
+                                    View view = LayoutInflater.from(holder.itemView.getContext()).inflate(R.layout.alert_dialog, alertConstrainLayout, false);
 
-                            final AlertDialog alertDialog = builder.create();
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(holder.itemView.getContext());
+                                    builder.setView(view);
 
-                            Button btnNo = view.findViewById(R.id.alertNo);
-                            Button btnDone = view.findViewById(R.id.alertDone);
-                            ImageView imgView = view.findViewById(R.id.centeredImageView);
-                            TextView publishTxt = view.findViewById(R.id.alertTitle);
-                            TextView publishDesc = view.findViewById(R.id.alertDesc);
+                                    final AlertDialog alertDialog = builder.create();
 
-                            imgView.setImageResource(R.drawable.info);
-                            publishTxt.setText("Publish");
-                            publishDesc.setText("Kamu yakin ingin publish modul ini?");
-                            btnDone.setBackgroundResource(R.drawable.btn_info);
-                            btnDone.setText("Publish");
+                                    Button btnNo = view.findViewById(R.id.alertNo);
+                                    Button btnDone = view.findViewById(R.id.alertDone);
+                                    ImageView imgView = view.findViewById(R.id.centeredImageView);
+                                    TextView publishTxt = view.findViewById(R.id.alertTitle);
+                                    TextView publishDesc = view.findViewById(R.id.alertDesc);
 
-                            LinearLayout wrapper = view.findViewById(R.id.layout_loading);
-                            ConstraintLayout layoutDialog = view.findViewById(R.id.layout_dialog);
-                            ProgressBar progressBar = view.findViewById(R.id.progressBar);
+                                    imgView.setImageResource(R.drawable.info);
+                                    publishTxt.setText("Publish");
+                                    publishDesc.setText("Kamu yakin ingin publish modul ini?");
+                                    btnDone.setBackgroundResource(R.drawable.btn_info);
+                                    btnDone.setText("Publish");
 
-                            btnNo.setOnClickListener(v1 -> {
-                                alertDialog.dismiss();
-                            });
+                                    LinearLayout wrapper = view.findViewById(R.id.layout_loading);
+                                    ConstraintLayout layoutDialog = view.findViewById(R.id.layout_dialog);
+                                    ProgressBar progressBar = view.findViewById(R.id.progressBar);
 
-                            btnDone.setOnClickListener(v1 -> {
-                                wrapper.setVisibility(View.VISIBLE);
-                                layoutDialog.setVisibility(View.GONE);
-                                progressBar.setVisibility(View.VISIBLE);
-                                progressBar.setIndeterminate(true);
-                                progressBar.setIndeterminateTintList(ColorStateList.valueOf(holder.itemView.getContext().getResources().getColor(R.color.bluePrimary)));
-
-                                DatabaseReference db = FirebaseDatabase.getInstance().getReference("course");
-                                Map<String, Object> data = new HashMap<>();
-                                data.put("status", "open");
-
-                                db.child(id).updateChildren(data).addOnCompleteListener(task -> {
-                                    if(task.isSuccessful()){
-                                        ConstraintLayout successConstrainLayout = holder.itemView.findViewById(R.id.success_constrain_layout);
-                                        View viewSuccess = LayoutInflater.from(holder.itemView.getContext()).inflate(R.layout.success_dialog, successConstrainLayout, false);
-
-                                        AlertDialog.Builder builderSuccess = new AlertDialog.Builder(holder.itemView.getContext());
-                                        builderSuccess.setView(viewSuccess);
-
-                                        final AlertDialog alertDialogSuccess = builderSuccess.create();
-
-                                        TextView successTitle = viewSuccess.findViewById(R.id.successTitle);
-                                        TextView successDesc = viewSuccess.findViewById(R.id.successDesc);
-                                        Button tutup = viewSuccess.findViewById(R.id.successDone);
-
-                                        successDesc.setText("Modul berhasil di publish !");
-
-                                        tutup.setOnClickListener(v2 -> {
-                                            alertDialogSuccess.dismiss();
-                                        });
-
+                                    btnNo.setOnClickListener(v1 -> {
                                         alertDialog.dismiss();
-                                        alertDialogSuccess.show();
-                                    }else{
-                                        Toast.makeText(holder.itemView.getContext(), "Oops... Sepertinya ada yang salah", Toast.LENGTH_SHORT).show();
-                                        alertDialog.dismiss();
-                                    }
-                                });
-                            });
-                            alertDialog.show();
-                        });
+                                    });
 
-                        holder.btnDelete.setOnClickListener(v -> {
-                            ConstraintLayout alertConstrainLayout = holder.itemView.findViewById(R.id.alert_constrain_layout);
-                            View view = LayoutInflater.from(holder.itemView.getContext()).inflate(R.layout.alert_dialog, alertConstrainLayout, false);
+                                    btnDone.setOnClickListener(v1 -> {
+                                        if (babSnapshot.exists()) {
+                                            wrapper.setVisibility(View.VISIBLE);
+                                            layoutDialog.setVisibility(View.GONE);
+                                            progressBar.setVisibility(View.VISIBLE);
+                                            progressBar.setIndeterminate(true);
+                                            progressBar.setIndeterminateTintList(ColorStateList.valueOf(holder.itemView.getContext().getResources().getColor(R.color.bluePrimary)));
 
-                            AlertDialog.Builder builder = new AlertDialog.Builder(holder.itemView.getContext());
-                            builder.setView(view);
+                                            DatabaseReference db = FirebaseDatabase.getInstance().getReference("course");
+                                            Map<String, Object> data = new HashMap<>();
+                                            data.put("status", "open");
 
-                            final AlertDialog alertDialog = builder.create();
+                                            db.child(id).updateChildren(data).addOnCompleteListener(task -> {
+                                                if (task.isSuccessful()) {
+                                                    ConstraintLayout successConstrainLayout = holder.itemView.findViewById(R.id.success_constrain_layout);
+                                                    View viewSuccess = LayoutInflater.from(holder.itemView.getContext()).inflate(R.layout.success_dialog, successConstrainLayout, false);
 
-                            ConstraintLayout successConstrainLayout = holder.itemView.findViewById(R.id.success_constrain_layout);
-                            View viewSuccess = LayoutInflater.from(holder.itemView.getContext()).inflate(R.layout.success_dialog, successConstrainLayout, false);
+                                                    AlertDialog.Builder builderSuccess = new AlertDialog.Builder(holder.itemView.getContext());
+                                                    builderSuccess.setView(viewSuccess);
 
-                            AlertDialog.Builder builderSuccess = new AlertDialog.Builder(holder.itemView.getContext());
-                            builderSuccess.setView(viewSuccess);
+                                                    final AlertDialog alertDialogSuccess = builderSuccess.create();
 
-                            final AlertDialog alertDialogSuccess = builderSuccess.create();
+                                                    TextView successTitle = viewSuccess.findViewById(R.id.successTitle);
+                                                    TextView successDesc = viewSuccess.findViewById(R.id.successDesc);
+                                                    Button tutup = viewSuccess.findViewById(R.id.successDone);
 
-                            Button btnNo = view.findViewById(R.id.alertNo);
-                            Button btnDone = view.findViewById(R.id.alertDone);
-                            LinearLayout wrapper = view.findViewById(R.id.layout_loading);
-                            ConstraintLayout layoutDialog = view.findViewById(R.id.layout_dialog);
-                            ProgressBar progressBar = view.findViewById(R.id.progressBar);
+                                                    successDesc.setText("Modul berhasil di publish !");
 
-                            btnNo.setOnClickListener(v1 -> {
-                                alertDialog.dismiss();
-                            });
+                                                    tutup.setOnClickListener(v2 -> {
+                                                        alertDialogSuccess.dismiss();
+                                                    });
 
-                            btnDone.setOnClickListener(v1 -> {
-                                wrapper.setVisibility(View.VISIBLE);
-                                layoutDialog.setVisibility(View.GONE);
-                                progressBar.setVisibility(View.VISIBLE);
-                                progressBar.setIndeterminate(true);
-                                progressBar.setIndeterminateTintList(ColorStateList.valueOf(holder.itemView.getContext().getResources().getColor(R.color.bluePrimary)));
-
-                                DBFirebase db = new DBFirebase();
-                                db.deleteCourse(id, new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if(task.isSuccessful()){
-                                            Button tutup = viewSuccess.findViewById(R.id.successDone);
-
-                                            String[] parts = image.split("/");
-                                            String lastPart = parts[parts.length - 1];
-                                            String fileName = lastPart.split("\\?")[0];
-
-                                            FirebaseStorage storage = FirebaseStorage.getInstance();
-                                            StorageReference storageRef = storage.getReference();
-                                            String file = fileName.replace("%2F", "/");
-                                            StorageReference path = storageRef.child(file);
-
-                                            Log.d("FILENAME", file);
-                                            path.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void unused) {
-                                                    Log.d("Delete File", "Successfully delete File");
-                                                }
-                                            }).addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Log.e("Delete File", String.valueOf(e));
+                                                    alertDialog.dismiss();
+                                                    alertDialogSuccess.show();
+                                                } else {
+                                                    Toast.makeText(holder.itemView.getContext(), "Oops... Sepertinya ada yang salah", Toast.LENGTH_SHORT).show();
+                                                    alertDialog.dismiss();
                                                 }
                                             });
-
-                                            tutup.setOnClickListener(v2 -> {
-                                                alertDialogSuccess.dismiss();
-                                            });
-
-                                            alertDialog.dismiss();
-                                            alertDialogSuccess.show();
-
-                                        }else{
-                                            Toast.makeText(holder.itemView.getContext(), "Oops... Sepertinya ada yang salah", Toast.LENGTH_SHORT).show();
+                                        }else {
+                                            Toast.makeText(holder.itemView.getContext(), "Tambahkan bab terlebih dahulu", Toast.LENGTH_SHORT).show();
                                             alertDialog.dismiss();
                                         }
-                                    }
+                                    });
+                                    alertDialog.show();
                                 });
-                            });
 
-                            alertDialog.show();
+                                holder.btnDelete.setOnClickListener(v -> {
+                                    ConstraintLayout alertConstrainLayout = holder.itemView.findViewById(R.id.alert_constrain_layout);
+                                    View view = LayoutInflater.from(holder.itemView.getContext()).inflate(R.layout.alert_dialog, alertConstrainLayout, false);
+
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(holder.itemView.getContext());
+                                    builder.setView(view);
+
+                                    final AlertDialog alertDialog = builder.create();
+
+                                    ConstraintLayout successConstrainLayout = holder.itemView.findViewById(R.id.success_constrain_layout);
+                                    View viewSuccess = LayoutInflater.from(holder.itemView.getContext()).inflate(R.layout.success_dialog, successConstrainLayout, false);
+
+                                    AlertDialog.Builder builderSuccess = new AlertDialog.Builder(holder.itemView.getContext());
+                                    builderSuccess.setView(viewSuccess);
+
+                                    final AlertDialog alertDialogSuccess = builderSuccess.create();
+
+                                    Button btnNo = view.findViewById(R.id.alertNo);
+                                    Button btnDone = view.findViewById(R.id.alertDone);
+                                    LinearLayout wrapper = view.findViewById(R.id.layout_loading);
+                                    ConstraintLayout layoutDialog = view.findViewById(R.id.layout_dialog);
+                                    ProgressBar progressBar = view.findViewById(R.id.progressBar);
+
+                                    btnNo.setOnClickListener(v1 -> {
+                                        alertDialog.dismiss();
+                                    });
+
+                                    btnDone.setOnClickListener(v1 -> {
+                                        wrapper.setVisibility(View.VISIBLE);
+                                        layoutDialog.setVisibility(View.GONE);
+                                        progressBar.setVisibility(View.VISIBLE);
+                                        progressBar.setIndeterminate(true);
+                                        progressBar.setIndeterminateTintList(ColorStateList.valueOf(holder.itemView.getContext().getResources().getColor(R.color.bluePrimary)));
+
+                                        DBFirebase db = new DBFirebase();
+                                        db.deleteCourse(id, new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if(task.isSuccessful()){
+                                                    Button tutup = viewSuccess.findViewById(R.id.successDone);
+
+                                                    String[] parts = image.split("/");
+                                                    String lastPart = parts[parts.length - 1];
+                                                    String fileName = lastPart.split("\\?")[0];
+
+                                                    FirebaseStorage storage = FirebaseStorage.getInstance();
+                                                    StorageReference storageRef = storage.getReference();
+                                                    String file = fileName.replace("%2F", "/");
+                                                    StorageReference path = storageRef.child(file);
+
+                                                    Log.d("FILENAME", file);
+                                                    path.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void unused) {
+                                                            Log.d("Delete File", "Successfully delete File");
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            Log.e("Delete File", String.valueOf(e));
+                                                        }
+                                                    });
+
+                                                    tutup.setOnClickListener(v2 -> {
+                                                        alertDialogSuccess.dismiss();
+                                                    });
+
+                                                    alertDialog.dismiss();
+                                                    alertDialogSuccess.show();
+
+                                                }else{
+                                                    Toast.makeText(holder.itemView.getContext(), "Oops... Sepertinya ada yang salah", Toast.LENGTH_SHORT).show();
+                                                    alertDialog.dismiss();
+                                                }
+                                            }
+                                        });
+                                    });
+
+                                    alertDialog.show();
+                                });
+
+                                holder.btnEdit.setOnClickListener(v -> {
+                                    Intent intent = new Intent(getContext(holder.itemView), EditCourseActivity.class);
+                                    intent.putExtra("name", nama);
+                                    intent.putExtra("desc", desc);
+                                    intent.putExtra("instructor", instructor);
+                                    intent.putExtra("price", price);
+                                    intent.putExtra("image", image);
+                                    intent.putExtra("course_id", id);
+                                    getContext(holder.itemView).startActivity(intent);
+                                });
+
+                                Log.d("Course Data", "Course found");
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Log.w("Course Data", "Failed to read value.", error.toException());
+                            }
                         });
-
-                        holder.btnEdit.setOnClickListener(v -> {
-                            Intent intent = new Intent(getContext(holder.itemView), EditCourseActivity.class);
-                            intent.putExtra("name", nama);
-                            intent.putExtra("desc", desc);
-                            intent.putExtra("instructor", instructor);
-                            intent.putExtra("price", price);
-                            intent.putExtra("image", image);
-                            intent.putExtra("course_id", id);
-                            getContext(holder.itemView).startActivity(intent);
-                        });
-
-                        Log.d("Course Data", "Course found");
                     }else{
                         Log.e("Course Data", "Course doesnt exist");
                     }
@@ -277,14 +290,14 @@ public class DraftCourseAdapter extends RecyclerView.Adapter<DraftCourseAdapter.
     }
 
     public static class CourseViewHolder extends RecyclerView.ViewHolder{
-        public TextView title, agency, description, btn_publish;
+        public TextView title, jumlah_bab, description, btn_publish;
         public ImageView img_course;
         public ImageView btnEdit, btnDelete;
         public CourseViewHolder(@NonNull View itemView, RecycleViewInterface recycleViewInterface){
             super(itemView);
             try {
                 title = itemView.findViewById(R.id.title_course);
-                agency = itemView.findViewById(R.id.name_bimbel);
+                jumlah_bab = itemView.findViewById(R.id.jumlah_bab);
                 description = itemView.findViewById(R.id.desc_course);
                 img_course = itemView.findViewById(R.id.img_course);
                 btn_publish = itemView.findViewById(R.id.btn_publish);
@@ -295,6 +308,18 @@ public class DraftCourseAdapter extends RecyclerView.Adapter<DraftCourseAdapter.
             }catch (Exception e){
                 Log.e("Layout", String.valueOf(e));
             }
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (recycleViewInterface != null){
+                        int pos = getAdapterPosition();
+
+                        if (pos != RecyclerView.NO_POSITION){
+                            recycleViewInterface.onItemClick(pos);
+                        }
+                    }
+                }
+            });
         }
 
     }

@@ -24,8 +24,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class DraftActivity extends AppCompatActivity implements RecycleViewInterface{
     private List<Course> courseList;
@@ -94,6 +96,40 @@ public class DraftActivity extends AppCompatActivity implements RecycleViewInter
 
     @Override
     public void onItemClick(int position) {
+        Intent intent = new Intent(DraftActivity.this, DashboardDetailCourseActivity.class);
+        String id = courseList.get(position).getUser_id();
+        DBFirebase db = new DBFirebase();
+        DatabaseReference data = db.getUser(id);
+
+        Locale localeID = new Locale("in", "ID");
+        NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeID);
+        String formattedPrice = formatRupiah.format(courseList.get(position).getPrice());
+        formattedPrice = formattedPrice.replace("Rp", "Rp. ").replace(",00", "");
+        String finalFormattedPrice = formattedPrice;
+
+        data.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+                if (user != null) {
+                    String name = user.getName();
+                    intent.putExtra("title_course", courseList.get(position).getName());
+                    intent.putExtra("agency", name);
+                    intent.putExtra("img", courseList.get(position).getImage());
+                    intent.putExtra("desc", courseList.get(position).getDescription());
+                    intent.putExtra("price", finalFormattedPrice);
+                    intent.putExtra("instructor", courseList.get(position).getInstructor());
+                    intent.putExtra("course_id", courseList.get(position).getCourse_id());
+                    startActivity(intent);
+                    (DraftActivity.this).overridePendingTransition(0, 0);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w("TAG", "Failed to read value.", error.toException());
+            }
+        });
 
     }
 }

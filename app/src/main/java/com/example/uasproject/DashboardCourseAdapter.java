@@ -28,7 +28,7 @@ public class DashboardCourseAdapter extends RecyclerView.Adapter<DashboardCourse
     private final List<Course> courseList;
     private final Context context;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("users");
+    DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("babs");
 
     public DashboardCourseAdapter(RecycleViewInterface recycleViewInterface, List<Course> courseList) {
         this.recycleViewInterface = recycleViewInterface;
@@ -51,21 +51,15 @@ public class DashboardCourseAdapter extends RecyclerView.Adapter<DashboardCourse
     public void onBindViewHolder(@NonNull DashboardCourseAdapter.CourseViewHolder holder, int position) {
         try{
             Course course = courseList.get(position);
-            DBFirebase db = new DBFirebase();
-            String user_id = mAuth.getCurrentUser().getUid();
-            DatabaseReference user = db.getUser(user_id);
             String imgUrl = course.getImage();
 
-            user.addValueEventListener(new ValueEventListener() {
+            mDatabase.orderByChild("course_id").equalTo(course.getCourse_id()).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     Log.d("Course Data", "DataSnapshot count: " + snapshot.getChildrenCount());
                     if(snapshot.exists()){
-                        Seller seller = snapshot.getValue(Seller.class);
-                        Log.d("Course Data", "DataSnapshot: " + course.toString());
-                        Log.d("Course Data", "Seller: " + seller.getAgency());
                         holder.title.setText(course.getName());
-                        holder.agency.setText(seller.getAgency());
+                        holder.jumlah_bab.setText(snapshot.getChildrenCount() + " Bab");
                         holder.description.setText(course.getDescription());
                         Glide.with(getContext(holder.itemView)).load(imgUrl).fitCenter().into(holder.img_course);
 
@@ -91,13 +85,13 @@ public class DashboardCourseAdapter extends RecyclerView.Adapter<DashboardCourse
     }
 
     public static class CourseViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, agency, description;
+        public TextView title, jumlah_bab, description;
         public ImageView img_course;
         public CourseViewHolder(@NonNull View itemView, RecycleViewInterface recycleViewInterface){
             super(itemView);
             try {
                 title = itemView.findViewById(R.id.title_course);
-                agency = itemView.findViewById(R.id.name_bimbel);
+                jumlah_bab = itemView.findViewById(R.id.jumlah_bab);
                 description = itemView.findViewById(R.id.desc_course);
                 img_course = itemView.findViewById(R.id.img_course);
 
