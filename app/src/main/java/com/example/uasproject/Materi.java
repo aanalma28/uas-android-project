@@ -1,6 +1,11 @@
 package com.example.uasproject;
 
-public class Materi {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+public class Materi implements Parcelable {
     private String materi_id;
     private String bab_id;
     private String course_id;
@@ -8,6 +13,41 @@ public class Materi {
     private String content;
     public Materi(){
 //        Firebase Datasnapshot
+    }
+
+//    Parcel makes object can passing data in intent while starting activity
+    protected Materi(Parcel in){
+        materi_id = in.readString();
+        course_id = in.readString();
+        bab_id = in.readString();
+        title = in.readString();
+        content = in.readString();
+    }
+
+    public static final Creator<Materi> CREATOR = new Creator<Materi>() {
+        @Override
+        public Materi createFromParcel(Parcel source) {
+            return new Materi(source);
+        }
+
+        @Override
+        public Materi[] newArray(int size) {
+            return new Materi[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(materi_id);
+        dest.writeString(course_id);
+        dest.writeString(bab_id);
+        dest.writeString(title);
+        dest.writeString(content);
     }
 
     public Materi(String materi_id, String bab_id, String course_id, String title, String content){

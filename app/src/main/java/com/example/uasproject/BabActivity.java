@@ -28,7 +28,7 @@ import java.util.List;
 public class BabActivity extends AppCompatActivity implements RecycleViewInterface {
     private String course_id, bab_id, titleBab, descBab;
     private ImageView addMateri;
-    private List<Materi> materiList;
+    private ArrayList<Materi> materiList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +68,6 @@ public class BabActivity extends AppCompatActivity implements RecycleViewInterfa
 
         RecyclerView recyclerView = findViewById(R.id.recycleView_materi);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        materiList = new ArrayList<>();
         MateriAdapter materiAdapter = new MateriAdapter(materiList, this);
         recyclerView.setAdapter(materiAdapter);
 
@@ -98,14 +97,16 @@ public class BabActivity extends AppCompatActivity implements RecycleViewInterfa
 
     @Override
     public void onItemClick(int position) {
-        Materi clickedMateri = materiList.get(position);
-
         Intent intent = new Intent(this, MateriActivity.class);
         intent.putExtra("materiIndex", "Materi " + (position + 1) );
+        intent.putExtra("position", position);
+        intent.putParcelableArrayListExtra("materi_list", materiList);
+
         intent.putExtra("course_id", course_id);
-        intent.putExtra("materi_id", clickedMateri.getMateri_id());
-        intent.putExtra("title", clickedMateri.getTitle());
-        intent.putExtra("description", clickedMateri.getContent());
+        intent.putExtra("bab_id", bab_id);
+        intent.putExtra("title", titleBab);
+        intent.putExtra("description", descBab);
+
         startActivity(intent);
     }
 
