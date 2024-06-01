@@ -19,7 +19,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class CreateBabActivity extends AppCompatActivity {
-    private String titleCourse, instructorCourse, agencyCourse, descCourse, priceCourse, imgCourse, course_id;
+    private String course_id;
     private EditText edtTitle, edtDesc;
     private Button btnCreate;
     private ProgressBar progressBar;
@@ -34,12 +34,6 @@ public class CreateBabActivity extends AppCompatActivity {
             finish();
         });
 
-        titleCourse = getIntent().getStringExtra("title_course");
-        instructorCourse = getIntent().getStringExtra("instructor");
-        agencyCourse = getIntent().getStringExtra("agency");
-        descCourse = getIntent().getStringExtra("desc");
-        priceCourse = getIntent().getStringExtra("price");
-        imgCourse = getIntent().getStringExtra("img");
         course_id = getIntent().getStringExtra("course_id");
 
         edtTitle = findViewById(R.id.edt_nama);
@@ -68,22 +62,12 @@ public class CreateBabActivity extends AppCompatActivity {
 
                     db.createBab(course_id, title, desc);
 
-                    Intent intent = new Intent(CreateBabActivity.this, DashboardDetailCourseActivity.class);
-                    intent.putExtra("title_course", titleCourse);
-                    intent.putExtra("instructor", instructorCourse);
-                    intent.putExtra("agency", agencyCourse);
-                    intent.putExtra("desc", descCourse);
-                    intent.putExtra("price", priceCourse);
-                    intent.putExtra("img", imgCourse);
-                    intent.putExtra("course_id", course_id);
-
                     Toast.makeText(this, "Bab successfully created", Toast.LENGTH_SHORT).show();
                     btnCreate.setBackgroundResource(R.drawable.button_shape);
                     btnCreate.setEnabled(true);
                     progressBar.setVisibility(View.GONE);
                     progressBar.setIndeterminate(false);
 
-                    startActivity(intent);
                     finish();
 
                 }catch(Exception e){

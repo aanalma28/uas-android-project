@@ -89,7 +89,7 @@
                     android:text="Persiapan UTBK 2024"/>
 
                 <TextView
-                    android:id="@+id/name_bimbel"
+                    android:id="@+id/jumlah_bab"
                     android:layout_below="@id/title_course"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -100,7 +100,7 @@
 
                 <TextView
                     android:id="@+id/desc_course"
-                    android:layout_below="@id/name_bimbel"
+                    android:layout_below="@id/jumlah_bab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12dp"

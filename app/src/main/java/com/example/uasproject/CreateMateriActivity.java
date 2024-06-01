@@ -19,7 +19,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class CreateMateriActivity extends AppCompatActivity {
-    private String course_id, bab_id, titleBab, descBab;
+    private String course_id, bab_id;
     private EditText edtTitle, edtContent;
     private Button btnCreate;
     private ProgressBar progressBar;
@@ -36,9 +36,6 @@ public class CreateMateriActivity extends AppCompatActivity {
 
         course_id = getIntent().getStringExtra("course_id");
         bab_id = getIntent().getStringExtra("bab_id");
-        titleBab = getIntent().getStringExtra("title");
-        descBab = getIntent().getStringExtra("description");
-
 
         edtTitle = findViewById(R.id.edt_nama);
         edtContent = findViewById(R.id.edt_isi);
@@ -73,12 +70,6 @@ public class CreateMateriActivity extends AppCompatActivity {
                     progressBar.setIndeterminate(false);
 
                     Toast.makeText(this, "Materi successfully created", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(CreateMateriActivity.this, BabActivity.class);
-                    intent.putExtra("course_id", course_id);
-                    intent.putExtra("bab_id", bab_id);
-                    intent.putExtra("title", titleBab);
-                    intent.putExtra("description", descBab);
-                    startActivity(intent);
                     finish();
 
                 }catch (Exception e){
