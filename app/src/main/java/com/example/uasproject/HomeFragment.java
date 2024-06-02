@@ -151,6 +151,7 @@ public class HomeFragment extends Fragment implements RecycleViewInterface {
 
                 if(seller != null){
                     String name = seller.getAgency();
+                    intent.putExtra("course_id", courseList.get(position).getCourse_id());
                     intent.putExtra("title_course", courseList.get(position).getName());
                     intent.putExtra("agency", name);
                     intent.putExtra("img", courseList.get(position).getImage());

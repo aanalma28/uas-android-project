@@ -23,42 +23,27 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class BabActivity extends AppCompatActivity implements RecycleViewInterface {
-    private String course_id, bab_id, titleBab, descBab;
-    private ImageView addMateri, btnEdit, btnDelete;
-    private ArrayList<Materi> materiList = new ArrayList<>();
+public class DetailBabActivity extends AppCompatActivity implements RecycleViewInterface {
+    private String bab_id;
+    private final ArrayList<Materi> materiList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bab);
+        setContentView(R.layout.activity_detail_bab);
         ImageView back = findViewById(R.id.back);
         TextView title = findViewById(R.id.title_bab);
         TextView desc = findViewById(R.id.desc_bab);
-        btnEdit = findViewById(R.id.btn_edit);
-        btnDelete = findViewById(R.id.btn_delete);
 
-        course_id = getIntent().getStringExtra("course_id");
+        String course_id = getIntent().getStringExtra("course_id");
         bab_id = getIntent().getStringExtra("bab_id");
-        titleBab = getIntent().getStringExtra("title");
-        descBab = getIntent().getStringExtra("description");
-        addMateri = findViewById(R.id.add_materi);
+        String titleBab = getIntent().getStringExtra("title");
+        String descBab = getIntent().getStringExtra("description");
 
         title.setText(titleBab);
         desc.setText(descBab);
 
         back.setOnClickListener(v -> finish());
-
-        addMateri.setOnClickListener(v -> {
-            Intent intent = new Intent(BabActivity.this, CreateMateriActivity.class);
-            intent.putExtra("course_id", course_id);
-            intent.putExtra("bab_id", bab_id);
-            intent.putExtra("title", titleBab);
-            intent.putExtra("description", descBab);
-            startActivity(intent);
-
-        });
 
         RecyclerView recyclerView = findViewById(R.id.recycleView_materi);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -83,35 +68,14 @@ public class BabActivity extends AppCompatActivity implements RecycleViewInterfa
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(BabActivity.this, "Failed to load data.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DetailBabActivity.this, "Failed to load data.", Toast.LENGTH_SHORT).show();
             }
-        });
-
-        btnEdit.setOnClickListener(v -> {
-            Intent intent = new Intent(this, EditBabActivity.class);
-            intent.putExtra("bab_id", bab_id);
-            intent.putExtra("title", titleBab);
-            intent.putExtra("description", descBab);
-
-            startActivity(intent);
-            finish();
         });
 
     }
 
     @Override
     public void onItemClick(int position) {
-        Intent intent = new Intent(this, MateriActivity.class);
-        intent.putExtra("materiIndex", "Materi " + (position + 1) );
-        intent.putExtra("position", position);
-        intent.putParcelableArrayListExtra("materi_list", materiList);
 
-        intent.putExtra("course_id", course_id);
-        intent.putExtra("bab_id", bab_id);
-        intent.putExtra("title", titleBab);
-        intent.putExtra("description", descBab);
-
-        startActivity(intent);
     }
-
 }
