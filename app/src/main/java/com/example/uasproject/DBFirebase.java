@@ -220,10 +220,10 @@ public class DBFirebase {
         }
     }
 
-    public void deleteBab(String bab_id){
+    public void deleteBab(String bab_id, OnCompleteListener<Void> onCompleteListener){
         try{
-            mDatabase = FirebaseDatabase.getInstance().getReference("bab");
-            mDatabase.child(bab_id).removeValue();
+            mDatabase = FirebaseDatabase.getInstance().getReference("babs");
+            mDatabase.child(bab_id).removeValue().addOnCompleteListener(onCompleteListener);
 
             Log.d("Delete Bab", "Delete bab successfully");
         }catch(Exception e){
@@ -260,10 +260,10 @@ public class DBFirebase {
         }
     }
 
-    public void deleteMateri(String materi_id) {
+    public void deleteMateri(String materi_id, OnCompleteListener<Void> onCompleteListener) {
         try {
             mDatabase = FirebaseDatabase.getInstance().getReference("materi");
-            mDatabase.child(materi_id).removeValue();
+            mDatabase.child(materi_id).removeValue().addOnCompleteListener(onCompleteListener);
 
             Log.e("Delete Materi", "Delete materi successfully");
         } catch (Exception e) {
