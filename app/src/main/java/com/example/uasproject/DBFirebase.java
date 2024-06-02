@@ -40,19 +40,19 @@ public class DBFirebase {
         return data;
     }
 
-    public void updatePassword(String id, String newPassword){
-        try{
-            Map<String, Object> update = new HashMap<>();
-            update.put("password", newPassword);
-
-            mDatabase = FirebaseDatabase.getInstance().getReference("users");
-            mDatabase.child(id).updateChildren(update);
-
-            Log.d("Update Password", "Update password successfully");
-        }catch(Exception e){
-            Log.d("Update Password", String.valueOf(e));
-        }
-    }
+//    public void updatePassword(String id, String newPassword){
+//        try{
+//            Map<String, Object> update = new HashMap<>();
+//            update.put("password", newPassword);
+//
+//            mDatabase = FirebaseDatabase.getInstance().getReference("users");
+//            mDatabase.child(id).updateChildren(update);
+//
+//            Log.d("Update Password", "Update password successfully");
+//        }catch(Exception e){
+//            Log.d("Update Password", String.valueOf(e));
+//        }
+//    }
 
     public void editUserSeller(String agency, String address, String phone, String id){
         try{
@@ -70,25 +70,33 @@ public class DBFirebase {
         }
     }
 
-    public void updateUserSeller(String id, String agency, String phone, String address){
+    public void updateUserSeller(String id, String agency, String phone, String address) {
         DatabaseReference data = getUser(id);
-        data.addValueEventListener(new ValueEventListener() {
+        data.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
+                if (snapshot.exists()) {
                     User user = snapshot.getValue(User.class);
 
-                    String email = user.getEmail();
-                    String password = user.getPassword();
-                    String role = "Agency";
-                    Seller seller = new Seller(id, agency, email, password, phone, address, role);
+                    if (user != null) {
+                        String email = user.getEmail();
+                        String password = user.getPassword();
+                        String role = "Agency";
+                        Seller seller = new Seller(id, agency, email, password, phone, address, role);
 
-                    mDatabase = FirebaseDatabase.getInstance().getReference();
-                    mDatabase.child("users").child(id).setValue(seller);
-
-                    Log.d("Update to Seller", "Successfully update to seller");
-                }else{
-                    Log.e("User Not found", "User doesnt exist");
+                        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+                        mDatabase.child("users").child(id).setValue(seller).addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                Log.d("Update to Seller", "Successfully updated to seller");
+                            } else {
+                                Log.e("Update to Seller", "Failed to update to seller", task.getException());
+                            }
+                        });
+                    } else {
+                        Log.e("User Not found", "User data is null");
+                    }
+                } else {
+                    Log.e("User Not found", "User doesn't exist");
                 }
             }
 
@@ -97,15 +105,8 @@ public class DBFirebase {
                 Log.w("TAG", "Failed to read value.", error.toException());
             }
         });
-//
-//        Seller seller = new Seller(id, agency, email, password, phone, address);
-//        Map<String, Object> sellerValue = seller.toMap();
-//
-//        Map<String, Object> childUpdates = new HashMap<>();
-//        childUpdates.put("users/"+id+"/", sellerValue);
-//
-//        mDatabase.updateChildren(childUpdates);
     }
+
 
     public DatabaseReference getAllCourses(){
         mDatabase = FirebaseDatabase.getInstance().getReference();

@@ -72,14 +72,6 @@ public class BabActivity extends AppCompatActivity implements RecycleViewInterfa
 
         });
 
-//        RecyclerView recyclerView = findViewById(R.id.recycleView_materi);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        materiList = new ArrayList<>();
-//        MateriA babAdapter = new BabAdapter(materiList, this);
-//        recyclerView.setAdapter(babAdapter);
-//
-//        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("babs");
-
         RecyclerView recyclerView = findViewById(R.id.recycleView_materi);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         MateriAdapter materiAdapter = new MateriAdapter(materiList, this);

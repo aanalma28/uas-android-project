@@ -26,117 +26,156 @@
         android:layout_marginLeft="32dp"
         />
 
-    <RelativeLayout
+    <ScrollView
+        android:id="@+id/scrollview"
         android:layout_below="@id/back"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginHorizontal="32dp">
-        <ImageView
-            android:id="@id/img_course"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="30dp">
+        <RelativeLayout
+            android:layout_below="@id/back"
             android:layout_width="match_parent"
-            android:layout_height="180dp"
-            android:background="@drawable/bg_img"
-            android:scaleType="centerCrop"
-            android:adjustViewBounds="true"
-            android:layout_marginTop="24dp"
+            android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
-            />
-
-        <TextView
-            android:id="@+id/title_course"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/img_course"
-            android:text="Title course"
-            android:fontFamily="@font/poppinssemibold"
-            android:textSize="16dp"
-            android:textColor="@color/black"
-            android:layout_marginTop="16dp"
-            />
-
-        <LinearLayout
-            android:id="@+id/ly_course"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_below="@+id/title_course">
-            
-            <TextView
-                android:id="@+id/instructor_course"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/poppinsregular"
-                android:text="Instructor"
-                android:textSize="12dp"
-                android:layout_marginRight="16dp" />
+            android:layout_marginHorizontal="32dp">
+            <ImageView
+                android:id="@id/img_course"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:background="@drawable/bg_img"
+                android:scaleType="centerCrop"
+                android:adjustViewBounds="true"
+                android:layout_marginTop="24dp"
+                android:layout_centerHorizontal="true"
+                />
 
             <TextView
-                android:id="@+id/agency_course"
+                android:id="@+id/title_course"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/poppinsregular"
-                android:text="Nama bimbel"
-                android:textSize="12dp"
-                android:layout_marginRight="16dp"/>
+                android:layout_below="@+id/img_course"
+                android:text="Title course"
+                android:fontFamily="@font/poppinssemibold"
+                android:textSize="16dp"
+                android:textColor="@color/black"
+                android:layout_marginTop="16dp"
+                />
+
+            <LinearLayout
+                android:id="@+id/ly_course"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@+id/title_course">
+
+                <TextView
+                    android:id="@+id/instructor_course"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppinsregular"
+                    android:text="Instructor"
+                    android:textSize="12dp"
+                    android:layout_marginRight="16dp" />
+
+                <TextView
+                    android:id="@+id/agency_course"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppinsregular"
+                    android:text="Nama bimbel"
+                    android:textSize="12dp"
+                    android:layout_marginRight="16dp"/>
+
+                <TextView
+                    android:id="@+id/akses"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppinsregular"
+                    android:text="Akses 1 bulan"
+                    android:textSize="12dp"
+                    android:layout_marginRight="16dp"/>
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/akses"
+                android:id="@+id/price_course"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/ly_course"
+                android:text="Rp. 200.000"
+                android:fontFamily="@font/poppinssemibold"
+                android:layout_marginTop="12dp"
+                android:textColor="@color/yellow"
+                android:textSize="20dp"/>
+
+            <Button
+                android:id="@+id/btn_beli"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Beli Sekarang"
+                android:layout_below="@+id/price_course"
+                android:textAllCaps="false"
+                android:fontFamily="@font/poppinssemibold"
+                android:textSize="16sp"
+                android:textColor="@color/white"
+                android:background="@drawable/button_shape"
+                android:layout_marginTop="12dp"/>
+
+            <TextView
+                android:id="@+id/txt_detail_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btn_beli"
+                android:text="Deskripsi"
+                android:fontFamily="@font/poppinssemibold"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="24dp"
+                />
+
+            <TextView
+                android:id="@+id/desc_course"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txt_detail_desc"
+                android:text="Lorem ipsum dolor sit amet consectetur. Elementum eget gravida rutrum mi eu sed velit. Vulputate nisl eget eget pellentesque senectus orci senectus quis. Magna nisi a sed aliquam laoreet. Id nullam viverra amet sollicitudin molestie arcu."
+                android:layout_marginTop="8dp"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                />
+
+            <TextView
+                android:id="@+id/daftar_bab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/desc_course"
+                android:text="Daftar Bab"
+                android:fontFamily="@font/poppinssemibold"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:layout_marginTop="16dp"
+                />
+
+            <TextView
+                android:id="@+id/jumlah_bab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/daftar_bab"
+                android:text="Jumlah Bab : 0"
                 android:fontFamily="@font/poppinsregular"
-                android:text="Akses 1 bulan"
-                android:textSize="12dp"
-                android:layout_marginRight="16dp"/>
-        </LinearLayout>
+                android:textSize="12sp"
+                android:textColor="@color/grey" />
 
-        <TextView
-            android:id="@+id/price_course"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/ly_course"
-            android:text="Rp. 200.000"
-            android:fontFamily="@font/poppinssemibold"
-            android:layout_marginTop="12dp"
-            android:textColor="@color/yellow"
-            android:textSize="20dp"/>
-        
-        <Button
-            android:id="@+id/btn_beli"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Beli Sekarang"
-            android:layout_below="@+id/price_course"
-            android:textAllCaps="false"
-            android:fontFamily="@font/poppinssemibold"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            android:background="@drawable/button_shape"
-            android:layout_marginTop="12dp"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycleView_bab"
+                android:layout_below="@id/jumlah_bab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                tools:listitem="@layout/item_bab"/>
 
-        <TextView
-            android:id="@+id/txt_detail_desc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/btn_beli"
-            android:text="Deskripsi"
-            android:fontFamily="@font/poppinssemibold"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            android:layout_marginTop="24dp"
-            />
-
-        <TextView
-            android:id="@+id/desc_course"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/txt_detail_desc"
-            android:text="Lorem ipsum dolor sit amet consectetur. Elementum eget gravida rutrum mi eu sed velit. Vulputate nisl eget eget pellentesque senectus orci senectus quis. Magna nisi a sed aliquam laoreet. Id nullam viverra amet sollicitudin molestie arcu."
-            android:layout_marginTop="8dp"
-            android:textSize="14sp"
-            android:textColor="@color/black"
-            />
-
-    </RelativeLayout>
-
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>
