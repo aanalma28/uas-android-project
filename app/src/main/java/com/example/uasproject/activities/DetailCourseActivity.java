@@ -33,7 +33,7 @@ public class DetailCourseActivity extends AppCompatActivity implements RecycleVi
     TextView title, instructor, agency, price, desc;
     ImageView back, img;
     List<Bab> babList;
-    String course_id;
+    private String course_id, priceForMidtrans;
     Button beli;
 
     @Override
@@ -48,6 +48,8 @@ public class DetailCourseActivity extends AppCompatActivity implements RecycleVi
         String descCourse = getIntent().getStringExtra("desc");
         String priceCourse = getIntent().getStringExtra("price");
         String imgCourse = getIntent().getStringExtra("img");
+        priceForMidtrans = getIntent().getStringExtra("price_for_midtrans");
+
 
         back = findViewById(R.id.back);
         title = findViewById(R.id.title_course);
@@ -77,7 +79,7 @@ public class DetailCourseActivity extends AppCompatActivity implements RecycleVi
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("babs");
 
         databaseReference.addValueEventListener(new ValueEventListener() {
-            @SuppressLint("NotifyDataSetChanged")
+            @SuppressLint({"NotifyDataSetChanged", "SetTextI18n"})
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 babList.clear();
@@ -103,6 +105,7 @@ public class DetailCourseActivity extends AppCompatActivity implements RecycleVi
             intent.putExtra("title_course", titleCourse);
             intent.putExtra("agency_course", agencyCourse);
             intent.putExtra("price_course", priceCourse);
+            intent.putExtra("price_for_midtrans", priceForMidtrans.toString());
             startActivity(intent);
         });
 

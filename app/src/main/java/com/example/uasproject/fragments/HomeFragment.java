@@ -160,6 +160,7 @@ public class HomeFragment extends Fragment implements RecycleViewInterface {
                     intent.putExtra("img", courseList.get(position).getImage());
                     intent.putExtra("desc", courseList.get(position).getDescription());
                     intent.putExtra("price", formattedPrice);
+                    intent.putExtra("price_for_midtrans", courseList.get(position).getPrice().toString());
                     intent.putExtra("instructor", courseList.get(position).getInstructor());
                     startActivity(intent);
 //                ((Activity) getActivity()).overridePendingTransition(0, 0);
