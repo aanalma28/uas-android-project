@@ -1,3 +1,4 @@
+
 plugins {
     id("com.android.application")
     id("com.google.gms.google-services")
@@ -32,6 +33,7 @@ android {
     }
 }
 
+
 dependencies {
 
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -53,5 +55,11 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.12.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
 
+    implementation("com.midtrans:java-library:3.1.4")
+
+    // Retrofit and OkHttp for making HTTP requests
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
 
 }
