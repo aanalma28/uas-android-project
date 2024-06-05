@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.ReferensiPembayaranActivity"
+    android:padding="32dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp"
+        android:layout_margin="8dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="32dp">
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Referensi Pembayaran"
+                android:textSize="16sp"
+                android:fontFamily="@font/poppinssemibold"
+                android:textColor="@color/black"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:id="@+id/tvLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Silahkan lakukan pembayaran"
+                android:textSize="12sp"
+                android:fontFamily="@font/poppinsregular"
+                android:textColor="@color/black"
+                android:layout_below="@id/tvTitle"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:id="@+id/tvPaymentCodeLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvLabel"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/poppinsregular"
+                android:text="Kode Pembayaran Anda:"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:layout_marginBottom="12dp"/>
+
+            <TextView
+                android:id="@+id/tvPaymentCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="XXXXXXXXXXX"
+                android:textSize="20sp"
+                android:fontFamily="@font/poppinssemibold"
+                android:textColor="@color/bluePrimary"
+                android:layout_below="@id/tvPaymentCodeLabel"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:id="@+id/copy"
+                android:layout_below="@id/tvPaymentCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_centerHorizontal="true"
+                android:text="copy"
+                android:textSize="12sp"
+                android:fontFamily="@font/poppinssemibold"
+                android:textColor="@color/bluePrimary"
+                android:drawableLeft="@drawable/ic_copy"
+                android:drawablePadding="4dp"/>
+
+            <TextView
+                android:id="@+id/tvInstructions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Silakan gunakan kode di atas untuk melakukan pembayaran."
+                android:textSize="12sp"
+                android:fontFamily="@font/poppinsregular"
+                android:textColor="@color/grey"
+                android:layout_below="@id/copy"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/metode"
+                android:layout_below="@id/tvInstructions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_centerHorizontal="true"
+                android:text="Metode Pembayaran"
+                android:textSize="12sp"
+                android:fontFamily="@font/poppinsregular"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/metode_pembayaran"
+                android:layout_below="@id/metode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="GoPay"
+                android:textSize="12sp"
+                android:fontFamily="@font/poppinssemibold"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/txt_total"
+                android:layout_below="@id/metode_pembayaran"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_centerHorizontal="true"
+                android:text="Total"
+                android:textSize="12sp"
+                android:fontFamily="@font/poppinsregular"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/total"
+                android:layout_below="@id/txt_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="Rp0"
+                android:textSize="12sp"
+                android:fontFamily="@font/poppinssemibold"
+                android:textColor="@color/black"/>
+
+            <Button
+                android:id="@+id/btn_batal"
+                android:layout_below="@id/total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_centerHorizontal="true"
+                android:text="Batalkan"
+                android:textAllCaps="false"
+                android:fontFamily="@font/poppinssemibold"
+                android:textColor="@color/white"
+                android:background="@drawable/button_shape"
+                android:backgroundTint="@color/alertred"/>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>
