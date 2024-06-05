@@ -18,6 +18,12 @@
         tools:ignore="AppLinkUrlError"
         tools:targetApi="31">
         <activity
+            android:name=".activities.ReferensiPembayaranQrisActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ReferensiPembayaranActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.OrderActivity"
             android:exported="false" />
         <activity

@@ -58,9 +58,62 @@
         android:elevation="10dp"
         android:visibility="gone"/>
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_saldo"
+        android:layout_below="@id/txt_agency"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="26dp"
+        android:layout_marginTop="20dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_wallet"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="12dp">
+
+                <TextView
+                    android:id="@+id/saldo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Saldo"
+                    android:fontFamily="@font/poppinsmedium"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:id="@+id/value_saldo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rp0"
+                    android:fontFamily="@font/poppinsregular"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textAlignment="textEnd"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/dashboard_recycle_view"
-        android:layout_below="@+id/txt_agency"
+        android:layout_below="@+id/card_saldo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/item_course_in_dashboard"
