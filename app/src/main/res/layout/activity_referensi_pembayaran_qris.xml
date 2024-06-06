@@ -6,128 +6,219 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.ReferensiPembayaranQrisActivity"
-    android:padding="32dp">
+    android:background="@color/white">
 
-    <androidx.cardview.widget.CardView
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_arrow_back_24"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="26dp"
+        android:layout_marginLeft="32dp"
+        />
+
+    <TextView
+        android:id="@+id/btn_batal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Batal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="26dp"
+        android:layout_marginRight="32dp"
+        android:textColor="@color/alertred"
+        android:fontFamily="@font/poppinsmedium"
+        android:textSize="14sp"/>
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="10dp"
-        android:layout_margin="8dp">
+        android:fillViewport="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/btn_batal"
+        android:layout_marginVertical="24dp">
 
-        <RelativeLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="32dp">
-            <TextView
-                android:id="@+id/tvTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Referensi Pembayaran"
-                android:textSize="16sp"
-                android:fontFamily="@font/poppinssemibold"
-                android:textColor="@color/black"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="16dp"/>
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="10dp"
+            android:layout_marginHorizontal="32dp"
+            android:layout_marginBottom="16dp">
 
-            <TextView
-                android:id="@+id/tvLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Silahkan lakukan pembayaran"
-                android:textSize="12sp"
-                android:fontFamily="@font/poppinsregular"
-                android:textColor="@color/black"
-                android:layout_below="@id/tvTitle"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="8dp"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="32dp">
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Referensi Pembayaran"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/poppinssemibold"
+                    android:textColor="@color/black"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="12dp"/>
 
-            <ImageView
-                android:id="@+id/qris"
-                android:layout_below="@id/tvLabel"
-                android:layout_width="300dp"
-                android:layout_height="250dp"
-                android:background="@drawable/bg_img"
-                android:layout_marginRight="16dp"
-                android:scaleType="fitCenter"
-                android:adjustViewBounds="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="12dp"/>
+                <TextView
+                    android:id="@+id/order_id"
+                    android:layout_below="@id/tvTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Order_id"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/poppinssemibold"
+                    android:textColor="@color/black"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="12dp"/>
 
-            <TextView
-                android:id="@+id/tvInstructions"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Silakan scan qris di atas untuk melakukan pembayaran."
-                android:textSize="12sp"
-                android:fontFamily="@font/poppinsregular"
-                android:textColor="@color/grey"
-                android:layout_below="@id/qris"
-                android:layout_centerHorizontal="true"
-                android:gravity="center"/>
+                <TextView
+                    android:id="@+id/tvLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Silahkan lakukan pembayaran"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/poppinsregular"
+                    android:textColor="@color/black"
+                    android:layout_below="@id/order_id"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="8dp"/>
 
-            <TextView
-                android:id="@+id/metode"
-                android:layout_below="@id/tvInstructions"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_centerHorizontal="true"
-                android:text="Metode Pembayaran"
-                android:textSize="12sp"
-                android:fontFamily="@font/poppinsregular"
-                android:textColor="@color/black"/>
+                <ImageView
+                    android:id="@+id/qris"
+                    android:layout_below="@id/tvLabel"
+                    android:layout_width="300dp"
+                    android:layout_height="250dp"
+                    android:background="@drawable/bg_img"
+                    android:layout_marginRight="16dp"
+                    android:scaleType="fitCenter"
+                    android:adjustViewBounds="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="12dp"/>
 
-            <TextView
-                android:id="@+id/metode_pembayaran"
-                android:layout_below="@id/metode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:text="Qris"
-                android:textSize="12sp"
-                android:fontFamily="@font/poppinssemibold"
-                android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/tvInstructions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Silakan scan qris di atas untuk melakukan pembayaran."
+                    android:textSize="12sp"
+                    android:fontFamily="@font/poppinsregular"
+                    android:textColor="@color/grey"
+                    android:layout_below="@id/qris"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"/>
 
-            <TextView
-                android:id="@+id/txt_total"
-                android:layout_below="@id/metode_pembayaran"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_centerHorizontal="true"
-                android:text="Total"
-                android:textSize="12sp"
-                android:fontFamily="@font/poppinsregular"
-                android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/txt_expired"
+                    android:layout_below="@id/tvInstructions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_centerHorizontal="true"
+                    android:text="Berlaku sampai"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/poppinsregular"
+                    android:textColor="@color/black"/>
 
-            <TextView
-                android:id="@+id/total"
-                android:layout_below="@id/txt_total"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:text="Rp0"
-                android:textSize="12sp"
-                android:fontFamily="@font/poppinssemibold"
-                android:textColor="@color/black"/>
+                <TextView
+                    android:id="@+id/expired"
+                    android:layout_below="@id/txt_expired"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="7/6/2024 09.00 (1 jam)"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/poppinssemibold"
+                    android:textColor="@color/black"/>
 
-            <Button
-                android:id="@+id/btn_batal"
-                android:layout_below="@id/total"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_centerHorizontal="true"
-                android:text="Batalkan"
-                android:textAllCaps="false"
-                android:fontFamily="@font/poppinssemibold"
-                android:textColor="@color/white"
-                android:background="@drawable/button_shape"
-                android:backgroundTint="@color/alertred"/>
+                <TextView
+                    android:id="@+id/metode"
+                    android:layout_below="@id/expired"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_centerHorizontal="true"
+                    android:text="Metode Pembayaran"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/poppinsregular"
+                    android:textColor="@color/black"/>
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/metode_pembayaran"
+                    android:layout_below="@id/metode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="Qris"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/poppinssemibold"
+                    android:textColor="@color/black"/>
 
-    </androidx.cardview.widget.CardView>
+                <TextView
+                    android:id="@+id/txt_merchant"
+                    android:layout_below="@id/metode_pembayaran"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_centerHorizontal="true"
+                    android:text="Merchant ID"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/poppinsregular"
+                    android:textColor="@color/black"/>
 
+                <TextView
+                    android:id="@+id/merchant_id"
+                    android:layout_below="@id/txt_merchant"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="midtrans-123"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/poppinssemibold"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/txt_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/merchant_id"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="@font/poppinsregular"
+                    android:text="Total"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/total"
+                    android:layout_below="@id/txt_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="Rp0"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/poppinssemibold"
+                    android:textColor="@color/black"/>
+
+                <Button
+                    android:id="@+id/lanjutkan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Lanjutkan"
+                    android:textAllCaps="false"
+                    android:layout_below="@id/total"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/button_shape"
+                    android:fontFamily="@font/poppinssemibold"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:layout_marginTop="12dp"/>
+
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+    </ScrollView>
 </RelativeLayout>
