@@ -6,19 +6,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.ReferensiPembayaranActivity"
-    android:padding="32dp">
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_arrow_back_24"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="26dp"
+        android:layout_marginLeft="32dp" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="10dp"
         app:cardElevation="10dp"
-        android:layout_margin="8dp">
+        android:layout_below="@id/back"
+        android:layout_marginTop="24dp"
+        android:layout_marginHorizontal="32dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="32dp">
+
             <TextView
                 android:id="@+id/tvTitle"
                 android:layout_width="wrap_content"
@@ -28,7 +41,19 @@
                 android:fontFamily="@font/poppinssemibold"
                 android:textColor="@color/black"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="12dp"/>
+
+            <TextView
+                android:id="@+id/order_id"
+                android:layout_below="@id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Order_id"
+                android:textSize="14sp"
+                android:fontFamily="@font/poppinssemibold"
+                android:textColor="@color/black"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="12dp"/>
 
             <TextView
                 android:id="@+id/tvLabel"
@@ -38,7 +63,7 @@
                 android:textSize="12sp"
                 android:fontFamily="@font/poppinsregular"
                 android:textColor="@color/black"
-                android:layout_below="@id/tvTitle"
+                android:layout_below="@id/order_id"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="8dp"/>
 
@@ -92,8 +117,31 @@
                 android:gravity="center"/>
 
             <TextView
-                android:id="@+id/metode"
+                android:id="@+id/txt_expired"
                 android:layout_below="@id/tvInstructions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_centerHorizontal="true"
+                android:text="Berlaku sampai"
+                android:textSize="12sp"
+                android:fontFamily="@font/poppinsregular"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/expired"
+                android:layout_below="@id/txt_expired"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="7/6/2024 09.00 (1 jam)"
+                android:textSize="12sp"
+                android:fontFamily="@font/poppinssemibold"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/metode"
+                android:layout_below="@id/expired"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -115,16 +163,39 @@
                 android:textColor="@color/black"/>
 
             <TextView
-                android:id="@+id/txt_total"
+                android:id="@+id/txt_merchant"
                 android:layout_below="@id/metode_pembayaran"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:layout_centerHorizontal="true"
-                android:text="Total"
+                android:text="Merchant ID"
                 android:textSize="12sp"
                 android:fontFamily="@font/poppinsregular"
                 android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/merchant_id"
+                android:layout_below="@id/txt_merchant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="midtrans-123"
+                android:textSize="12sp"
+                android:fontFamily="@font/poppinssemibold"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:id="@+id/txt_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/merchant_id"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/poppinsregular"
+                android:text="Total"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/total"
@@ -136,20 +207,6 @@
                 android:textSize="12sp"
                 android:fontFamily="@font/poppinssemibold"
                 android:textColor="@color/black"/>
-
-            <Button
-                android:id="@+id/btn_batal"
-                android:layout_below="@id/total"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_centerHorizontal="true"
-                android:text="Batalkan"
-                android:textAllCaps="false"
-                android:fontFamily="@font/poppinssemibold"
-                android:textColor="@color/white"
-                android:background="@drawable/button_shape"
-                android:backgroundTint="@color/alertred"/>
 
         </RelativeLayout>
 

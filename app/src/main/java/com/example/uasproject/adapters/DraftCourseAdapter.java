@@ -198,7 +198,7 @@ public class DraftCourseAdapter extends RecyclerView.Adapter<DraftCourseAdapter.
                                     ProgressBar progressBar = view.findViewById(R.id.progressBar);
                                     TextView alertDesc = view.findViewById(R.id.alertDesc);
 
-                                    alertDesc.setText("Jika course dihapus maka bab, materi dan quiz yang ada di course ini otomatis akan dihapus. Yakin hapus ?");
+                                    alertDesc.setText("Jika course dihapus maka bab dan materi yang ada di course ini otomatis akan dihapus. Yakin hapus ?");
 
                                     btnNo.setOnClickListener(v1 -> {
                                         alertDialog.dismiss();
