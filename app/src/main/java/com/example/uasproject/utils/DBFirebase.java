@@ -292,4 +292,10 @@ public class DBFirebase {
         return mDatabase.orderByChild("status").equalTo("close");
     }
 
+    public Query getSpecifyOrderUser(String user_id){
+        mDatabase = FirebaseDatabase.getInstance().getReference("order");
+
+        return mDatabase.orderByChild("user_id").equalTo(user_id);
+    }
+
 }
