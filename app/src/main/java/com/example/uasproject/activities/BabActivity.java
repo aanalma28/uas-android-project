@@ -133,7 +133,7 @@ public class BabActivity extends AppCompatActivity implements RecycleViewInterfa
             ProgressBar progressBar = view.findViewById(R.id.progressBar);
             TextView alertDesc = view.findViewById(R.id.alertDesc);
 
-            alertDesc.setText("Jika bab dihapus maka materi dan quiz yang ada di bab ini otomatis akan dihapus. Yakin hapus ?");
+            alertDesc.setText("Jika bab dihapus maka materi yang ada di bab ini otomatis akan dihapus. Yakin hapus ?");
 
             btnNo.setOnClickListener(v1 -> {
                 alertDialog.dismiss();

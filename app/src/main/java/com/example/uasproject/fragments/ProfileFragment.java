@@ -44,9 +44,9 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         TextView nama_akun = view.findViewById(R.id.nama_akun);
         TextView email_akun = view.findViewById(R.id.email_akun);
-        Button btn_logout = view.findViewById(R.id.logout);
-        Button dashboard = view.findViewById(R.id.dashboard);
-        Button ganti_pass = view.findViewById(R.id.ganti_pass);
+        TextView btn_logout = view.findViewById(R.id.logout);
+        TextView dashboard = view.findViewById(R.id.dashboard);
+        TextView ganti_pass = view.findViewById(R.id.ganti_pass);
 
         sharedPreferences = getActivity().getSharedPreferences("myPref", Context.MODE_PRIVATE);
         String role = sharedPreferences.getString("role", "");

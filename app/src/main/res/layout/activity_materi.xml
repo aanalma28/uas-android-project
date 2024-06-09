@@ -88,40 +88,52 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/materi"
+    <ScrollView
         android:layout_below="@id/navigation"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Materi 1"
-        android:fontFamily="@font/poppinssemibold"
-        android:textSize="24sp"
-        android:textColor="@color/black"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="16dp"/>
+        android:fillViewport="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="30dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/materi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Materi 1"
+                android:fontFamily="@font/poppinssemibold"
+                android:textSize="24sp"
+                android:textColor="@color/black"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="16dp"/>
 
-    <TextView
-        android:id="@+id/name_materi"
-        android:layout_below="@id/materi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Name Materi"
-        android:fontFamily="@font/poppinsmedium"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="4dp"/>
+            <TextView
+                android:id="@+id/name_materi"
+                android:layout_below="@id/materi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name Materi"
+                android:fontFamily="@font/poppinsmedium"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="4dp"/>
 
-    <TextView
-        android:id="@+id/isi_materi"
-        android:layout_below="@id/name_materi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ultrices, velit ut finibus commodo, justo neque posuere magna, ac auctor ligula purus id mauris. Mauris euismod, dolor a efficitur viverra, quam felis pulvinar felis, non hendrerit nisi mauris et leo. Sed tempus erat sed mauris tincidunt, vitae varius ligula fermentum. Curabitur nec justo elementum, interdum metus id, imperdiet mi. Phasellus et odio quis massa interdum congue eu eget ex. Donec accumsan, turpis ac efficitur efficitur, tortor ligula fringilla mi, nec porttitor nulla ipsum id risus. Sed malesuada enim sit amet dolor tincidunt, a tempor massa hendrerit. Cras sit amet consectetur velit, vitae commodo ligula."
-        android:fontFamily="@font/poppinsregular"
-        android:textSize="14sp"
-        android:textColor="@color/black"
-        android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="16dp"/>
+            <TextView
+                android:id="@+id/isi_materi"
+                android:layout_below="@id/name_materi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ultrices, velit ut finibus commodo, justo neque posuere magna, ac auctor ligula purus id mauris. Mauris euismod, dolor a efficitur viverra, quam felis pulvinar felis, non hendrerit nisi mauris et leo. Sed tempus erat sed mauris tincidunt, vitae varius ligula fermentum. Curabitur nec justo elementum, interdum metus id, imperdiet mi. Phasellus et odio quis massa interdum congue eu eget ex. Donec accumsan, turpis ac efficitur efficitur, tortor ligula fringilla mi, nec porttitor nulla ipsum id risus. Sed malesuada enim sit amet dolor tincidunt, a tempor massa hendrerit. Cras sit amet consectetur velit, vitae commodo ligula."
+                android:fontFamily="@font/poppinsregular"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="16dp"/>
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>

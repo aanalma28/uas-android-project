@@ -50,7 +50,7 @@
             android:textColor="@color/black"
             android:layout_centerHorizontal="true"/>
 
-        <Button
+        <TextView
             android:id="@+id/dashboard"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
@@ -69,11 +69,30 @@
             android:paddingVertical="10dp"
             android:paddingHorizontal="16dp"/>
 
-        <Button
-            android:id="@+id/ganti_pass"
+        <TextView
+            android:id="@+id/pembelian"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/dashboard"
+            android:text="Riwayat Pembelian"
+            android:textAllCaps="false"
+            android:textAlignment="textStart"
+            android:drawablePadding="8dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/btn_profile_shape"
+            android:textColor="@color/black"
+            android:fontFamily="@font/poppinsregular"
+            android:textSize="16sp"
+            android:drawableLeft="@drawable/ic_shopping_bag"
+            android:layout_marginTop="8dp"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="16dp"/>
+
+        <TextView
+            android:id="@+id/ganti_pass"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pembelian"
             android:text="Ganti password"
             android:textAllCaps="false"
             android:textAlignment="textStart"
@@ -88,7 +107,7 @@
             android:paddingVertical="10dp"
             android:paddingHorizontal="16dp"/>
 
-        <Button
+        <TextView
             android:id="@+id/logout"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
