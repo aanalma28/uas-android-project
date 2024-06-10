@@ -58,7 +58,12 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             String order_id = (String) transaction.get("order_id");
             String course_id = (String) transaction.get("course_id");
 
-            mDatabase.child("order").orderByChild("order_id").equalTo(order_id).addValueEventListener(new ValueEventListener() {
+            if (order_id == null || course_id == null) {
+                Log.e("TransactionAdapter", "order_id or course_id is null");
+                return;
+            }
+
+            mDatabase.child("order").orderByChild("order_id").equalTo(order_id).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     Log.d("TransactionData", "DataSnapshot count: " + snapshot.getChildrenCount());
@@ -74,27 +79,28 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
                                     String title = snapshot.child("name").getValue(String.class);
 
                                     assert user_id != null;
-                                    mDatabase.child("users").child(user_id).addValueEventListener(new ValueEventListener() {
+                                    mDatabase.child("users").child(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
                                         @SuppressLint({"ResourceAsColor", "SetTextI18n"})
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                                             if(snapshot.exists()){
                                                 String name = snapshot.child("agency").getValue(String.class);
 
-                                                assert status != null;
-                                                switch(status){
-                                                    case "pending":
+                                                if (status != null) {
+                                                    if (status.equals("pending")) {
                                                         holder.status.setText("Pending");
                                                         holder.status.setTextColor(R.color.alertred);
-                                                        break;
-                                                    case "settlement":
+                                                    } else if (status.equals("settlement")) {
                                                         holder.status.setText("Success");
                                                         holder.status.setTextColor(R.color.success);
-                                                }
+                                                    } else {
+                                                        holder.status.setText("Unknown");
+                                                    }
 
-                                                holder.titleCourse.setText(title);
-                                                holder.bimbelName.setText(name);
-                                                Glide.with(getContext(holder.itemView)).load(imgUrl).fitCenter().into(holder.imgCourse);
+                                                    holder.titleCourse.setText(title);
+                                                    holder.bimbelName.setText(name);
+                                                    Glide.with(context).load(imgUrl).fitCenter().into(holder.imgCourse);
+                                                }
                                             }
                                         }
 
@@ -127,7 +133,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
     @Override
     public int getItemCount() {
-        return transactionList.size();
+        return transactionList != null ? transactionList.size() : 0;
     }
 
     public class CourseViewHolder extends RecyclerView.ViewHolder {
