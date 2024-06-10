@@ -68,51 +68,60 @@
                 android:layout_marginBottom="8dp"/>
 
             <TextView
-                android:id="@+id/tvPaymentCodeLabel"
+                android:id="@+id/billKeyTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvLabel"
                 android:layout_centerHorizontal="true"
                 android:fontFamily="@font/poppinsregular"
-                android:text="Virtual Account Number:"
+                android:text="Bill Key:"
                 android:textColor="@color/black"
                 android:textSize="12sp"
                 android:layout_marginBottom="12dp"/>
 
             <TextView
-                android:id="@+id/tvPaymentCode"
+                android:id="@+id/bill_key"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="XXXXXXXXXXX"
                 android:textSize="20sp"
                 android:fontFamily="@font/poppinssemibold"
                 android:textColor="@color/bluePrimary"
-                android:layout_below="@id/tvPaymentCodeLabel"
+                android:layout_below="@id/billKeyTxt"
                 android:layout_centerHorizontal="true" />
 
             <TextView
-                android:id="@+id/copy"
-                android:layout_below="@id/tvPaymentCode"
+                android:id="@+id/billerCodeTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_below="@id/bill_key"
                 android:layout_centerHorizontal="true"
-                android:text="copy"
+                android:fontFamily="@font/poppinsregular"
+                android:text="Biller Code:"
+                android:textColor="@color/black"
                 android:textSize="12sp"
+                android:layout_marginBottom="12dp"/>
+
+            <TextView
+                android:id="@+id/biller_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="XXXXXXXXXXX"
+                android:textSize="20sp"
                 android:fontFamily="@font/poppinssemibold"
                 android:textColor="@color/bluePrimary"
-                android:drawableLeft="@drawable/ic_copy"
-                android:drawablePadding="4dp"/>
+                android:layout_below="@id/billerCodeTxt"
+                android:layout_centerHorizontal="true" />
 
             <TextView
                 android:id="@+id/tvInstructions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Silakan salin VA Number di atas untuk melakukan pembayaran."
+                android:text="Silakan salin Bill Code dan Biller Code di atas untuk melakukan pembayaran."
                 android:textSize="12sp"
                 android:fontFamily="@font/poppinsregular"
                 android:textColor="@color/grey"
-                android:layout_below="@id/copy"
+                android:layout_below="@id/biller_code"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"/>
 

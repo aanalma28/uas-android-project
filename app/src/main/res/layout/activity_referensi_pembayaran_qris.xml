@@ -19,25 +19,12 @@
         android:layout_marginLeft="32dp"
         />
 
-    <TextView
-        android:id="@+id/btn_batal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Batal"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="26dp"
-        android:layout_marginRight="32dp"
-        android:textColor="@color/alertred"
-        android:fontFamily="@font/poppinsmedium"
-        android:textSize="14sp"/>
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fillViewport="true"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/btn_batal"
+        android:layout_below="@id/back"
         android:layout_marginVertical="24dp">
 
         <androidx.cardview.widget.CardView
@@ -129,10 +116,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:text="7/6/2024 09.00 (1 jam)"
+                    android:text="00:00:00"
                     android:textSize="12sp"
                     android:fontFamily="@font/poppinssemibold"
                     android:textColor="@color/black"/>
+
+                <TextView
+                    android:id="@+id/status"
+                    android:layout_below="@id/expired"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="Pending"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/poppinssemibold"
+                    android:textColor="@color/yellow"/>
 
                 <TextView
                     android:id="@+id/metode"
@@ -161,7 +159,7 @@
                     android:id="@+id/txt_total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/merchant_id"
+                    android:layout_below="@id/metode_pembayaran"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="12dp"
                     android:fontFamily="@font/poppinsregular"
