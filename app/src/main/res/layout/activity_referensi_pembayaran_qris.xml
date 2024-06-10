@@ -158,29 +158,6 @@
                     android:textColor="@color/black"/>
 
                 <TextView
-                    android:id="@+id/txt_merchant"
-                    android:layout_below="@id/metode_pembayaran"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:layout_centerHorizontal="true"
-                    android:text="Merchant ID"
-                    android:textSize="12sp"
-                    android:fontFamily="@font/poppinsregular"
-                    android:textColor="@color/black"/>
-
-                <TextView
-                    android:id="@+id/merchant_id"
-                    android:layout_below="@id/txt_merchant"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:text="midtrans-123"
-                    android:textSize="12sp"
-                    android:fontFamily="@font/poppinssemibold"
-                    android:textColor="@color/black"/>
-
-                <TextView
                     android:id="@+id/txt_total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -207,7 +184,7 @@
                     android:id="@+id/lanjutkan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Lanjutkan"
+                    android:text="Lanjutkan ke Gopay"
                     android:textAllCaps="false"
                     android:layout_below="@id/total"
                     android:layout_centerHorizontal="true"
