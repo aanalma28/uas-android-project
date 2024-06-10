@@ -74,7 +74,7 @@
                 android:layout_below="@id/tvLabel"
                 android:layout_centerHorizontal="true"
                 android:fontFamily="@font/poppinsregular"
-                android:text="Kode Pembayaran Anda:"
+                android:text="Virtual Account Number:"
                 android:textColor="@color/black"
                 android:textSize="12sp"
                 android:layout_marginBottom="12dp"/>
@@ -108,7 +108,7 @@
                 android:id="@+id/tvInstructions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Silakan gunakan kode di atas untuk melakukan pembayaran."
+                android:text="Silakan salin VA Number di atas untuk melakukan pembayaran."
                 android:textSize="12sp"
                 android:fontFamily="@font/poppinsregular"
                 android:textColor="@color/grey"

@@ -2,6 +2,7 @@ package com.example.uasproject.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,15 +23,21 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.uasproject.R;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.midtrans.Midtrans;
 import com.midtrans.httpclient.CoreApi;
 import com.midtrans.httpclient.SnapApi;
 import com.midtrans.httpclient.error.MidtransError;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,9 +53,17 @@ public class OrderActivity extends AppCompatActivity {
     private String priceCourse, formattedAmount, priceForMidtrans;
     private String paymentType;
     private Boolean isChoosen = false;
+    private DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
     private UUID idRand;
     private Map<String, Object> chargeParams;
     private JSONObject result;
+    private String course_id;
+    private String generateQrCode, deeplinkRedirect, vaNumber, billerCode, billKey;
+    private String permata_va_number, paymentCode, merchantId;
+    private String selectedPaymentMethod;
+    private ProgressBar progressBar;
+    private Button btnBayar;
     @SuppressLint("DefaultLocale")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +75,7 @@ public class OrderActivity extends AppCompatActivity {
         String titleCourse = getIntent().getStringExtra("title_course");
         String agencyCourse = getIntent().getStringExtra("agency_course");
         priceCourse = getIntent().getStringExtra("price_course");
+        course_id = getIntent().getStringExtra("course_id");
 
         priceForMidtrans = getIntent().getStringExtra("price_for_midtrans");
 
@@ -67,7 +84,13 @@ public class OrderActivity extends AppCompatActivity {
         TextView price = findViewById(R.id.price_course);
         TextView total_tagihan = findViewById(R.id.value_total_tagihan);
         TextView biaya_layanan = findViewById(R.id.value_biaya_layanan);
-        Button btnBayar = findViewById(R.id.btn_bayar);
+        btnBayar = findViewById(R.id.btn_bayar);
+        progressBar = findViewById(R.id.progressBar);
+
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        String user_id = user.getUid();
+        mDatabase = FirebaseDatabase.getInstance().getReference("order");
 
         assert priceCourse != null;
         String normalizedPrice = priceCourse.replace("Rp", "").replace(".", "");
@@ -114,7 +137,7 @@ public class OrderActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 //                    Get Selected Item
-                String selectedPaymentMethod = parent.getItemAtPosition(position).toString();
+                selectedPaymentMethod = parent.getItemAtPosition(position).toString();
                 isChoosen = true;
                 switch(selectedPaymentMethod){
                     case "Gopay":
@@ -156,6 +179,11 @@ public class OrderActivity extends AppCompatActivity {
         });
 
         btnBayar.setOnClickListener(v -> {
+            btnBayar.setBackgroundResource(R.drawable.button_shape_off);
+            btnBayar.setEnabled(false);
+            progressBar.setVisibility(View.VISIBLE);
+            progressBar.setIndeterminate(true);
+            progressBar.setIndeterminateTintList(ColorStateList.valueOf(getResources().getColor(R.color.bluePrimary)));
 
             if(isChoosen){
                 Midtrans.serverKey = "SB-Mid-server-qf4JZeBWNd9EM-a4K0R22sdV";
@@ -171,12 +199,111 @@ public class OrderActivity extends AppCompatActivity {
 
                         if(result != null){
                             String type = result.getString("payment_type");
+                            String order_id = result.getString("order_id");
+                            String transaction_status = result.getString("transaction_status");
+                            String order_date = result.getString("transaction_time");
+                            String expiry_time = result.getString("expiry_time");
 
                             switch(type){
                                 case "gopay":
-                                    Log.d("MidtransType", type);
+                                    try{
+                                        JSONArray actions = result.getJSONArray("actions");
+                                        for(int i = 0; i<actions.length(); i++){
+                                            JSONObject action = actions.getJSONObject(i);
+                                            String name = action.getString("name");
+                                            if(name.equals("generate-qr-code")){
+                                                String url = action.getString("url");
+                                                generateQrCode = url;
+                                            }else if(name.equals("deeplink-redirect")){
+                                                String url = action.getString("url");
+                                                deeplinkRedirect = url;
+                                            }
+                                        }
+
+                                        Map<String, Object> orderData = new HashMap<>();
+                                        orderData.put("order_id", order_id);
+                                        orderData.put("course_id", course_id);
+                                        orderData.put("user_id", user_id);
+                                        orderData.put("price", priceForMidtrans);
+                                        orderData.put("payment_method", selectedPaymentMethod);
+                                        orderData.put("transaction_status", transaction_status);
+                                        orderData.put("order_date", order_date);
+                                        orderData.put("expiry_time", expiry_time);
+                                        orderData.put("url_qris", generateQrCode);
+                                        orderData.put("deeplink_url", deeplinkRedirect);
+
+                                        mDatabase.child(order_id).setValue(orderData);
+
+                                        Intent intent = new Intent(this, ReferensiPembayaranQrisActivity.class);
+                                        intent.putExtra("url_qris", generateQrCode);
+                                        intent.putExtra("url_deeplink", deeplinkRedirect);
+                                        intent.putExtra("order_id", order_id);
+                                        intent.putExtra("payment_method", selectedPaymentMethod);
+                                        intent.putExtra("total", priceForMidtrans);
+                                        startActivity(intent);
+                                        Log.d("Gopay", type);
+                                        finish();
+
+                                        btnBayar.setBackgroundResource(R.drawable.button_shape);
+                                        btnBayar.setEnabled(true);
+                                        progressBar.setVisibility(View.GONE);
+                                        progressBar.setIndeterminate(false);
+                                    }catch(Exception e){
+                                        btnBayar.setBackgroundResource(R.drawable.button_shape);
+                                        btnBayar.setEnabled(true);
+                                        progressBar.setVisibility(View.GONE);
+                                        progressBar.setIndeterminate(false);
+                                        Toast.makeText(this, "Oops... Something Error", Toast.LENGTH_SHORT).show();
+                                        Log.e("Gopay", String.valueOf(e));
+                                    }
                                 case "bank_transfer":
-                                    Log.d("MidtransType", type);
+                                    try{
+                                        merchantId = result.optString("merchant_id", null);
+                                        permata_va_number = result.optString("permata_va_number", null);
+                                        JSONArray vaNumbers = result.getJSONArray("va_numbers");
+                                        for(int i=0; i<vaNumbers.length(); i++){
+                                            JSONObject index = vaNumbers.getJSONObject(i);
+                                            vaNumber = index.getString("va_number");
+                                        }
+
+                                        String vaNumberValue = (vaNumber != null) ? vaNumber : permata_va_number;
+
+                                        Map<String, Object> orderData = new HashMap<>();
+                                        orderData.put("order_id", order_id);
+                                        orderData.put("course_id", course_id);
+                                        orderData.put("user_id", user_id);
+                                        orderData.put("price", priceForMidtrans);
+                                        orderData.put("payment_method", selectedPaymentMethod);
+                                        orderData.put("va_number", vaNumberValue);
+                                        orderData.put("merchant_id", merchantId);
+                                        orderData.put("transaction_status", transaction_status);
+                                        orderData.put("order_date", order_date);
+                                        orderData.put("expiry_time", expiry_time);
+
+                                        mDatabase.child(order_id).setValue(orderData);
+
+                                        Intent intent = new Intent(this, ReferensiPembayaranActivity.class);
+                                        intent.putExtra("va_number", vaNumberValue);
+                                        intent.putExtra("merchant_id", merchantId);
+                                        intent.putExtra("order_id", order_id);
+                                        intent.putExtra("payment_method", selectedPaymentMethod);
+                                        intent.putExtra("total", priceForMidtrans);
+                                        startActivity(intent);
+                                        Log.d("BankTransfer", type);
+                                        finish();
+
+                                        btnBayar.setBackgroundResource(R.drawable.button_shape);
+                                        btnBayar.setEnabled(true);
+                                        progressBar.setVisibility(View.GONE);
+                                        progressBar.setIndeterminate(false);
+                                    }catch(Exception e){
+                                        btnBayar.setBackgroundResource(R.drawable.button_shape);
+                                        btnBayar.setEnabled(true);
+                                        progressBar.setVisibility(View.GONE);
+                                        progressBar.setIndeterminate(false);
+                                        Toast.makeText(this, "Oops... Something Error", Toast.LENGTH_SHORT).show();
+                                        Log.e("BankTransfer", String.valueOf(e));
+                                    }
                                 case "echannel":
                                     Log.d("MidtransType", type);
                                 case "cstore":
@@ -189,6 +316,10 @@ public class OrderActivity extends AppCompatActivity {
                             Toast.makeText(this, "Transaction Successful", Toast.LENGTH_SHORT).show();
                         });
                     } catch (MidtransError |JSONException e) {
+                        btnBayar.setBackgroundResource(R.drawable.button_shape);
+                        btnBayar.setEnabled(true);
+                        progressBar.setVisibility(View.GONE);
+                        progressBar.setIndeterminate(false);
                         Log.e("MidtransTest", String.valueOf(e));
 
                         runOnUiThread(() -> {
@@ -198,6 +329,8 @@ public class OrderActivity extends AppCompatActivity {
                     }
                     Log.d("MidtransCharge", "Success");
                 });
+            }else{
+                Toast.makeText(this, "Pilih salah satu metode pembayaran !", Toast.LENGTH_SHORT).show();
             }
         });
 

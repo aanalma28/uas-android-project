@@ -105,6 +105,7 @@ public class DetailCourseActivity extends AppCompatActivity implements RecycleVi
             intent.putExtra("title_course", titleCourse);
             intent.putExtra("agency_course", agencyCourse);
             intent.putExtra("price_course", priceCourse);
+            intent.putExtra("course_id", course_id);
             intent.putExtra("price_for_midtrans", priceForMidtrans.toString());
             startActivity(intent);
         });
