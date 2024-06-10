@@ -19,6 +19,7 @@ import com.example.uasproject.activities.DashboardActivity;
 import com.example.uasproject.activities.DashboardRegisterActivity;
 import com.example.uasproject.activities.GantiPasswordActivity;
 import com.example.uasproject.activities.LoginActivity;
+import com.example.uasproject.activities.OrderHistoryActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -47,6 +48,7 @@ public class ProfileFragment extends Fragment {
         TextView btn_logout = view.findViewById(R.id.logout);
         TextView dashboard = view.findViewById(R.id.dashboard);
         TextView ganti_pass = view.findViewById(R.id.ganti_pass);
+        TextView order_history = view.findViewById(R.id.order);
 
         sharedPreferences = getActivity().getSharedPreferences("myPref", Context.MODE_PRIVATE);
         String role = sharedPreferences.getString("role", "");
@@ -63,6 +65,11 @@ public class ProfileFragment extends Fragment {
 
         ganti_pass.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), GantiPasswordActivity.class);
+            startActivity(intent);
+        });
+
+        order_history.setOnClickListener( v -> {
+            Intent intent = new Intent(getActivity(), OrderHistoryActivity.class);
             startActivity(intent);
         });
 

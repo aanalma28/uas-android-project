@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 
 import com.example.uasproject.R;
 import com.example.uasproject.RecycleViewInterface;
@@ -21,19 +22,23 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class OrderHistoryActivity extends AppCompatActivity implements RecycleViewInterface{
     private RecyclerView orderHistoryRecycleView;
     private TransactionAdapter transactionAdapter;
-    private List<Map<String, Object>> orderList;
+    List<Map<String, Object>> orderList;
     private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_history);
 
+        ImageView back = findViewById(R.id.back);
+
+        orderList = new ArrayList<>();
         orderHistoryRecycleView = findViewById(R.id.order_history_recycle_view);
         orderHistoryRecycleView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -76,6 +81,9 @@ public class OrderHistoryActivity extends AppCompatActivity implements RecycleVi
             }
         });
 
+        back.setOnClickListener(v -> {
+            finish();
+        });
     }
 
     @Override
