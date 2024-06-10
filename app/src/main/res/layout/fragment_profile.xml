@@ -70,11 +70,11 @@
             android:paddingHorizontal="16dp"/>
 
         <TextView
-            android:id="@+id/pembelian"
+            android:id="@+id/order"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/dashboard"
-            android:text="Riwayat Pembelian"
+            android:text="Order History"
             android:textAllCaps="false"
             android:textAlignment="textStart"
             android:drawablePadding="8dp"
@@ -83,7 +83,7 @@
             android:textColor="@color/black"
             android:fontFamily="@font/poppinsregular"
             android:textSize="16sp"
-            android:drawableLeft="@drawable/ic_shopping_bag"
+            android:drawableLeft="@drawable/cart"
             android:layout_marginTop="8dp"
             android:paddingVertical="10dp"
             android:paddingHorizontal="16dp"/>
@@ -92,7 +92,7 @@
             android:id="@+id/ganti_pass"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/pembelian"
+            android:layout_below="@+id/order"
             android:text="Ganti password"
             android:textAllCaps="false"
             android:textAlignment="textStart"
