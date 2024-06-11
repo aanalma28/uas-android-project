@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.MyCourseMateriActivity"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_arrow_back_24"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="26dp"
+        android:layout_marginLeft="32dp"
+        />
+
+    <LinearLayout
+        android:id="@+id/navigation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/back"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="32dp">
+
+        <Button
+            android:id="@+id/prev"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/btn_border_grey_shape"
+            android:drawableStart="@drawable/ic_arrow_left"
+            android:drawablePadding="4dp"
+            android:textAllCaps="false"
+            android:text="Prev"
+            android:textColor="@color/bluePrimary"
+            android:fontFamily="@font/poppinsmedium"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="8dp"/>
+
+        <Button
+            android:id="@+id/next"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/btn_border_grey_shape"
+            android:drawableEnd="@drawable/ic_arrow_right"
+            android:drawablePadding="4dp"
+            android:textAllCaps="false"
+            android:text="Next"
+            android:textSize="12sp"
+            android:textColor="@color/bluePrimary"
+            android:fontFamily="@font/poppinsmedium"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="8dp"
+            android:layout_marginLeft="12dp"/>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_below="@id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="30dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/materi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Materi 1"
+                android:fontFamily="@font/poppinssemibold"
+                android:textSize="24sp"
+                android:textColor="@color/black"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:id="@+id/name_materi"
+                android:layout_below="@id/materi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name Materi"
+                android:fontFamily="@font/poppinsmedium"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="4dp"/>
+
+            <TextView
+                android:id="@+id/isi_materi"
+                android:layout_below="@id/name_materi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ultrices, velit ut finibus commodo, justo neque posuere magna, ac auctor ligula purus id mauris. Mauris euismod, dolor a efficitur viverra, quam felis pulvinar felis, non hendrerit nisi mauris et leo. Sed tempus erat sed mauris tincidunt, vitae varius ligula fermentum. Curabitur nec justo elementum, interdum metus id, imperdiet mi. Phasellus et odio quis massa interdum congue eu eget ex. Donec accumsan, turpis ac efficitur efficitur, tortor ligula fringilla mi, nec porttitor nulla ipsum id risus. Sed malesuada enim sit amet dolor tincidunt, a tempor massa hendrerit. Cras sit amet consectetur velit, vitae commodo ligula."
+                android:fontFamily="@font/poppinsregular"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:layout_marginHorizontal="32dp"
+                android:layout_marginTop="16dp"/>
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

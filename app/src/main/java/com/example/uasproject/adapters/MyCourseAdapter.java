@@ -84,7 +84,10 @@ public class MyCourseAdapter extends RecyclerView.Adapter<MyCourseAdapter.MyCour
                                                 holder.titleCourse.setText(title);
                                                 holder.user_id.setText(name);
                                                 holder.descCourse.setText(desc);
-                                                Glide.with(context).load(imgUrl).fitCenter().into(holder.img_course);
+                                                
+                                                if (holder.itemView.getContext() != null) {
+                                                    Glide.with(holder.itemView.getContext()).load(imgUrl).fitCenter().into(holder.img_course);
+                                                }
                                             }
                                         }
 

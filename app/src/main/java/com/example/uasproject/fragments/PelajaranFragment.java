@@ -2,6 +2,7 @@ package com.example.uasproject.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,17 +17,26 @@ import android.view.ViewGroup;
 
 import com.example.uasproject.R;
 import com.example.uasproject.RecycleViewInterface;
+import com.example.uasproject.activities.DashboardActivity;
+import com.example.uasproject.activities.DashboardDetailCourseActivity;
+import com.example.uasproject.activities.DetailCourseActivity;
+import com.example.uasproject.activities.DetailMyCourseActivity;
 import com.example.uasproject.adapters.MyCourseAdapter;
+import com.example.uasproject.models.User;
 import com.example.uasproject.utils.DBFirebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -36,7 +46,7 @@ public class PelajaranFragment extends Fragment implements RecycleViewInterface 
     private RecyclerView recyclerView;
     private MyCourseAdapter myCourseAdapter;
     private FirebaseAuth mAuth;
-    private Context context;
+    Context context;
 
     public PelajaranFragment() {
         // Required empty public constructor
@@ -105,6 +115,33 @@ public class PelajaranFragment extends Fragment implements RecycleViewInterface 
 
     @Override
     public void onItemClick(int position) {
+        Intent intent = new Intent(getActivity(), DetailMyCourseActivity.class);
+        String id = (String) courseList.get(position).get("user_id");
+        DBFirebase db = new DBFirebase();
+        DatabaseReference data = db.getUser(id);
 
+        data.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+                if (user != null) {
+                    String name = user.getName();
+                    intent.putExtra("title_course", (String) courseList.get(position).get("name"));
+                    intent.putExtra("agency", name);
+                    intent.putExtra("img", (String) courseList.get(position).get("image"));
+                    intent.putExtra("desc", (String) courseList.get(position).get("description"));
+
+                    intent.putExtra("instructor", (String) courseList.get(position).get("instructor"));
+                    intent.putExtra("course_id", (String) courseList.get(position).get("course_id"));
+                    startActivity(intent);
+                    (requireActivity()).overridePendingTransition(0, 0);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w("TAG", "Failed to read value.", error.toException());
+            }
+        });
     }
 }
