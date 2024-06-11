@@ -329,7 +329,7 @@ public class OrderActivity extends AppCompatActivity {
 
                                         mDatabase.child(order_id).setValue(orderData);
 
-                                        Intent intent = new Intent(this, ReferensiPembayaranActivity.class);
+                                        Intent intent = new Intent(this, ReferensiPembayaranEchannel.class);
                                         intent.putExtra("bill_key", billKey);
                                         intent.putExtra("biller_code", billerCode);
                                         intent.putExtra("merchant_id", merchantId);
@@ -373,7 +373,7 @@ public class OrderActivity extends AppCompatActivity {
 
                                         mDatabase.child(order_id).setValue(orderData);
 
-                                        Intent intent = new Intent(this, ReferensiPembayaranActivity.class);
+                                        Intent intent = new Intent(this, ReferensiPembayaranCstore.class);
                                         intent.putExtra("payment_code", paymentCode);
                                         intent.putExtra("merchant_id", merchantId);
                                         intent.putExtra("order_id", order_id);
