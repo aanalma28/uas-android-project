@@ -203,6 +203,7 @@ public class OrderActivity extends AppCompatActivity {
                             String transaction_status = result.getString("transaction_status");
                             String order_date = result.getString("transaction_time");
                             String expiry_time = result.getString("expiry_time");
+                            String payment_type = result.getString("payment_type");
 
                             switch(type){
                                 case "gopay":
@@ -226,11 +227,12 @@ public class OrderActivity extends AppCompatActivity {
                                         orderData.put("user_id", user_id);
                                         orderData.put("price", priceForMidtrans);
                                         orderData.put("payment_method", selectedPaymentMethod);
+                                        orderData.put("payment_type", payment_type);
                                         orderData.put("transaction_status", transaction_status);
                                         orderData.put("order_date", order_date);
                                         orderData.put("expiry_time", expiry_time);
                                         orderData.put("url_qris", generateQrCode);
-                                        orderData.put("deeplink_url", deeplinkRedirect);
+                                        orderData.put("url_deeplink", deeplinkRedirect);
 
                                         mDatabase.child(order_id).setValue(orderData);
 
@@ -276,6 +278,7 @@ public class OrderActivity extends AppCompatActivity {
                                         orderData.put("user_id", user_id);
                                         orderData.put("price", priceForMidtrans);
                                         orderData.put("payment_method", selectedPaymentMethod);
+                                        orderData.put("payment_type", payment_type);
                                         orderData.put("va_number", vaNumberValue);
                                         orderData.put("merchant_id", merchantId);
                                         orderData.put("transaction_status", transaction_status);
@@ -320,6 +323,7 @@ public class OrderActivity extends AppCompatActivity {
                                         orderData.put("user_id", user_id);
                                         orderData.put("price", priceForMidtrans);
                                         orderData.put("payment_method", selectedPaymentMethod);
+                                        orderData.put("payment_type", payment_type);
                                         orderData.put("biller_code", billerCode);
                                         orderData.put("bill_key", billKey);
                                         orderData.put("merchant_id", merchantId);
@@ -365,6 +369,7 @@ public class OrderActivity extends AppCompatActivity {
                                         orderData.put("user_id", user_id);
                                         orderData.put("price", priceForMidtrans);
                                         orderData.put("payment_method", selectedPaymentMethod);
+                                        orderData.put("payment_type", payment_type);
                                         orderData.put("payment_code", paymentCode);
                                         orderData.put("merchant_id", merchantId);
                                         orderData.put("transaction_status", transaction_status);
