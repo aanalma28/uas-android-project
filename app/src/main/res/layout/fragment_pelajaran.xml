@@ -30,40 +30,13 @@
             android:layout_marginTop="32dp"
             android:layout_marginLeft="24dp"/>
 
-        <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/pelajaran_recycle_view"
+            android:layout_below="@+id/txt_pelajaranku"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_below="@id/txt_pelajaranku"
-            android:gravity="center">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Belum ada pelajaran"
-                android:fontFamily="@font/poppinsmedium"
-                android:textSize="16dp"
-                android:textColor="@color/black"
-                android:layout_marginBottom="8dp"/>
-            <Button
-                android:id="@+id/btn_cari_pelajaran"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button_shape"
-                android:text="Cari pelajaran"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="8dp"
-                android:fontFamily="@font/poppinssemibold"
-                android:textSize="14dp"/>
-        </LinearLayout>
-
-<!--        <androidx.recyclerview.widget.RecyclerView-->
-<!--            android:id="@+id/home_recycle_view"-->
-<!--            android:layout_below="@+id/txt_pelajaranku"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            tools:listitem="@layout/item_course"/>-->
+            tools:listitem="@layout/item_mycourse"
+            android:layout_marginTop="8dp"/>
 
     </RelativeLayout>
 
