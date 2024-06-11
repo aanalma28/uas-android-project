@@ -224,10 +224,11 @@ public class ReferensiPembayaranActivity extends AppCompatActivity {
                                                 Log.e("OrderData", String.valueOf(error));
                                             }
                                         });
-                                    }
-
-                                    if (countDownViewModel != null) {
-                                        countDownViewModel.stopTimer();
+                                        if (countDownViewModel != null) {
+                                            txtExpired.setText("00:00:00");
+                                            countDownViewModel.stopTimer();
+                                            finish();
+                                        }
                                     }
 
                                 } else if (transactionStatus.equals("expire")) {

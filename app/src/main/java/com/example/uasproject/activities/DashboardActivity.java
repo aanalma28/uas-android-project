@@ -112,14 +112,24 @@ public class DashboardActivity extends AppCompatActivity implements RecycleViewI
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String wallet = snapshot.child("wallet").getValue(String.class);
-                assert wallet != null;
-                int walletInt = Integer.parseInt(wallet);
+                if (wallet != null) {
+                    try {
+                        int walletInt = Integer.parseInt(wallet);
 
-                DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(new Locale("id", "ID"));
-                formatter.applyPattern("Rp###,###");
-                String formattedPrice = formatter.format(walletInt);
+                        // Membuat instance NumberFormat untuk Indonesia
+                        NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
 
-                valueSaldo.setText(formattedPrice);
+                        // Memformat angka ke dalam format mata uang
+                        String formattedPrice = formatter.format(walletInt);
+
+                        valueSaldo.setText(formattedPrice);
+                    } catch (NumberFormatException e) {
+                        Log.e("FormatError", "Invalid number format: " + e.getMessage());
+                        valueSaldo.setText("Rp0");
+                    }
+                } else {
+                    valueSaldo.setText("Rp0");
+                }
             }
 
             @Override

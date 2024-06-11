@@ -260,7 +260,9 @@ public class OrderActivity extends AppCompatActivity {
                                         Toast.makeText(this, "Oops... Something Error", Toast.LENGTH_SHORT).show();
                                         Log.e("Gopay", String.valueOf(e));
                                     }
+                                    break;
                                 case "bank_transfer":
+                                case "permata":
                                     try{
                                         merchantId = result.optString("merchant_id", null);
                                         permata_va_number = result.optString("permata_va_number", null);
@@ -311,6 +313,7 @@ public class OrderActivity extends AppCompatActivity {
                                         Toast.makeText(this, "Oops... Something Error", Toast.LENGTH_SHORT).show();
                                         Log.e("BankTransfer", String.valueOf(e));
                                     }
+                                    break;
                                 case "echannel":
                                     try{
                                         merchantId = result.optString("merchant_id", null);
@@ -358,6 +361,7 @@ public class OrderActivity extends AppCompatActivity {
                                         Toast.makeText(this, "Oops... Something Error", Toast.LENGTH_SHORT).show();
                                         Log.e("Echannel", String.valueOf(e));
                                     }
+                                    break;
                                 case "cstore":
                                     try{
                                         merchantId = result.optString("merchant_id", null);
@@ -402,6 +406,7 @@ public class OrderActivity extends AppCompatActivity {
                                         Toast.makeText(this, "Oops... Something Error", Toast.LENGTH_SHORT).show();
                                         Log.e("Cstore", String.valueOf(e));
                                     }
+                                    break;
                             }
                         }
 
