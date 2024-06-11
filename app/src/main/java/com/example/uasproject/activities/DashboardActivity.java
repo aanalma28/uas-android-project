@@ -38,7 +38,7 @@ import java.util.Locale;
 
 public class DashboardActivity extends AppCompatActivity implements RecycleViewInterface {
     private static final String TAG = "DashboardActivity";
-    TextView opsiInfoBimbel;
+    TextView opsiInfoBimbel, valueSaldo;
     FirebaseAuth mAuth;
     SharedPreferences sharedPreferences;
     private List<Course> courseList;
@@ -62,6 +62,7 @@ public class DashboardActivity extends AppCompatActivity implements RecycleViewI
         TextView nama_bimbel = findViewById(R.id.txt_agency);
         TextView info_bimbel = findViewById(R.id.info_bimbel);
         sharedPreferences = getSharedPreferences("myPref", MODE_PRIVATE);
+        valueSaldo = findViewById(R.id.value_saldo);
 
         info_bimbel.setOnClickListener(v -> {
             Intent intent = new Intent(DashboardActivity.this, InfoBimbelActivity.class);
@@ -107,6 +108,25 @@ public class DashboardActivity extends AppCompatActivity implements RecycleViewI
         String user_id = user.getUid().toString();
         DBFirebase db = new DBFirebase();
         Query data = db.getSpecifyOpenCourse();
+        db.getUser(user_id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String wallet = snapshot.child("wallet").getValue(String.class);
+                assert wallet != null;
+                int walletInt = Integer.parseInt(wallet);
+
+                DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(new Locale("id", "ID"));
+                formatter.applyPattern("Rp###,###");
+                String formattedPrice = formatter.format(walletInt);
+
+                valueSaldo.setText(formattedPrice);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("GetUserError", String.valueOf(error));
+            }
+        });
 
         data.addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")

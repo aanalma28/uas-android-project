@@ -35,9 +35,13 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -76,7 +80,12 @@ public class ReferensiPembayaranQrisActivity extends AppCompatActivity {
         status = findViewById(R.id.status);
         back = findViewById(R.id.back);
 
-        totalTxt.setText(total);
+        int totalInt = Integer.parseInt(total);
+        DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(new Locale("id", "ID"));
+        formatter.applyPattern("Rp###,###");
+        String formattedPrice = formatter.format(totalInt);
+        totalTxt.setText(formattedPrice);
+
         orderIdTxt.setText(order_id);
         Glide.with(this).load(url_qris).fitCenter().into(qrisImg);
 
@@ -151,7 +160,64 @@ public class ReferensiPembayaranQrisActivity extends AppCompatActivity {
                                     Log.d("CheckStatus", transactionStatus);
                                     status.setText("Success");
                                     status.setTextColor(getResources().getColor(R.color.success));
-                                    mDatabase.child(order_id).child("transaction_status").setValue("settlement");
+                                    String isDone = expiredTxt.getText().toString();
+
+                                    if(!isDone.equals("00:00:00")){
+                                        mDatabase.child(order_id).child("transaction_status").setValue("settlement");
+                                        mDatabase.child(order_id).addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                String course_id = snapshot.child("course_id").getValue(String.class);
+                                                DatabaseReference courseDb = FirebaseDatabase.getInstance().getReference("course");
+
+                                                courseDb.child(course_id).addValueEventListener(new ValueEventListener() {
+                                                    @Override
+                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                        String user_id = snapshot.child("user_id").getValue(String.class);
+                                                        DatabaseReference usersDb = FirebaseDatabase.getInstance().getReference("users");
+
+                                                        usersDb.child(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                            @Override
+                                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                                String wallet = snapshot.child("wallet").getValue(String.class);
+                                                                int income = Integer.parseInt(total);
+
+                                                                if(wallet != null){
+                                                                    Map<String, Object> data = new HashMap<>();
+                                                                    int currentWallet = Integer.parseInt(wallet);
+                                                                    int incomeWallet = currentWallet+income;
+                                                                    String strIncomeWallet = String.valueOf(incomeWallet);
+                                                                    data.put("wallet", strIncomeWallet);
+
+                                                                    usersDb.child(user_id).updateChildren(data);
+                                                                }else{
+                                                                    Map<String, Object> data = new HashMap<>();
+                                                                    data.put("wallet", total);
+
+                                                                    usersDb.child(user_id).updateChildren(data);
+                                                                }
+                                                            }
+
+                                                            @Override
+                                                            public void onCancelled(@NonNull DatabaseError error) {
+                                                                Log.e("UsersSellerData", String.valueOf(error));
+                                                            }
+                                                        });
+                                                    }
+
+                                                    @Override
+                                                    public void onCancelled(@NonNull DatabaseError error) {
+                                                        Log.e("CourseData", String.valueOf(error));
+                                                    }
+                                                });
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+                                                Log.e("OrderData", String.valueOf(error));
+                                            }
+                                        });
+                                    }
 
                                     if (countDownViewModel != null) {
                                         countDownViewModel.stopTimer();
