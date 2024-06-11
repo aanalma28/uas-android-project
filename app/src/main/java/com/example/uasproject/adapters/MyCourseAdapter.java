@@ -16,25 +16,27 @@ import com.bumptech.glide.Glide;
 import com.example.uasproject.R;
 import com.example.uasproject.RecycleViewInterface;
 import com.example.uasproject.models.Course;
+import com.example.uasproject.models.Seller;
+import com.example.uasproject.utils.DBFirebase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class MyCourseAdapter extends RecyclerView.Adapter<MyCourseAdapter.MyCourseViewHolder> {
     private final RecycleViewInterface recycleViewInterface;
-    private final List<Map<String, Object>> courseList;
-    private final Context context;
-    private final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+    private final List<Course> courseList;
 
-    public MyCourseAdapter(RecycleViewInterface recycleViewInterface, List<Map<String, Object>> courseList, Context context) {
+    public MyCourseAdapter(RecycleViewInterface recycleViewInterface, List<Course> courseList, Context context) {
         this.recycleViewInterface = recycleViewInterface;
         this.courseList = courseList;
-        this.context = context;
     }
 
     @NonNull
@@ -51,70 +53,41 @@ public class MyCourseAdapter extends RecyclerView.Adapter<MyCourseAdapter.MyCour
     @Override
     public void onBindViewHolder(@NonNull MyCourseAdapter.MyCourseViewHolder holder, int position) {
         try{
-            Map<String, Object> course = courseList.get(position);
-            String order_id = (String) course.get("order_id");
-            String course_id = (String) course.get("course_id");
+            Course course = courseList.get(position);
+            DBFirebase db = new DBFirebase();
+            DatabaseReference data = db.getUser(course.getUser_id());
 
-            if (order_id == null || course_id == null) {
-                Log.e("TransactionAdapter", "order_id or course_id is null");
-                return;
-            }
+            Log.d("AdapterMyCourse", course.getName());
 
-            mDatabase.child("order").orderByChild("order_id").equalTo(order_id).addListenerForSingleValueEvent(new ValueEventListener() {
+            data.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    Log.d("TransactionData", "DataSnapshot count: " + snapshot.getChildrenCount());
                     if(snapshot.exists()){
-                        mDatabase.child("course").child(course_id).addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if(snapshot.exists()){
-                                    String imgUrl = snapshot.child("image").getValue(String.class);
-                                    String user_id = snapshot.child("user_id").getValue(String.class);
-                                    String title = snapshot.child("name").getValue(String.class);
-                                    String desc = snapshot.child("description").getValue(String.class);
+                        Seller seller = snapshot.getValue(Seller.class);
+                        assert seller != null;
+                        String name = seller.getAgency();
+                        String imgUrl = course.getImage();
 
-                                    assert user_id != null;
-                                    mDatabase.child("users").child(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @SuppressLint({"ResourceAsColor", "SetTextI18n"})
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                            if(snapshot.exists()){
-                                                String name = snapshot.child("agency").getValue(String.class);
-                                                holder.titleCourse.setText(title);
-                                                holder.user_id.setText(name);
-                                                holder.descCourse.setText(desc);
-                                                
-                                                if (holder.itemView.getContext() != null) {
-                                                    Glide.with(holder.itemView.getContext()).load(imgUrl).fitCenter().into(holder.img_course);
-                                                }
-                                            }
-                                        }
 
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError error) {
-                                            Log.e("GetUserTransaction", String.valueOf(error));
-                                        }
-                                    });
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                                Log.e("GetCourseTransaction", String.valueOf(error));
-                            }
-                        });
+                        holder.titleCourse.setText(course.getName());
+                        holder.user_id.setText(name);
+                        holder.descCourse.setText(course.getDescription());
+                        if (holder.itemView.getContext() != null) {
+                            Glide.with(holder.itemView.getContext()).load(imgUrl).fitCenter().into(holder.img_course);
+                        }
+                    }else{
+                        Log.e("User Not found", "User doesnt exist");
                     }
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    Log.e("GetTransaction", String.valueOf(error));
+                    Log.w("TAG", "Failed to read value.", error.toException());
                 }
             });
 
-        }catch(Exception e){
-            Log.e("TransactionAdapter", String.valueOf(e));
+        }catch (Exception e){
+            Log.e("Bind Error", String.valueOf(e));
         }
     }
 

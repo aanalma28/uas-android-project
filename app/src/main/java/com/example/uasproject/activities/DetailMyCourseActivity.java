@@ -115,7 +115,7 @@ public class DetailMyCourseActivity extends AppCompatActivity implements Recycle
         try{
             Bab clickedBab = babList.get(position);
 
-            Intent intent = new Intent(this, DetailBabActivity.class);
+            Intent intent = new Intent(this, MyCourseBabActivity.class);
             intent.putExtra("course_id", course_id);
             intent.putExtra("bab_id", clickedBab.getBab_id());
             intent.putExtra("title", clickedBab.getName());

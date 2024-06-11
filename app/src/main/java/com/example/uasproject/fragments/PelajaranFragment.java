@@ -22,6 +22,7 @@ import com.example.uasproject.activities.DashboardDetailCourseActivity;
 import com.example.uasproject.activities.DetailCourseActivity;
 import com.example.uasproject.activities.DetailMyCourseActivity;
 import com.example.uasproject.adapters.MyCourseAdapter;
+import com.example.uasproject.models.Course;
 import com.example.uasproject.models.User;
 import com.example.uasproject.utils.DBFirebase;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,6 +30,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
@@ -42,11 +44,12 @@ import java.util.Objects;
 
 public class PelajaranFragment extends Fragment implements RecycleViewInterface {
 
-    private List<Map<String, Object>> courseList;
+    private List<Course> courseList;
     private RecyclerView recyclerView;
     private MyCourseAdapter myCourseAdapter;
     private FirebaseAuth mAuth;
     Context context;
+    private final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
     public PelajaranFragment() {
         // Required empty public constructor
@@ -91,7 +94,26 @@ public class PelajaranFragment extends Fragment implements RecycleViewInterface 
                             Map<String, Object> order = (Map<String, Object>) dataSnapshot.getValue();
                             if(order != null && user_id.equals(order.get("user_id"))){
                                 if (Objects.equals(order.get("transaction_status"), "settlement")) {
-                                    courseList.add(order);
+                                    String course_id = (String) order.get("course_id");
+                                    if (course_id != null) {
+                                        mDatabase.child("course").child(course_id).addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                if (snapshot.exists()) {
+                                                    Course course = snapshot.getValue(Course.class);
+                                                    if (course != null) {
+                                                        courseList.add(course);
+                                                        myCourseAdapter.notifyDataSetChanged();
+                                                    }
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+                                                Log.e("GetCourseDetails", "Error fetching course data: ", error.toException());
+                                            }
+                                        });
+                                    }
                                 }
                             }
                         }
@@ -116,7 +138,9 @@ public class PelajaranFragment extends Fragment implements RecycleViewInterface 
     @Override
     public void onItemClick(int position) {
         Intent intent = new Intent(getActivity(), DetailMyCourseActivity.class);
-        String id = (String) courseList.get(position).get("user_id");
+        Log.d("OnClick", "onItemClick: " + courseList.get(position));
+        Log.d("OnClick", "onItemClick: " + courseList.get(position).getUser_id());
+        String id = (String) courseList.get(position).getUser_id();
         DBFirebase db = new DBFirebase();
         DatabaseReference data = db.getUser(id);
 
@@ -126,13 +150,12 @@ public class PelajaranFragment extends Fragment implements RecycleViewInterface 
                 User user = snapshot.getValue(User.class);
                 if (user != null) {
                     String name = user.getName();
-                    intent.putExtra("title_course", (String) courseList.get(position).get("name"));
+                    intent.putExtra("title_course", courseList.get(position).getName());
                     intent.putExtra("agency", name);
-                    intent.putExtra("img", (String) courseList.get(position).get("image"));
-                    intent.putExtra("desc", (String) courseList.get(position).get("description"));
-
-                    intent.putExtra("instructor", (String) courseList.get(position).get("instructor"));
-                    intent.putExtra("course_id", (String) courseList.get(position).get("course_id"));
+                    intent.putExtra("img", courseList.get(position).getImage());
+                    intent.putExtra("desc", courseList.get(position).getDescription());
+                    intent.putExtra("instructor", courseList.get(position).getInstructor());
+                    intent.putExtra("course_id", courseList.get(position).getCourse_id());
                     startActivity(intent);
                     (requireActivity()).overridePendingTransition(0, 0);
                 }

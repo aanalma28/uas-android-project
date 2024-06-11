@@ -83,7 +83,7 @@ public class MyCourseMateriActivity extends AppCompatActivity {
         });
 
         prev.setOnClickListener(v -> {
-            Intent intent = new Intent(MyCourseMateriActivity.this, MateriActivity.class);
+            Intent intent = new Intent(MyCourseMateriActivity.this, MyCourseMateriActivity.class);
             intent.putParcelableArrayListExtra("materi_list", materiList);
             intent.putExtra("page", page-1);
             intent.putExtra("materiIndex", "Materi " + (page-1));
@@ -100,7 +100,7 @@ public class MyCourseMateriActivity extends AppCompatActivity {
         });
 
         next.setOnClickListener(v -> {
-            Intent intent = new Intent(MyCourseMateriActivity.this, MateriActivity.class);
+            Intent intent = new Intent(MyCourseMateriActivity.this, MyCourseMateriActivity.class);
             intent.putParcelableArrayListExtra("materi_list", materiList);
             intent.putExtra("page", page+1);
             intent.putExtra("materiIndex", "Materi " + (page+1));
