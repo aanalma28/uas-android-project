@@ -18,6 +18,12 @@
         tools:ignore="AppLinkUrlError"
         tools:targetApi="31">
         <activity
+            android:name=".activities.ReferensiPembayaranCstore"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ReferensiPembayaranEchannel"
+            android:exported="false" />
+        <activity
             android:name=".activities.OrderHistoryActivity"
             android:exported="false" />
         <activity

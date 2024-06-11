@@ -1,25 +1,16 @@
 package com.example.uasproject.activities;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+
 import android.annotation.SuppressLint;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.uasproject.R;
 import com.example.uasproject.utils.CountDownViewModel;
@@ -42,9 +33,10 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class ReferensiPembayaranActivity extends AppCompatActivity {
-    private String va_number, merchant_id, order_id, order_date, expiry_time, payment_method, total;
-    private TextView orderId, txtMerchant, merchantId, txtTotal, txtMethod, status, txtExpired;
+public class ReferensiPembayaranCstore extends AppCompatActivity {
+    private String payment_code, merchant_id, order_id, order_date, expiry_time, payment_method, total;
+    private TextView orderId, paymentCode, txtExpired, status, metodePembayaran;
+    private TextView merchantId, txtTotal;
     private ImageView back;
     private String transactionStatus;
     private final int delay = 3000;
@@ -54,48 +46,33 @@ public class ReferensiPembayaranActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_referensi_pembayaran);
-        TextView copy = findViewById(R.id.copy);
-        TextView tvPaymentCode = findViewById(R.id.tvPaymentCode);
-        copy.setOnClickListener(v -> {
-            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clip = ClipData.newPlainText("Payment Code", tvPaymentCode.getText().toString());
-            clipboard.setPrimaryClip(clip);
-            Toast.makeText(ReferensiPembayaranActivity.this, "Kode pembayaran disalin", Toast.LENGTH_SHORT).show();
-        });
+        setContentView(R.layout.activity_referensi_pembayaran_cstore);
 
-        orderId = findViewById(R.id.order_id);
-        txtMerchant = findViewById(R.id.txt_merchant);
-        merchantId = findViewById(R.id.merchant_id);
-        txtTotal = findViewById(R.id.total);
-        txtMethod = findViewById(R.id.metode_pembayaran);
-        txtExpired = findViewById(R.id.expired);
-        status = findViewById(R.id.status);
-        back = findViewById(R.id.back);
-
-        va_number = getIntent().getStringExtra("va_number");
+        payment_code = getIntent().getStringExtra("payment_code");
         merchant_id = getIntent().getStringExtra("merchant_id");
         order_id = getIntent().getStringExtra("order_id");
-        order_date = getIntent().getStringExtra("order_date");
         expiry_time = getIntent().getStringExtra("expiry_time");
         payment_method = getIntent().getStringExtra("payment_method");
         total = getIntent().getStringExtra("total");
 
-        if(merchant_id == null){
-            txtMerchant.setVisibility(View.GONE);
-            merchantId.setVisibility(View.GONE);
-        }else{
-            merchantId.setText(merchant_id);
-        }
-
-        tvPaymentCode.setText(va_number);
-        orderId.setText(order_id);
-        txtMethod.setText(payment_method);
-        txtTotal.setText(total);
+        orderId = findViewById(R.id.order_id);
+        paymentCode = findViewById(R.id.tvPaymentCode);
+        txtExpired = findViewById(R.id.expired);
+        status = findViewById(R.id.status);
+        metodePembayaran = findViewById(R.id.metode_pembayaran);
+        merchantId = findViewById(R.id.merchant_id);
+        txtTotal = findViewById(R.id.total);
+        back = findViewById(R.id.back);
 
         back.setOnClickListener(v -> {
             finish();
         });
+
+        orderId.setText(order_id);
+        paymentCode.setText(payment_code);
+        metodePembayaran.setText(payment_method);
+        merchantId.setText(merchant_id);
+        txtTotal.setText(total);
 
         mDatabase.child(order_id).addValueEventListener(new ValueEventListener() {
             @SuppressLint("ResourceAsColor")
@@ -126,7 +103,6 @@ public class ReferensiPembayaranActivity extends AppCompatActivity {
                 Log.e("FetchDb", String.valueOf(error));
             }
         });
-
     }
 
     private void countTime(){

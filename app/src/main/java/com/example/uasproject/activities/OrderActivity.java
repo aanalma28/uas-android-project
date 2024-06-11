@@ -238,6 +238,8 @@ public class OrderActivity extends AppCompatActivity {
                                         intent.putExtra("url_qris", generateQrCode);
                                         intent.putExtra("url_deeplink", deeplinkRedirect);
                                         intent.putExtra("order_id", order_id);
+                                        intent.putExtra("order_date", order_date);
+                                        intent.putExtra("expiry_time", expiry_time);
                                         intent.putExtra("payment_method", selectedPaymentMethod);
                                         intent.putExtra("total", priceForMidtrans);
                                         startActivity(intent);
@@ -286,6 +288,8 @@ public class OrderActivity extends AppCompatActivity {
                                         intent.putExtra("va_number", vaNumberValue);
                                         intent.putExtra("merchant_id", merchantId);
                                         intent.putExtra("order_id", order_id);
+                                        intent.putExtra("order_date", order_date);
+                                        intent.putExtra("expiry_time", expiry_time);
                                         intent.putExtra("payment_method", selectedPaymentMethod);
                                         intent.putExtra("total", priceForMidtrans);
                                         startActivity(intent);
@@ -305,9 +309,94 @@ public class OrderActivity extends AppCompatActivity {
                                         Log.e("BankTransfer", String.valueOf(e));
                                     }
                                 case "echannel":
-                                    Log.d("MidtransType", type);
+                                    try{
+                                        merchantId = result.optString("merchant_id", null);
+                                        billerCode = result.optString("biller_code", null);
+                                        billKey = result.optString("bill_key", null);
+
+                                        Map<String, Object> orderData = new HashMap<>();
+                                        orderData.put("order_id", order_id);
+                                        orderData.put("course_id", course_id);
+                                        orderData.put("user_id", user_id);
+                                        orderData.put("price", priceForMidtrans);
+                                        orderData.put("payment_method", selectedPaymentMethod);
+                                        orderData.put("biller_code", billerCode);
+                                        orderData.put("bill_key", billKey);
+                                        orderData.put("merchant_id", merchantId);
+                                        orderData.put("transaction_status", transaction_status);
+                                        orderData.put("order_date", order_date);
+                                        orderData.put("expiry_time", expiry_time);
+
+                                        mDatabase.child(order_id).setValue(orderData);
+
+                                        Intent intent = new Intent(this, ReferensiPembayaranEchannel.class);
+                                        intent.putExtra("bill_key", billKey);
+                                        intent.putExtra("biller_code", billerCode);
+                                        intent.putExtra("merchant_id", merchantId);
+                                        intent.putExtra("order_id", order_id);
+                                        intent.putExtra("order_date", order_date);
+                                        intent.putExtra("expiry_time", expiry_time);
+                                        intent.putExtra("payment_method", selectedPaymentMethod);
+                                        intent.putExtra("total", priceForMidtrans);
+                                        startActivity(intent);
+                                        Log.d("Echannel", type);
+                                        finish();
+
+                                        btnBayar.setBackgroundResource(R.drawable.button_shape);
+                                        btnBayar.setEnabled(true);
+                                        progressBar.setVisibility(View.GONE);
+                                        progressBar.setIndeterminate(false);
+                                    }catch(Exception e){
+                                        btnBayar.setBackgroundResource(R.drawable.button_shape);
+                                        btnBayar.setEnabled(true);
+                                        progressBar.setVisibility(View.GONE);
+                                        progressBar.setIndeterminate(false);
+                                        Toast.makeText(this, "Oops... Something Error", Toast.LENGTH_SHORT).show();
+                                        Log.e("Echannel", String.valueOf(e));
+                                    }
                                 case "cstore":
-                                    Log.d("MidtransType", type);
+                                    try{
+                                        merchantId = result.optString("merchant_id", null);
+                                        paymentCode = result.optString("payment_code", null);
+
+                                        Map<String, Object> orderData = new HashMap<>();
+                                        orderData.put("order_id", order_id);
+                                        orderData.put("course_id", course_id);
+                                        orderData.put("user_id", user_id);
+                                        orderData.put("price", priceForMidtrans);
+                                        orderData.put("payment_method", selectedPaymentMethod);
+                                        orderData.put("payment_code", paymentCode);
+                                        orderData.put("merchant_id", merchantId);
+                                        orderData.put("transaction_status", transaction_status);
+                                        orderData.put("order_date", order_date);
+                                        orderData.put("expiry_time", expiry_time);
+
+                                        mDatabase.child(order_id).setValue(orderData);
+
+                                        Intent intent = new Intent(this, ReferensiPembayaranCstore.class);
+                                        intent.putExtra("payment_code", paymentCode);
+                                        intent.putExtra("merchant_id", merchantId);
+                                        intent.putExtra("order_id", order_id);
+                                        intent.putExtra("order_date", order_date);
+                                        intent.putExtra("expiry_time", expiry_time);
+                                        intent.putExtra("payment_method", selectedPaymentMethod);
+                                        intent.putExtra("total", priceForMidtrans);
+                                        startActivity(intent);
+                                        Log.d("Cstore", type);
+                                        finish();
+
+                                        btnBayar.setBackgroundResource(R.drawable.button_shape);
+                                        btnBayar.setEnabled(true);
+                                        progressBar.setVisibility(View.GONE);
+                                        progressBar.setIndeterminate(false);
+                                    }catch(Exception e){
+                                        btnBayar.setBackgroundResource(R.drawable.button_shape);
+                                        btnBayar.setEnabled(true);
+                                        progressBar.setVisibility(View.GONE);
+                                        progressBar.setIndeterminate(false);
+                                        Toast.makeText(this, "Oops... Something Error", Toast.LENGTH_SHORT).show();
+                                        Log.e("Cstore", String.valueOf(e));
+                                    }
                             }
                         }
 
