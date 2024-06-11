@@ -18,6 +18,15 @@
         tools:ignore="AppLinkUrlError"
         tools:targetApi="31">
         <activity
+            android:name=".activities.MyCourseBabActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.MyCourseMateriActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.DetailMyCourseActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.ReferensiPembayaranCstore"
             android:exported="false" />
         <activity
