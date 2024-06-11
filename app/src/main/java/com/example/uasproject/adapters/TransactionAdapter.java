@@ -57,64 +57,63 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
             Map<String, Object> transaction = transactionList.get(position);
             String order_id = (String) transaction.get("order_id");
             String course_id = (String) transaction.get("course_id");
+            String status = (String) transaction.get("transaction_status");
+
+            Log.d("TransactionAdapter", transaction.toString());
 
             if (order_id == null || course_id == null) {
                 Log.e("TransactionAdapter", "order_id or course_id is null");
                 return;
             }
 
-            mDatabase.child("order").orderByChild("order_id").equalTo(order_id).addListenerForSingleValueEvent(new ValueEventListener() {
+            mDatabase.child("course").child(course_id).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    Log.d("TransactionData", "DataSnapshot count: " + snapshot.getChildrenCount());
                     if(snapshot.exists()){
-                        String status = snapshot.child("status").getValue(String.class);
-                        assert course_id != null;
-                        mDatabase.child("course").child(course_id).addValueEventListener(new ValueEventListener() {
+                        Log.d("CourseSnapshot", snapshot.toString());
+                        String imgUrl = snapshot.child("image").getValue(String.class);
+                        String user_id = snapshot.child("user_id").getValue(String.class);
+                        String title = snapshot.child("name").getValue(String.class);
+                        Log.d("TitleList", title);
+                        assert user_id != null;
+                        mDatabase.child("users").child(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @SuppressLint({"ResourceAsColor", "SetTextI18n"})
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 if(snapshot.exists()){
-                                    String imgUrl = snapshot.child("image").getValue(String.class);
-                                    String user_id = snapshot.child("user_id").getValue(String.class);
-                                    String title = snapshot.child("name").getValue(String.class);
+                                    Log.d("UsersSnapshot", snapshot.toString());
+                                    String name = snapshot.child("agency").getValue(String.class);
+                                    Log.d("AgencyList", name);
 
-                                    assert user_id != null;
-                                    mDatabase.child("users").child(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @SuppressLint({"ResourceAsColor", "SetTextI18n"})
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                            if(snapshot.exists()){
-                                                String name = snapshot.child("agency").getValue(String.class);
+                                    holder.titleCourse.setText(title);
+                                    holder.bimbelName.setText(name);
+                                    Glide.with(context).load(imgUrl).fitCenter().into(holder.imgCourse);
 
-                                                if (status != null) {
-                                                    if (status.equals("pending")) {
-                                                        holder.status.setText("Pending");
-                                                        holder.status.setTextColor(R.color.alertred);
-                                                    } else if (status.equals("settlement")) {
-                                                        holder.status.setText("Success");
-                                                        holder.status.setTextColor(R.color.success);
-                                                    } else {
-                                                        holder.status.setText("Unknown");
-                                                    }
-
-                                                    holder.titleCourse.setText(title);
-                                                    holder.bimbelName.setText(name);
-                                                    Glide.with(context).load(imgUrl).fitCenter().into(holder.imgCourse);
-                                                }
-                                            }
+                                    if (status != null) {
+                                        switch (status) {
+                                            case "pending":
+                                                holder.status.setText("Pending");
+                                                holder.status.setTextColor(holder.itemView.getResources().getColor(R.color.yellow));
+                                                break;
+                                            case "settlement":
+                                                holder.status.setText("Success");
+                                                holder.status.setTextColor(holder.itemView.getResources().getColor(R.color.success));
+                                                break;
+                                            case "expire":
+                                                holder.status.setText("Expired");
+                                                holder.status.setTextColor(holder.itemView.getResources().getColor(R.color.alertred));
+                                                break;
+                                            default:
+                                                holder.status.setText(status);
+                                                break;
                                         }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError error) {
-                                            Log.e("GetUserTransaction", String.valueOf(error));
-                                        }
-                                    });
+                                    }
                                 }
                             }
 
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
-                                Log.e("GetCourseTransaction", String.valueOf(error));
+                                Log.e("GetUserTransaction", String.valueOf(error));
                             }
                         });
                     }
@@ -122,7 +121,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    Log.e("GetTransaction", String.valueOf(error));
+                    Log.e("GetCourseTransaction", String.valueOf(error));
                 }
             });
 
@@ -141,18 +140,22 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         public ImageView imgCourse;
         public CourseViewHolder(@NonNull View itemView, RecycleViewInterface recycleViewInterface) {
             super(itemView);
-            titleCourse = itemView.findViewById(R.id.title_course);
-            bimbelName = itemView.findViewById(R.id.name_bimbel);
-            status = itemView.findViewById(R.id.status);
-            imgCourse = itemView.findViewById(R.id.img_course);
+            try{
+                titleCourse = itemView.findViewById(R.id.title_course);
+                bimbelName = itemView.findViewById(R.id.name_bimbel);
+                status = itemView.findViewById(R.id.status);
+                imgCourse = itemView.findViewById(R.id.img_course);
+            }catch(Exception e){
+                Log.e("LayoutNotFound", String.valueOf(e));
+            }
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (TransactionAdapter.this.recycleViewInterface != null){
+                    if (recycleViewInterface != null){
                         int pos = getAdapterPosition();
 
                         if (pos != RecyclerView.NO_POSITION){
-                            TransactionAdapter.this.recycleViewInterface.onItemClick(pos);
+                            recycleViewInterface.onItemClick(pos);
                         }
                     }
                 }

@@ -97,36 +97,7 @@ public class ReferensiPembayaranActivity extends AppCompatActivity {
             finish();
         });
 
-        mDatabase.child(order_id).addValueEventListener(new ValueEventListener() {
-            @SuppressLint("ResourceAsColor")
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                transactionStatus = snapshot.child("transaction_status").getValue(String.class);
-                assert transactionStatus != null;
-                switch (transactionStatus) {
-                    case "pending":
-                        handler.post(runnableCode);
-                        countTime();
-                        break;
-                    case "settlement":
-                        countDownViewModel.stopTimer();
-                        status.setText("Success");
-                        status.setTextColor(getResources().getColor(R.color.success));
-                        break;
-                    case "expire":
-                        countDownViewModel.stopTimer();
-                        status.setText("Expired");
-                        status.setTextColor(getResources().getColor(R.color.alertred));
-                        break;
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("FetchDb", String.valueOf(error));
-            }
-        });
-
+        handler.post(runnableCode);
     }
 
     private void countTime(){
@@ -141,8 +112,9 @@ public class ReferensiPembayaranActivity extends AppCompatActivity {
                 countDownViewModel.startTimer(timeDifferenceMills);
 
                 countDownViewModel.getTimeRemaining().observe(this, time -> {
-                    // Update UI dengan waktu yang tersisa
-                    txtExpired.setText(time);
+                    runOnUiThread(() -> {
+                        txtExpired.setText(time);
+                    });
                 });
             }
         } catch (Exception e) {
@@ -179,30 +151,41 @@ public class ReferensiPembayaranActivity extends AppCompatActivity {
 
                     transactionStatus = result.getString("transaction_status");
 
-                    if("expire".equalsIgnoreCase(transactionStatus) || "settlement".equalsIgnoreCase(transactionStatus)){
-                        if(transactionStatus.equals("settlement")){
-                            mDatabase.child(order_id).child("transaction_status").setValue("settlement");
+                    runOnUiThread(() -> {
+                        try {
+                            if ("expire".equalsIgnoreCase(transactionStatus) || "settlement".equalsIgnoreCase(transactionStatus)) {
+                                if (transactionStatus.equals("settlement")) {
+                                    Log.d("CheckStatus", transactionStatus);
+                                    status.setText("Success");
+                                    status.setTextColor(getResources().getColor(R.color.success));
+                                    mDatabase.child(order_id).child("transaction_status").setValue("settlement");
 
-                            status.setText("Success");
-                            countDownViewModel.stopTimer();
-                            status.setTextColor(getResources().getColor(R.color.success));
+                                    if (countDownViewModel != null) {
+                                        countDownViewModel.stopTimer();
+                                    }
 
-                        }else if(transactionStatus.equals("expire")){
-                            mDatabase.child(order_id).child("transaction_status").setValue("expire");
+                                } else if (transactionStatus.equals("expire")) {
+                                    Log.d("CheckStatus", transactionStatus);
+                                    status.setText("Expired");
+                                    status.setTextColor(getResources().getColor(R.color.alertred));
+                                    mDatabase.child(order_id).child("transaction_status").setValue("expire");
 
-                            status.setText("Expired");
-                            countDownViewModel.stopTimer();
-                            status.setTextColor(getResources().getColor(R.color.alertred));
+                                    if (countDownViewModel != null) {
+                                        countDownViewModel.stopTimer();
+                                    }
+                                }
+                                handler.removeCallbacks(runnableCode);
+                            } else if ("pending".equalsIgnoreCase(transactionStatus)) {
+                                // Continue polling
+                                countTime();
+                                handler.postDelayed(runnableCode, delay);
+                            } else {
+                                handler.removeCallbacks(runnableCode);
+                            }
+                        } catch (Exception e) {
+                            Log.e("UIUpdateError", "Error updating UI", e);
                         }
-                        runOnUiThread(() -> {
-                            handler.removeCallbacks(runnableCode);
-                        });
-                    }else{
-                        runOnUiThread(() -> {
-//                                Continue pooling
-                            handler.postDelayed(runnableCode, delay);
-                        });
-                    }
+                    });
                 }else{
                     Log.e("MidtransTest", "Unsuccessful response: " + response.message());
                     runOnUiThread(() -> {
